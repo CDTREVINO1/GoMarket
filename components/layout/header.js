@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const Header = () => {
+const Header = (props) => {
   return (
     <header>
       <nav>
@@ -19,7 +19,8 @@ const Header = () => {
           </li>
           <li>Logout</li>
           <li>
-            <Link href="/cart">Shopping Cart</Link>
+            {/* <Link href="/cart">Shopping Cart</Link> */}
+            <button onClick={props.onShowCart}>Shopping Cart</button>
           </li>
         </ul>
       </nav>
