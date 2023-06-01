@@ -1,5 +1,4 @@
 import Link from "next/link";
-import ProductDetails from "./product-details";
 import Image from "next/image";
 
 const Product = (props) => {
@@ -7,20 +6,20 @@ const Product = (props) => {
 
   const linkPath = `/products/${id}`;
 
-  // TODO: Include image, title, & price
   return (
     <>
       <Link
         href={linkPath}
-        className="flex flex-col items-center justify-center p-8 text-center bg-white border-b border-l border-r border-gray-200 group dark:bg-gray-800 dark:border-gray-700">
+        className="group flex flex-col items-center justify-center border-b border-l border-r border-gray-200 bg-white p-8 text-center dark:border-gray-700 dark:bg-gray-800"
+      >
         <Image
-          className="p-8 rounded-t-lg"
+          className="rounded-t-lg p-8"
           src={images[0]}
           alt="product image"
           height={300}
           width={300}
         />
-        <blockquote className="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
+        <blockquote className="mx-auto mb-4 max-w-2xl text-gray-500 dark:text-gray-400 lg:mb-8">
           <h3>{title}</h3>
           <h1>${price}</h1>
         </blockquote>

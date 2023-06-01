@@ -4,7 +4,7 @@ const ProductsGrid = (props) => {
   const { products } = props;
 
   return (
-    <ul className="grid border border-gray-200 rounded-lg sm:grid-cols-3 dark:border-gray-700">
+    <ul className="grid rounded-lg border border-gray-200 dark:border-gray-700 sm:grid-cols-3">
       {products.map((product) => (
         <Product
           key={product.id}
