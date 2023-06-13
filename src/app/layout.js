@@ -17,8 +17,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* TODO: Remove this div once the new modal has been added. */}
-        <div id="overlays"></div>
         <Header />
         <main className="flex h-screen flex-col">{children}</main>
         <Footer />
