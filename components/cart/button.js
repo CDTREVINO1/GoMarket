@@ -9,10 +9,10 @@ import CartModal from "../cart/modal";
 export default function CartButton({ cart, cartIdUpdated }) {
   const [, setCookie] = useCookies(["cartId"]);
   const [cartIsOpen, setCartIsOpen] = useState(false);
-  const quantityRef = useRef("0");
-  const totalQuantity = 0;
+  const quantityRef = useRef(cart.totalQuantity);
 
-  //  FIXME: const quantityRef = useRef(cart.totalQuantity);
+  // Temporary hack to update the `cartId` cookie when it changes since we cannot update it
+  // on the server-side (yet).
   useEffect(() => {
     if (cartIdUpdated) {
       setCookie("cartId", cart._id, {
@@ -27,16 +27,16 @@ export default function CartButton({ cart, cartIdUpdated }) {
 
   useEffect(() => {
     // Open cart modal when when quantity changes.
-    if (totalQuantity !== quantityRef.current) {
+    if (cart.totalQuantity !== quantityRef.current) {
       // But only if it's not already open (quantity also changes when editing items in cart).
       if (!cartIsOpen) {
-        setCartIsOpen((prevState) => !prevState);
+        setCartIsOpen(true);
       }
 
       // Always update the quantity reference
-      quantityRef.current = totalQuantity;
+      quantityRef.current = cart.totalQuantity;
     }
-  }, [cartIsOpen, totalQuantity, quantityRef]);
+  }, [cartIsOpen, cart.totalQuantity, quantityRef]);
 
   return (
     <>
@@ -54,8 +54,7 @@ export default function CartButton({ cart, cartIdUpdated }) {
         className="relative right-0 top-0"
         data-testid="open-cart"
       >
-        <CartIcon quantity="0" />
-        {/* FIXME: <CartIcon quantity={cart.totalQuantity} /> */}
+        <CartIcon quantity={cart.totalQuantity} />
       </button>
     </>
   );
