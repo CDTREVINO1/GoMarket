@@ -1,17 +1,23 @@
+import { getCart, createCart } from "../../lib/pos/queries/cart";
 import { cookies } from "next/headers";
+import CartButton from "./button";
 
 export default async function Cart() {
   const cartId = cookies().get("cartId")?.value;
   let cartIdUpdated = false;
   let cart;
 
-  // TODO: If the cartId exists, update the cart by fetching from the DB
+  if (cartId) {
+    cart = await getCart(cartId);
+  }
 
   // If the `cartId` from the cookie is not set or the cart is empty
   // (old carts becomes `null` when you checkout), then get a new `cartId`
   //  and re-fetch the cart.
-  //  TODO: if the cartId doesn't exist, create the cart and set the
-  // cartIdUpdate to true
+  if (!cartId || !cart) {
+    cart = await createCart();
+    cartIdUpdated = true;
+  }
 
-  //   TODO: return the CartButton with the cart and cartIdUpdated as props
+  return <CartButton cart={cart} cartIdUpdated={cartIdUpdated} />;
 }

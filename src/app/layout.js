@@ -1,6 +1,7 @@
-import "./globals.css";
 import Header from "../../components/layout/header";
 import Footer from "../../components/layout/footer";
+import { Suspense } from "react";
+import "./globals.css";
 
 export const metadata = {
   title: "Home",
@@ -18,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
-        <main className="flex h-screen flex-col">{children}</main>
+        <Suspense>
+          <main className="flex h-screen flex-col">{children}</main>
+        </Suspense>
         <Footer />
       </body>
     </html>

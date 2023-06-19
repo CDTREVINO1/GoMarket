@@ -3,6 +3,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
+import CloseIcon from "../icons/close";
+import ShoppingBagIcon from "../icons/shopping-bag";
+
 export default function CartModal({ isOpen, onClose, cart }) {
   return (
     <AnimatePresence initial={false}>
@@ -45,10 +48,21 @@ export default function CartModal({ isOpen, onClose, cart }) {
                   className="text-black transition-colors hover:text-gray-500 dark:text-gray-100"
                   data-testid="close-cart"
                 >
-                  {/* CloseIcon goes here */}
+                  <CloseIcon className="h-7" />
                 </button>
               </div>
+
               {/* Cart contents conditionally rendered here. */}
+              {cart.items.length === 0 ? (
+                <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
+                  <ShoppingBagIcon className="h-16" />
+                  <p className="mt-6 text-center text-2xl font-bold">
+                    Your cart is empty.
+                  </p>
+                </div>
+              ) : null}
+
+              {/* TODO: Logic for if cart isn't empty */}
             </Dialog.Panel>
           </div>
         </Dialog>
