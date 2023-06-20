@@ -5,6 +5,8 @@ import Link from "next/link";
 
 import CloseIcon from "../icons/close";
 import ShoppingBagIcon from "../icons/shopping-bag";
+import DeleteItemButton from "./delete-item-button";
+import EditItemQuantityButton from "./edit-item-quantity-button";
 
 export default function CartModal({ isOpen, onClose, cart }) {
   return (
@@ -52,7 +54,6 @@ export default function CartModal({ isOpen, onClose, cart }) {
                 </button>
               </div>
 
-              {/* Cart contents conditionally rendered here. */}
               {cart.items.length === 0 ? (
                 <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
                   <ShoppingBagIcon className="h-16" />
@@ -63,6 +64,45 @@ export default function CartModal({ isOpen, onClose, cart }) {
               ) : null}
 
               {/* TODO: Logic for if cart isn't empty */}
+              {cart.items.length !== 0 ? (
+                <div className="flex h-full flex-col justify-between overflow-hidden">
+                  <ul className="flex-grow overflow-auto p-6">
+                    {cart.items.map((item, i) => {
+                      return (
+                        <li key={i} data-testid="cart-item">
+                          {/* <Link className="flex flex-row space-x-4 py-4"> */}
+                          <div className="relative h-16 w-16 cursor-pointer overflow-hidden bg-white">
+                            <Image
+                              className="h-full w-full object-cover"
+                              width={64}
+                              height={64}
+                              alt={item.productId.name}
+                              src={item.productId.images[0]}
+                            />
+                          </div>
+                          <div className="flex flex-1 flex-col text-base">
+                            <span className="font-semibold">
+                              {item.productId.name}
+                            </span>
+                          </div>
+                          {/* </Link> */}
+                          <div className="flex h-9 flex-row">
+                            <DeleteItemButton item={item}>
+                              <p className="ml-2 flex w-full items-center justify-center border dark:border-gray-700">
+                                <span className="w-full px-2">
+                                  {item.quantity}
+                                </span>
+                              </p>
+                            </DeleteItemButton>
+                            <EditItemQuantityButton item={item} type="minus" />
+                            <EditItemQuantityButton item={item} type="plus" />
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : null}
             </Dialog.Panel>
           </div>
         </Dialog>
