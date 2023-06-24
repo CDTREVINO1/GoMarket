@@ -2,9 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Product = (props) => {
-  const { id, title, price, images } = props;
+  const { handle, name, price, images } = props;
 
-  const linkPath = `/products/${id}`;
+  const linkPath = `/product/${handle}`;
 
   return (
     <>
@@ -20,7 +20,7 @@ const Product = (props) => {
           width={300}
         />
         <blockquote className="mx-auto mb-4 max-w-2xl text-gray-500 dark:text-gray-400 lg:mb-8">
-          <h3>{title}</h3>
+          <h3>{name}</h3>
           <h1>${price}</h1>
         </blockquote>
         {/* <button
