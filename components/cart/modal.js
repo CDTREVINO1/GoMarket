@@ -19,8 +19,6 @@ export default function CartModal({ cart, cartIdUpdated }) {
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  console.log(cart.items);
-
   useEffect(() => {
     if (cartIdUpdated) {
       setCookie("cartId", cart._id, {
@@ -44,6 +42,30 @@ export default function CartModal({ cart, cartIdUpdated }) {
       quantityRef.current = cart.totalQuantity;
     }
   }, [isOpen, cart.totalQuantity, quantityRef]);
+
+  async function processCheckout() {
+    try {
+      const response = await fetch("/api/checkout_sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cart),
+      });
+
+      if (!response?.ok) {
+        console.log("Something went wrong with the request.");
+        throw new Error("Network response was not OK");
+      }
+
+      const session = await response.json();
+      if (session) {
+        window.location.href = session.url;
+      }
+    } catch (error) {
+      console.log(
+        "There has been a problem with your fetch operation: " + error
+      );
+    }
+  }
 
   return (
     <>
@@ -100,7 +122,7 @@ export default function CartModal({ cart, cartIdUpdated }) {
                 <div className="flex h-full flex-col justify-between overflow-hidden">
                   <ul className="flex-grow overflow-auto p-6">
                     {cart.items.map((item, i) => {
-                      const productUrl = `/product/${item.productId.handle}`;
+                      const productUrl = `/product/${item.product.handle}`;
 
                       return (
                         <li key={i} data-testid="cart-item">
@@ -114,13 +136,13 @@ export default function CartModal({ cart, cartIdUpdated }) {
                                 className="h-full w-full object-cover"
                                 width={64}
                                 height={64}
-                                alt={item.productId.name}
-                                src={item.productId.images[0]}
+                                alt={item.product.name}
+                                src={item.product.images[0]}
                               />
                             </div>
                             <div className="flex flex-1 flex-col text-base">
                               <span className="font-semibold">
-                                {item.productId.name}
+                                {item.product.name}
                               </span>
                             </div>
                           </Link>
@@ -156,14 +178,7 @@ export default function CartModal({ cart, cartIdUpdated }) {
                       {/* TODO: Price goes here */}
                     </div>
                   </div>
-                  {/* TODO: Cart checkout goes here */}
-                  {/* <a
-                    href={cart.checkoutUrl}
-                    className="flex w-full items-center justify-center bg-black p-3 text-sm font-medium uppercase text-white opacity-90 hover:opacity-100 dark:bg-white dark:text-black"
-                  >
-                    <span>Proceed to checkout</span>
-                  </a> */}
-                  <button>Proceed to checkout</button>
+                  <button onClick={processCheckout}>Proceed to checkout</button>
                 </div>
               )}
             </Dialog.Panel>
