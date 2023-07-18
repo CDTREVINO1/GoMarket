@@ -9,6 +9,7 @@ export async function POST(request) {
       mode: "payment",
       success_url: `${process.env.SERVER_URL}/?success=true`,
       cancel_url: `${process.env.SERVER_URL}/?canceled=true`,
+      client_reference_id: cart._id,
       line_items: cart.items.map((item) => {
         return {
           price_data: {
@@ -22,8 +23,6 @@ export async function POST(request) {
         };
       }),
     });
-
-    console.log(stripeSession);
 
     return new Response(JSON.stringify({ url: stripeSession.url }));
   } catch (error) {
