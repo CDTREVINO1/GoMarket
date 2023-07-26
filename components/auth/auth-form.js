@@ -26,7 +26,7 @@ function AuthForm() {
   const emailInputRef = useRef();
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
-  const retypePasswordInputRef = useRef();
+  const confirmedPasswordInputRef = useRef();
 
   const [isLogin, setIsLogin] = useState(true);
   const [status, setStatus] = useState("");
@@ -36,13 +36,25 @@ function AuthForm() {
     setIsLogin((prevState) => !prevState);
   }
 
+  const clearLoginRefs = () => {
+    usernameInputRef.current.value = "";
+    passwordInputRef.current.value = "";
+  };
+
+  const clearCreateAccountRefs = () => {
+    usernameInputRef.current.value = "";
+    emailInputRef.current.value = "";
+    passwordInputRef.current.value = "";
+    confirmedPasswordInputRef.current.value = "";
+  };
+
   const submitHandler = async (event) => {
     event.preventDefault();
 
     const enteredUsername = usernameInputRef.current?.value;
     const enteredEmail = emailInputRef.current?.value;
     const enteredPassword = passwordInputRef?.current.value;
-    const enteredPasswordRetype = retypePasswordInputRef.current?.value;
+    const confirmedPassword = confirmedPasswordInputRef.current?.value;
 
     if (isLogin) {
       const result = await signIn("credentials", {
@@ -58,7 +70,8 @@ function AuthForm() {
       }
       setStatus(result.error);
     } else {
-      if (enteredPassword.trim() !== enteredPasswordRetype.trim()) {
+      if (enteredPassword.trim() !== confirmedPassword.trim()) {
+        setStatus("New password and confirm password do not match.");
         return;
       }
 
@@ -69,6 +82,8 @@ function AuthForm() {
           enteredEmail
         );
 
+        clearCreateAccountRefs();
+        switchAuthModeHandler();
         setStatus(result.message);
       } catch (error) {
         setStatus(error.message);
@@ -153,17 +168,17 @@ function AuthForm() {
                 <div>
                   <label
                     className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-100"
-                    htmlFor="retype-password"
+                    htmlFor="confirm-password"
                   >
-                    Re-type Password
+                    Confirm Password
                   </label>
                   <input
                     className="focus:ring-primary-600  focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm"
                     placeholder="••••••••"
                     type="password"
-                    id="retype-password"
+                    id="confirm-password"
                     required
-                    ref={retypePasswordInputRef}
+                    ref={confirmedPasswordInputRef}
                     onClick={() => {
                       setStatus("");
                     }}
@@ -182,7 +197,10 @@ function AuthForm() {
                   <button
                     className="hover:bg-primary-700 focus:ring-primary-300 ml-14 rounded-lg border border-slate-400 bg-slate-400 px-4 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 dark:border-slate-600 dark:bg-slate-600 dark:text-white"
                     type="button"
-                    onClick={switchAuthModeHandler}
+                    onClick={() => {
+                      switchAuthModeHandler();
+                      isLogin ? clearLoginRefs() : clearCreateAccountRefs();
+                    }}
                   >
                     {isLogin ? "Create account" : "Login with existing account"}
                   </button>
