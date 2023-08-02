@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { addItem } from "components/cart/actions";
+import { addItem } from "../../components/cart/actions";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 

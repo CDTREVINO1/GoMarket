@@ -1,6 +1,10 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { createCart, updateCart, removeFromCart } from "lib/pos/queries/cart";
+import {
+  createCart,
+  updateCart,
+  removeFromCart,
+} from "../../../../lib/pos/queries/cart";
 
 export async function POST() {
   const cart = await createCart();
