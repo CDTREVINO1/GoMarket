@@ -1,10 +1,10 @@
-import CloseIcon from "../../components/icons/close";
-import LoadingDots from "../../components/loading-dots";
+import CloseIcon from "components/icons/close";
+import LoadingDots from "components/loading-dots";
 import { useRouter } from "next/navigation";
 
 import clsx from "clsx";
 import { useTransition } from "react";
-import { removeItem } from "../../components/cart/actions";
+import { removeItem } from "components/cart/actions";
 
 export default function DeleteItemButton({ item }) {
   const router = useRouter();

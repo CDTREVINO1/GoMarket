@@ -1,8 +1,8 @@
 import { headers } from "next/headers";
 import Stripe from "stripe";
-import Cart from "../../../../../models/cart";
+import Cart from "models/cart";
 
-import dbConnect from "../../../../../lib/dbConnect";
+import dbConnect from "lib/dbConnect";
 
 export async function POST(request) {
   const body = await request.text();

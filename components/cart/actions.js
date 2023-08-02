@@ -1,10 +1,6 @@
 "use server";
 
-import {
-  addToCart,
-  removeFromCart,
-  updateCart,
-} from "../../lib/pos/queries/cart";
+import { addToCart, removeFromCart, updateCart } from "lib/pos/queries/cart";
 import { cookies } from "next/headers";
 
 export const addItem = async (productId) => {
