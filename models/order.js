@@ -8,11 +8,34 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    products: [
+    stripeCheckoutId: {
+      type: String,
+      required: true,
+    },
+    paymentStatus: {
+      type: String,
+      required: true,
+    },
+    orderTotal: {
+      type: Number,
+      required: true,
+    },
+    currency: {
+      type: String,
+      required: true,
+    },
+    orderStatus: {
+      type: String,
+      required: true,
+    },
+    orderDate: {
+      type: Date,
+      required: true,
+    },
+    orderItems: [
       {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
+        productDescription: {
+          type: String,
           required: true,
         },
         quantity: {
@@ -25,18 +48,9 @@ const orderSchema = new mongoose.Schema(
         },
       },
     ],
-    totalPrice: {
-      type: Number,
-      required: true,
-    },
     shippingAddress: {
       type: String,
       required: true,
-    },
-    paymentStatus: {
-      type: String,
-      enum: ["Pending", "Paid", "Cancelled"],
-      default: "Pending",
     },
   },
   { timestamps: true }
