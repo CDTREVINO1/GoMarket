@@ -2,21 +2,33 @@
 
 import {
   addToCart,
+  createCart,
+  getCart,
   removeFromCart,
   updateCart,
-} from "../../lib/pos/queries/cart";
+} from "lib/pos/queries/cart";
 import { cookies } from "next/headers";
 
 export const addItem = async (productId) => {
-  const cartId = cookies().get("cartId")?.value;
+  let cartId = cookies().get("cartId")?.value;
+  let cart;
+
+  if (cartId) {
+    cart = await getCart(cartId);
+  }
 
   if (!cartId || !productId) {
-    return new Error("Missing cartId or productId");
+    cart = await createCart();
+    cartId = cart._id;
+    cookies().set("cartId", cartId);
   }
+
+  if (!productId) return new Error("Missing productId");
+
   try {
     await addToCart(cartId, { productId, quantity: 1 });
   } catch (e) {
-    return new Error("Error adding item", { cause: e });
+    return new Error("Error adding item to cart", { cause: e });
   }
 };
 

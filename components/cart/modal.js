@@ -1,47 +1,33 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
+import ShoppingBagIcon from "components/icons/shopping-bag";
+import OpenCart from "./open-cart";
 import Image from "next/image";
 import Link from "next/link";
-
-import CartIcon from "../../components/icons/cart";
-import CloseIcon from "../../components/icons/close";
-import ShoppingBagIcon from "../../components/icons/shopping-bag";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { useCookies } from "react-cookie";
+import CloseCart from "./close-cart";
 import DeleteItemButton from "./delete-item-button";
 import EditItemQuantityButton from "./edit-item-quantity-button";
 
-export default function CartModal({ cart, cartIdUpdated }) {
-  const [, setCookie] = useCookies(["cartId"]);
+export default function CartModal({ cart }) {
   const [isOpen, setIsOpen] = useState(false);
-  const quantityRef = useRef(cart.totalQuantity);
+  const quantityRef = useRef(cart?.totalQuantity);
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
   useEffect(() => {
-    if (cartIdUpdated) {
-      setCookie("cartId", cart._id, {
-        path: "/",
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production",
-      });
-    }
-    return;
-  }, [setCookie, cartIdUpdated, cart._id]);
-
-  useEffect(() => {
     // Open cart modal when when quantity changes.
-    if (cart.totalQuantity !== quantityRef.current) {
+    if (cart?.totalQuantity !== quantityRef.current) {
       // But only if it's not already open (quantity also changes when editing items in cart).
       if (!isOpen) {
         setIsOpen(true);
       }
 
       // Always update the quantity reference
-      quantityRef.current = cart.totalQuantity;
+      quantityRef.current = cart?.totalQuantity;
     }
-  }, [isOpen, cart.totalQuantity, quantityRef]);
+  }, [isOpen, cart?.totalQuantity, quantityRef]);
 
   async function processCheckout() {
     try {
@@ -70,7 +56,7 @@ export default function CartModal({ cart, cartIdUpdated }) {
   return (
     <>
       <button aria-label="Open cart" onClick={openCart} data-testid="open-cart">
-        <CartIcon quantity={cart.totalQuantity} />
+        <OpenCart quantity={cart?.totalQuantity} />
       </button>
       <Transition show={isOpen}>
         <Dialog
@@ -107,11 +93,11 @@ export default function CartModal({ cart, cartIdUpdated }) {
                   className="text-black transition-colors hover:text-gray-500 dark:text-gray-100"
                   data-testid="close-cart"
                 >
-                  <CloseIcon className="h-7" />
+                  <CloseCart />
                 </button>
               </div>
 
-              {cart.items.length === 0 ? (
+              {!cart || cart.items.length === 0 ? (
                 <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
                   <ShoppingBagIcon className="h-16" />
                   <p className="mt-6 text-center text-2xl font-bold">
@@ -119,13 +105,17 @@ export default function CartModal({ cart, cartIdUpdated }) {
                   </p>
                 </div>
               ) : (
-                <div className="flex h-full flex-col justify-between overflow-hidden">
-                  <ul className="flex-grow overflow-auto p-6">
+                <div className="flex h-full flex-col justify-between overflow-hidden p-1">
+                  <ul className="flex-grow overflow-auto py-4">
                     {cart.items.map((item, i) => {
                       const productUrl = `/product/${item.product.handle}`;
 
                       return (
-                        <li key={i} data-testid="cart-item">
+                        <li
+                          key={i}
+                          className="flex w-full flex-col border-b border-neutral-300 dark:border-neutral-700"
+                          data-testid="cart-item"
+                        >
                           <Link
                             className="flex flex-row space-x-4 py-4"
                             href={productUrl}
