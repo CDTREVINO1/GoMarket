@@ -17,7 +17,7 @@ const UserSchema = new Schema(
       match:
         /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
     },
-    // FIXME: add orders: []
+    orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
   },
   { timestamps: true }
 );

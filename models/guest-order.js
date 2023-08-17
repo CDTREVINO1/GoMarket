@@ -1,13 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const orderSchema = new Schema(
+const guestOrderSchema = new Schema(
   {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
     stripeCheckoutId: {
       type: String,
       required: true,
@@ -53,4 +48,5 @@ const orderSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.models.Order || mongoose.model("Order", orderSchema);
+module.exports =
+  mongoose.models.GuestOrder || mongoose.model("GuestOrder", guestOrderSchema);

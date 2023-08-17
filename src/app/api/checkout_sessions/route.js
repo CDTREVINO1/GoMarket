@@ -1,6 +1,12 @@
 import Stripe from "stripe";
+import { authOptions } from "lib/auth";
+import { getServerSession } from "next-auth";
 
 export async function POST(request) {
+  const session = await getServerSession(authOptions);
+
+  const userId = session?.user?.id ?? null;
+
   try {
     let cart = await request.json();
 
@@ -22,6 +28,9 @@ export async function POST(request) {
           quantity: item.quantity,
         };
       }),
+      metadata: {
+        userId: userId,
+      },
     });
 
     return new Response(JSON.stringify({ url: stripeSession.url }));
