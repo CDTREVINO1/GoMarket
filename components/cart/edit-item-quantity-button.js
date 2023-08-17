@@ -2,9 +2,9 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
 import clsx from "clsx";
-import { removeItem, updateItemQuantity } from "../../components/cart/actions";
-import MinusIcon from "../../components/icons/minus";
-import PlusIcon from "../../components/icons/plus";
+import { removeItem, updateItemQuantity } from "components/cart/actions";
+import MinusIcon from "components/icons/minus";
+import PlusIcon from "components/icons/plus";
 import LoadingDots from "../loading-dots";
 
 export default function EditItemQuantityButton({ item, type }) {

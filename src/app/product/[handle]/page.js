@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { AddToCart } from "../../../../components/cart/add-to-cart";
-import { getProduct } from "/lib/pos/queries/product";
+import { AddToCart } from "components/cart/add-to-cart";
+import { getProduct } from "lib/pos/queries/product";
 
 export default async function ProductPage({ params }) {
   const product = await getProduct(params.handle);
