@@ -28,10 +28,6 @@ const orderSchema = new Schema(
       type: String,
       required: true,
     },
-    orderDate: {
-      type: Date,
-      required: true,
-    },
     orderItems: [
       {
         product: {

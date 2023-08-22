@@ -63,7 +63,7 @@ function ProfileForm() {
           <div className="items-center justify-between">
             <div className="">
               <label className="dark:text-gray-100" htmlFor="old-password">
-                Old Password
+                Current Password
               </label>
               <input
                 className="focus:ring-primary-600 focus:border-primary-600 block rounded-lg border border-gray-300 bg-gray-50 p-1 text-gray-900 sm:text-sm"

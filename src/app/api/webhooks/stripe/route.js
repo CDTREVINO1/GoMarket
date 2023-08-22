@@ -43,7 +43,6 @@ export async function POST(request) {
       orderTotal: stripeSession.amount_total,
       currency: stripeSession.currency,
       orderStatus: stripeSession.status,
-      orderDate: stripeSession.created,
       orderItems: cart.items.map((item) => {
         return {
           product: item.product,
@@ -58,8 +57,6 @@ export async function POST(request) {
     stripeSession?.metadata?.userId &&
     event.type === "checkout.session.completed"
   ) {
-    console.log(stripeSession);
-
     const cart = await Cart.findOneAndUpdate(
       { _id: stripeSession.client_reference_id },
       { $set: { items: [] } },
@@ -74,7 +71,6 @@ export async function POST(request) {
       orderTotal: stripeSession.amount_total,
       currency: stripeSession.currency,
       orderStatus: stripeSession.status,
-      orderDate: stripeSession.created,
       orderItems: cart.items.map((item) => {
         return {
           product: item.product,
