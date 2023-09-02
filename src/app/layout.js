@@ -1,5 +1,4 @@
 import Header from "components/layout/header";
-import Footer from "components/layout/footer";
 import { Suspense } from "react";
 import "./globals.css";
 
@@ -22,7 +21,6 @@ export default function RootLayout({
         <Suspense>
           <main className="flex h-screen flex-col">{children}</main>
         </Suspense>
-        <Footer />
       </body>
     </html>
   );

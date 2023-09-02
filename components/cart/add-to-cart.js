@@ -29,15 +29,13 @@ export function AddToCart({ productId, availableForSale }) {
         });
       }}
       className={clsx(
-        "flex w-full items-center justify-center bg-black p-4 text-sm uppercase tracking-wide text-white opacity-90 hover:opacity-100 dark:bg-white dark:text-black",
+        "mx-auto mb-20 mt-20 flex w-full max-w-lg transform-gpu items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 px-10 py-3 text-lg font-semibold text-white shadow-md transition-transform hover:scale-105 dark:bg-gray-800",
         {
-          "cursor-not-allowed opacity-60": !availableForSale,
-          "cursor-not-allowed": isPending,
+          "cursor-not-allowed opacity-60": !availableForSale || isPending,
         }
-      )}
-    >
+      )}>
       <span>{availableForSale ? "Add To Cart" : "Out Of Stock"}</span>
-      {isPending ? <LoadingDots className="bg-white dark:bg-black" /> : null}
+      {isPending && <LoadingDots className="ml-2" />}
     </button>
   );
 }
