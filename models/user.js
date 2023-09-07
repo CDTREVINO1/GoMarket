@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const userRoles = {
+  USER: "user",
+  ADMIN: "admin",
+};
+
 const UserSchema = new Schema(
   {
     username: {
@@ -16,6 +21,11 @@ const UserSchema = new Schema(
       unique: true,
       match:
         /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+    },
+    role: {
+      type: String,
+      enum: [userRoles.USER, userRoles.ADMIN],
+      default: userRoles.USER,
     },
     orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
   },
