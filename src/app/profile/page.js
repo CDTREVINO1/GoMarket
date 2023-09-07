@@ -10,7 +10,7 @@ export default async function ProfilePage() {
 
   if (!session) redirect("/auth");
 
-  const orders = await fetchOrders(session.user.id);
+  const orders = await fetchOrders(session?.user.id);
 
   return (
     <main>
