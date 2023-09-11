@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import placeholderPic from "public/placeholder.png";
 
 const Product = (props) => {
   const { handle, name, price, images } = props;
@@ -12,7 +13,7 @@ const Product = (props) => {
         <Link href={linkPath}>
           <Image
             className="rounded-t-lg p-8"
-            src={images[0]}
+            src={images[0] || placeholderPic}
             alt="product image"
             height={300}
             width={300}
