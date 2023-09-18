@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Footer from "components/layout/footer";
 
 const createUser = async (username, password, email) => {
   const response = await fetch("/api/auth/signup", {
@@ -92,9 +93,9 @@ function AuthForm() {
   };
 
   return (
-    <section className="w-screen bg-slate-100 text-black dark:bg-slate-800">
-      <div className="mx-auto flex h-screen flex-col items-center justify-between px-14 pt-16 sm:md:px-8 ">
-        <div className="w-full rounded-lg bg-white shadow-xl dark:bg-slate-400 sm:md:max-w-sm md:mt-0 xl:p-0">
+    <section className=" w-screen bg-[#E0F2FF] text-black dark:bg-slate-800">
+      <div className="sm:md mx-auto mt-20 flex h-screen flex-col items-center justify-center px-6">
+        <div className="mb-auto w-full rounded-lg bg-white shadow-xl dark:bg-slate-400 sm:md:max-w-sm md:mt-0 xl:p-0">
           <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-gray-100 md:text-2xl">
               {isLogin ? "Login" : "Sign Up"}
@@ -103,113 +104,99 @@ function AuthForm() {
             <form
               className="space-y-4 md:space-y-6"
               action="#"
-              onSubmit={submitHandler}
-            >
+              onSubmit={submitHandler}>
               <div>
                 <label
-                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-slate-100"
                   htmlFor="username"
-                >
+                  className="block text-sm font-medium text-gray-900 dark:text-gray-300">
                   Username
                 </label>
                 <input
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm"
-                  placeholder="username"
                   type="text"
                   id="username"
+                  placeholder="Username"
                   required
                   ref={usernameInputRef}
-                  onClick={() => {
-                    setStatus("");
-                  }}
+                  className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                  onClick={() => setStatus("")}
                 />
               </div>
               {!isLogin && (
                 <div>
                   <label
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-100"
                     htmlFor="email"
-                  >
+                    className="block text-sm font-medium text-gray-900 dark:text-gray-300">
                     Email
                   </label>
                   <input
-                    className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm"
-                    placeholder="email"
                     type="email"
                     id="email"
+                    placeholder="Email"
                     required
                     ref={emailInputRef}
-                    onClick={() => {
-                      setStatus("");
-                    }}
+                    className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                    onClick={() => setStatus("")}
                   />
                 </div>
               )}
               <div>
                 <label
-                  className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-100"
                   htmlFor="password"
-                >
+                  className="block text-sm font-medium text-gray-900 dark:text-gray-300">
                   Password
                 </label>
                 <input
-                  className="focus:ring-primary-600  focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm"
-                  placeholder="••••••••"
                   type="password"
                   id="password"
+                  placeholder="••••••••"
                   required
                   ref={passwordInputRef}
-                  onClick={() => {
-                    setStatus("");
-                  }}
+                  className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                  onClick={() => setStatus("")}
                 />
               </div>
               {!isLogin && (
                 <div>
                   <label
-                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-100"
                     htmlFor="confirm-password"
-                  >
+                    className="block text-sm font-medium text-gray-900 dark:text-gray-300">
                     Confirm Password
                   </label>
                   <input
-                    className="focus:ring-primary-600  focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm"
-                    placeholder="••••••••"
                     type="password"
                     id="confirm-password"
+                    placeholder="••••••••"
                     required
                     ref={confirmedPasswordInputRef}
-                    onClick={() => {
-                      setStatus("");
-                    }}
+                    className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                    onClick={() => setStatus("")}
                   />
                 </div>
               )}
               <div className="flex items-center justify-between">
-                <div className="flex w-full items-center">
-                  <button
-                    type="submit"
-                    data-cy="create-account"
-                    className="hover:bg-primary-700 focus:ring-primary-300 mr-auto rounded-lg border border-slate-400 bg-slate-400 px-4 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 dark:border-slate-500 dark:bg-slate-600 dark:text-white "
-                  >
-                    {isLogin ? "Login" : "Create Account"}
-                  </button>
-                  <button
-                    className="hover:bg-primary-700 focus:ring-primary-300 ml-14 rounded-lg border border-slate-400 bg-slate-400 px-4 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 dark:border-slate-600 dark:bg-slate-600 dark:text-white"
-                    type="button"
-                    onClick={() => {
-                      switchAuthModeHandler();
-                      isLogin ? clearLoginRefs() : clearCreateAccountRefs();
-                    }}
-                  >
-                    {isLogin ? "Create account" : "Login with existing account"}
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  data-cy="create-account"
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-400">
+                  {isLogin ? "Log in" : "Create Account"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    switchAuthModeHandler();
+                    isLogin ? clearLoginRefs() : clearCreateAccountRefs();
+                  }}
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-800 dark:hover:bg-blue-900 dark:focus:ring-blue-400">
+                  {isLogin
+                    ? "Create an Account"
+                    : "Log in with Existing Account"}
+                </button>
               </div>
             </form>
           </div>
         </div>
       </div>
+      <Footer />
     </section>
   );
 }

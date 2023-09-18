@@ -21,11 +21,11 @@ export default async function ProductPage({ params }) {
     <>
       <main>
         <Breadcrumb links={breadcrumbs} />
-        <div className="mx-auto px-6 pt-4 lg:px-8">
-          <div className="mx-auto max-w-3xl">
-            <section className="body-font text-gray-600">
-              <div className="container mx-auto items-center lg:flex lg:flex-wrap">
-                <div className="mx-auto">
+        <div className="px-6 pt-4 lg:px-8">
+          <div className="mx-auto max-w-3xl ">
+            <section>
+              <div className="container ">
+                <div className="mx-auto ">
                   {/* Product Info */}
                   <div className="mt-10 lg:mt-2">
                     <Image
@@ -33,10 +33,10 @@ export default async function ProductPage({ params }) {
                       alt="Picture of product."
                       height={100}
                       width={200}
-                      className="mx-auto w-full max-w-xl rounded-lg object-center"
+                      className="mx-auto w-full max-w-lg rounded-lg object-center "
                     />
                   </div>
-                  <div className="w-full ">
+                  <div className="w-full">
                     <h1 className="mt-20 text-3xl font-bold tracking-tight text-gray-900 ">
                       {product.name}
                     </h1>

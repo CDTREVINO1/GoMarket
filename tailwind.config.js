@@ -8,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        lato: ["Lato", "sans"], // Add 'Lato' to the font family stack
+      },
       keyframes: {
         wiggle: {
           "0%, 100%": { transform: "rotate(-3deg)" },

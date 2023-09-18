@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "components/layout/footer";
 import { useState, useRef } from "react";
 
 function ProfileForm() {
@@ -56,58 +57,73 @@ function ProfileForm() {
   };
 
   return (
-    <section className="w-screen bg-slate-100 text-black dark:bg-slate-800">
-      <div className="mx-auto flex h-screen flex-col items-center justify-between px-14 pt-16 sm:md:px-8 ">
-        <form onSubmit={submitHandler}>
-          {status && <h3>{status}</h3>}
-          <div className="items-center justify-between">
-            <div className="">
-              <label className="dark:text-gray-100" htmlFor="old-password">
-                Current Password
-              </label>
-              <input
-                className="focus:ring-primary-600 focus:border-primary-600 block rounded-lg border border-gray-300 bg-gray-50 p-1 text-gray-900 sm:text-sm"
-                type="password"
-                id="old-password"
-                ref={oldPasswordRef}
-                onClick={() => setStatus("")}
-              />
-            </div>
-            <div>
-              <label className="dark:text-gray-100" htmlFor="new-password">
-                New Password
-              </label>
-              <input
-                className="focus:ring-primary-600 focus:border-primary-600 block rounded-lg border border-gray-300 bg-gray-50 p-1 text-gray-900 sm:text-sm"
-                type="password"
-                id="new-password"
-                ref={newPasswordRef}
-                onClick={() => setStatus("")}
-              />
-            </div>
+    <section className="w-screen bg-[#E0F2FF] text-gray-900 dark:bg-gray-900">
+      <div className="mx-auto flex h-screen flex-col items-center justify-start space-y-8 px-14 pt-20 sm:md:px-8">
+        <h1 className="text-2xl font-bold dark:text-gray-200">
+          Change Password
+        </h1>
 
-            <div>
-              <label className="dark:text-gray-100" htmlFor="new-password">
-                Confirm New Password
-              </label>
-              <input
-                className="focus:ring-primary-600 focus:border-primary-600 block rounded-lg border border-gray-300 bg-gray-50 p-1 text-gray-900 sm:text-sm"
-                type="password"
-                id="confirm-new-password"
-                ref={confirmNewPasswordRef}
-                onClick={() => setStatus("")}
-              />
+        <form onSubmit={submitHandler} className="w-full max-w-md space-y-6">
+          {status && (
+            <div className="text-center text-blue-500 dark:text-blue-300">
+              {status}
             </div>
-            <div>
-              <button className="hover:bg-primary-700 focus:ring-primary-300 ml-6 mt-3 rounded-lg border border-slate-400 bg-slate-400 px-4 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 dark:border-slate-600 dark:bg-slate-600 dark:text-white ">
-                Change Password
-              </button>
-            </div>
+          )}
+
+          <div>
+            <label
+              className="mb-2 block text-sm font-medium dark:text-gray-300"
+              htmlFor="old-password">
+              Current Password
+            </label>
+            <input
+              className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-300 sm:text-sm"
+              type="password"
+              id="old-password"
+              ref={oldPasswordRef}
+              onClick={() => setStatus("")}
+            />
+          </div>
+
+          <div>
+            <label
+              className="mb-2 block text-sm font-medium dark:text-gray-300"
+              htmlFor="new-password">
+              New Password
+            </label>
+            <input
+              className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-300 sm:text-sm"
+              type="password"
+              id="new-password"
+              ref={newPasswordRef}
+              onClick={() => setStatus("")}
+            />
+          </div>
+
+          <div>
+            <label
+              className="mb-2 block text-sm font-medium dark:text-gray-300"
+              htmlFor="confirm-new-password">
+              Confirm New Password
+            </label>
+            <input
+              className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-300 sm:text-sm"
+              type="password"
+              id="confirm-new-password"
+              ref={confirmNewPasswordRef}
+              onClick={() => setStatus("")}
+            />
+          </div>
+
+          <div className="text-center">
+            <button className="mt-3 rounded-lg border border-blue-500 bg-blue-500 px-6 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-400 dark:border-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800">
+              Change Password
+            </button>
           </div>
         </form>
       </div>
+      <Footer />
     </section>
   );
 }
-
 export default ProfileForm;

@@ -1,12 +1,12 @@
-import Product from "./product";
 import Footer from "components/layout/footer";
+import Product from "./product";
 
 const ProductsGrid = (props) => {
   const { products } = props;
 
   return (
     <main>
-      <ul className="grid border border-gray-200 bg-gray-50 dark:border-gray-700 sm:grid-cols-3">
+      <ul className="grid border-gray-200 bg-[#E0F2FF] dark:border-gray-700 sm:grid-cols-3">
         {products.map((product) => (
           <Product
             key={product._id}

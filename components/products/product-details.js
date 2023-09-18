@@ -6,7 +6,7 @@ const ProductDetails = (props) => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="p-8 bg-white md:p-16">
+      <div className="bg-white p-8 md:p-16">
         <div className="flex flex-col md:flex-row md:space-x-8">
           <div className="w-full md:w-1/2">
             <Image
@@ -14,10 +14,10 @@ const ProductDetails = (props) => {
               alt="Product"
               width={600}
               height={600}
-              className="object-cover w-full h-64 rounded-lg md:h-auto"
+              className="h-64 w-full rounded-lg object-cover md:h-auto"
             />
           </div>
-          <div className="w-full mt-8 md:mt-0 md:w-1/2">
+          <div className="mt-8 w-full md:mt-0 md:w-1/2">
             <h1 className="mb-2 text-2xl font-semibold text-gray-800 md:text-3xl">
               {title}
             </h1>
@@ -25,7 +25,7 @@ const ProductDetails = (props) => {
               {Array.from({ length: rating }, (_, index) => (
                 <svg
                   key={index}
-                  className="w-5 h-5 fill-current"
+                  className="h-5 w-5 fill-current"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20">
                   <path
@@ -37,22 +37,22 @@ const ProductDetails = (props) => {
               ))}
             </div>
             <p className="mb-4 text-gray-600">{description}</p>
-            <div className="flex items-center mb-4">
+            <div className="mb-4 flex items-center">
               <span className="mr-2 font-medium text-gray-800">Size:</span>
-              <select className="px-3 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select className="rounded border px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option>SM</option>
                 <option>M</option>
                 <option>L</option>
                 <option>XL</option>
               </select>
             </div>
-            <div className="flex mb-4">
+            <div className="mb-4 flex">
               <span className="text-2xl font-semibold text-gray-800">
                 ${price}
               </span>
-              <button className="p-2 ml-4 text-gray-600 bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none">
+              <button className="ml-4 rounded-full bg-gray-200 p-2 text-gray-600 hover:bg-gray-300 focus:outline-none">
                 <svg
-                  className="w-6 h-6 fill-current"
+                  className="h-6 w-6 fill-current"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20">
                   <path

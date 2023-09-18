@@ -1,6 +1,7 @@
 import Footer from "components/layout/footer";
-import Header from "components/layout/header";
 import Link from "next/link";
+import products from "lib/seeds/products";
+import Slider from "components/products/productSlider";
 
 export const metadata = {
   title: "Online Store",
@@ -8,49 +9,43 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <div
-      aria-label="card-w-footer"
-      className="divide-y divide-gray-200 overflow-hidden shadow ">
-      <div className="bg-gray-400 px-4 py-12 sm:p-6">
-        <div className="mx-auto max-w-xl">
-          <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl lg:text-6xl">
-            We invest in the world’s potential
-          </h1>
-          <p className="mb-4 text-lg font-normal text-gray-300 sm:px-16 lg:px-48 lg:text-xl">
-            Here at Flowbite we focus on markets where technology, innovation,
-            and capital can unlock long-term value and drive economic growth.
-          </p>
+    <div className="flex min-h-screen flex-col">
+      <main className="flex-grow ">
+        <div className="relative bg-blue-700 py-12 text-center text-white">
+          <div
+            className="absolute left-0 top-0 h-full w-full"
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(37, 99, 235, 1) 0%, rgba(81, 58, 237, 1) 100%)",
+              zIndex: -1,
+            }}></div>
 
-          <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-x-4 sm:space-y-0">
+          <div className="container relative z-10 mx-auto">
+            <h1 className="mb-4 text-5xl font-extrabold leading-none md:text-6xl lg:text-7xl">
+              Discover Our Latest Collection
+            </h1>
+            <p className="mb-8 text-xl text-gray-300 md:text-2xl">
+              Shop now and get amazing deals on your favorite products.
+            </p>
             <Link
-              href="#"
-              className="inline-flex items-center justify-center rounded-lg bg-blue-700 px-5 py-3 text-center text-base font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
-              Get started
-              <svg
-                aria-hidden="true"
-                className="-mr-1 ml-2 h-4 w-4"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  fillRule="evenodd"
-                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </Link>
-            <Link
-              href="#"
-              className="inline-flex items-center justify-center rounded-lg border border-white px-5 py-3 text-center text-base font-medium text-white hover:bg-gray-100 hover:text-gray-900 focus:ring-4 focus:ring-gray-400">
-              Learn more
+              href="/shop"
+              className="inline-block transform rounded-lg bg-white px-10 py-4 text-xl font-medium text-blue-700 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
+              Shop Now
             </Link>
           </div>
         </div>
-      </div>
-      <div aria-label="footer-card" className="bg-blue-100 px-4 py-12 sm:px-6">
-        hi
-      </div>
-      <Footer className="" />
+
+        <div className="container mx-auto mt-4 py-12 ">
+          <h2 className="mb-8 text-center text-3xl font-extrabold text-gray-800 md:text-4xl lg:text-5xl">
+            Featured Products
+          </h2>
+
+          <div className="flex flex-col md:flex-row md:flex-wrap md:justify-center md:space-x-4">
+            <Slider products={products} />
+          </div>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }
