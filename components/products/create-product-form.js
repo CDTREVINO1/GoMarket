@@ -68,24 +68,50 @@ export default function CreateProductForm({ onSubmit }) {
   };
 
   return (
-    <form>
-      <label htmlFor="name">Name:</label>
-      <input type="text" ref={nameInputRef} />
+    <form className="mt-4">
+      <label htmlFor="name" className="block font-semibold text-gray-700">
+        Name:
+      </label>
+      <input
+        type="text"
+        ref={nameInputRef}
+        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+      />
       {errors.name && <p className="text-red-600">{errors.name}</p>}
 
-      <label htmlFor="description">Description:</label>
-      <textarea ref={descInputRef} />
+      <label
+        htmlFor="description"
+        className="block font-semibold text-gray-700"
+      >
+        Description:
+      </label>
+      <textarea
+        ref={descInputRef}
+        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+      />
       {errors.description && (
         <p className="text-red-600">{errors.description}</p>
       )}
 
-      <label htmlFor="price">Price: $</label>
-      <input type="number" ref={priceInputRef} />
+      <label htmlFor="price" className="block font-semibold text-gray-700">
+        Price: $
+      </label>
+      <input
+        type="number"
+        ref={priceInputRef}
+        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+      />
       {errors.price && <p className="text-red-600">{errors.price}</p>}
 
       {/* FIXME: This probably has to be a dropdown. */}
-      <label htmlFor="category">Category:</label>
-      <input type="text" ref={categoryInputRef} />
+      <label htmlFor="category" className="block font-semibold text-gray-700">
+        Category:
+      </label>
+      <input
+        type="text"
+        ref={categoryInputRef}
+        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+      />
       {errors.category && <p className="text-red-600">{errors.category}</p>}
 
       {/* TODO: Add a way to add product images. */}
@@ -95,7 +121,7 @@ export default function CreateProductForm({ onSubmit }) {
       </label> */}
 
       <button
-        className="ml-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50"
         type="button"
         onClick={handleSubmit}
       >

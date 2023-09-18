@@ -1,13 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { handleUpdateProduct } from "./actions";
 import { useRouter } from "next/navigation";
 
 export default function EditProductForm({ product, onSubmit }) {
   const nameInputRef = useRef();
   const descInputRef = useRef();
   const priceInputRef = useRef();
-  const categoryInputRef = useRef();
   const [errors, setErrors] = useState({});
   const router = useRouter();
 
@@ -31,10 +31,6 @@ export default function EditProductForm({ product, onSubmit }) {
       newErrors.price = "Price must be a valid number or greater than 0";
     }
 
-    if (!categoryInputRef.current.value.trim()) {
-      newErrors.category = "A category is required.";
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -43,7 +39,6 @@ export default function EditProductForm({ product, onSubmit }) {
     nameInputRef.current.value = "";
     descInputRef.current.value = "";
     priceInputRef.current.value = "";
-    categoryInputRef.current.value = "";
   };
 
   const handleSubmit = (event) => {
@@ -51,14 +46,13 @@ export default function EditProductForm({ product, onSubmit }) {
 
     if (validateForm()) {
       const updatedProduct = {
+        _id: product._id,
         name: nameInputRef.current.value,
         description: descInputRef.current.value,
         price: priceInputRef.current.value,
-        category: categoryInputRef.current.value,
       };
 
-      //   TODO: Submit product for updates
-      console.log(updatedProduct);
+      handleUpdateProduct(updatedProduct);
 
       clearFormRefs();
       router.refresh();
@@ -67,9 +61,12 @@ export default function EditProductForm({ product, onSubmit }) {
   };
 
   return (
-    <form>
-      <label htmlFor="name">Name:</label>
+    <form className="mt-4">
+      <label htmlFor="name" className="block font-semibold text-gray-700">
+        Name:
+      </label>
       <input
+        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
         type="text"
         id="name"
         ref={nameInputRef}
@@ -78,8 +75,14 @@ export default function EditProductForm({ product, onSubmit }) {
       />
       {errors.name && <p className="text-red-600">{errors.name}</p>}
 
-      <label htmlFor="description">Description:</label>
+      <label
+        htmlFor="description"
+        className="block font-semibold text-gray-700"
+      >
+        Description:
+      </label>
       <textarea
+        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
         id="description"
         ref={descInputRef}
         defaultValue={product.description}
@@ -89,8 +92,11 @@ export default function EditProductForm({ product, onSubmit }) {
         <p className="text-red-600">{errors.description}</p>
       )}
 
-      <label htmlFor="price">Price: $</label>
+      <label htmlFor="price" className="block font-semibold text-gray-700">
+        Price:
+      </label>
       <input
+        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
         type="number"
         id="price"
         ref={priceInputRef}
@@ -99,18 +105,8 @@ export default function EditProductForm({ product, onSubmit }) {
       />
       {errors.price && <p className="text-red-600">{errors.price}</p>}
 
-      <label htmlFor="category">Category:</label>
-      <input
-        type="text"
-        id="category"
-        ref={categoryInputRef}
-        defaultValue={product.category}
-        required
-      />
-      {errors.category && <p className="text-red-600">{errors.category}</p>}
-
       <button
-        className="ml-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50"
         type="button"
         onClick={handleSubmit}
       >

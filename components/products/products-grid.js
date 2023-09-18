@@ -1,9 +1,7 @@
 import Product from "./product";
 import Footer from "components/layout/footer";
 
-const ProductsGrid = (props) => {
-  const { products } = props;
-
+const ProductsGrid = ({ products }) => {
   return (
     <main>
       <ul className="grid border border-gray-200 bg-gray-50 dark:border-gray-700 sm:grid-cols-3">
