@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import placeholderPic from "public/placeholder.png";
 
 const Product = (props) => {
   const { handle, name, price, images } = props;
@@ -11,7 +12,8 @@ const Product = (props) => {
   return (
     <Link
       href={linkPath}
-      className="m-2 flex h-[400px] flex-col items-center justify-center rounded-xl border border-gray-300 bg-white p-8 text-center dark:border-gray-700 dark:bg-gray-800">
+      className="m-2 flex h-[400px] flex-col items-center justify-center rounded-xl border border-gray-300 bg-white p-8 text-center dark:border-gray-700 dark:bg-gray-800"
+    >
       <motion.div
         whileHover={{ scale: 1.05 }}
         animate={{ scale: 1 }}
@@ -19,10 +21,11 @@ const Product = (props) => {
           type: "spring",
           stiffness: 300,
           damping: 25,
-        }}>
+        }}
+      >
         <Image
           className="rounded-t-lg p-8"
-          src={images?.[0]}
+          src={images?.[0] || placeholderPic}
           alt="product image"
           height={300}
           width={300}

@@ -26,7 +26,8 @@ export default async function Header() {
             <li>
               <Link
                 href="/products"
-                className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
+                className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+              >
                 Products
               </Link>
             </li>
@@ -35,7 +36,8 @@ export default async function Header() {
                 <Link
                   href="auth"
                   className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-                  aria-current="page">
+                  aria-current="page"
+                >
                   Login
                 </Link>
               </li>
@@ -44,10 +46,21 @@ export default async function Header() {
                 <li>
                   <Link
                     href="/profile"
-                    className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
+                    className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+                  >
                     Profile
                   </Link>
                 </li>
+                {session?.user.role === "admin" && (
+                  <li>
+                    <Link
+                      href="/admin"
+                      className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+                    >
+                      Admin
+                    </Link>
+                  </li>
+                )}
                 <li>
                   <LogoutButton />
                 </li>
