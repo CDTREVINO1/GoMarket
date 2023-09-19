@@ -12,7 +12,7 @@ const Product = (props) => {
   return (
     <Link
       href={linkPath}
-      className="m-2 flex h-[400px] flex-col items-center justify-center rounded-xl border border-gray-300 bg-white p-8 text-center dark:border-gray-700 dark:bg-gray-800"
+      className="m-2 flex h-[400px] flex-col items-center justify-center border  border-gray-300 bg-white p-8 text-center hover:underline dark:border-gray-700 dark:bg-gray-800"
     >
       <motion.div
         whileHover={{ scale: 1.05 }}
