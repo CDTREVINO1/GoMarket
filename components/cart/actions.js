@@ -1,6 +1,6 @@
 "use server";
 
-import { getCart } from "lib/pos/queries/cart";
+import { getCart, doesCartExist } from "lib/pos/queries/cart";
 import {
   addToCart,
   createCart,
@@ -9,24 +9,37 @@ import {
 } from "lib/pos/mutations/cart";
 import { cookies } from "next/headers";
 
+export const setCookie = async (cartId) => {
+  const oneWeek = 7 * 24 * 60 * 60 * 1000;
+  cookies().set("cartId", cartId, { expires: Date.now() + oneWeek });
+};
+
 export const addItem = async (productId) => {
   let cartId = cookies().get("cartId")?.value;
   let cart;
 
   if (cartId) {
-    cart = await getCart(cartId);
+    const cartExists = await doesCartExist(cartId);
+    if (cartExists) {
+      cart = await getCart(cartId);
+    } else {
+      cart = await createCart();
+      cartId = cart._id;
+      setCookie(cartId);
+    }
   }
 
   if (!cartId || !productId) {
     cart = await createCart();
     cartId = cart._id;
-    cookies().set("cartId", cartId);
+    setCookie(cartId);
   }
 
   if (!productId) return new Error("Missing productId");
 
   try {
     await addToCart(cartId, { productId, quantity: 1 });
+    setCookie(cartId);
   } catch (e) {
     return new Error("Error adding item to cart", { cause: e });
   }

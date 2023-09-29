@@ -21,6 +21,11 @@ const cartSchema = new mongoose.Schema(
         },
       },
     ],
+    expireAt: {
+      type: Date,
+      default: Date.now() + 7 * 24 * 60 * 60 * 1000,
+      index: { expires: 7 * 24 * 60 * 60 * 1000 },
+    },
   },
   { timestamps: true }
 );
