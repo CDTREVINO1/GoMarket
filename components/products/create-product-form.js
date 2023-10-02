@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { handleCreateProduct } from "./actions";
 import { useRouter } from "next/navigation";
 
-export default function CreateProductForm({ onSubmit }) {
+export default function CreateProductForm({ onClose }) {
   const nameInputRef = useRef();
   const descInputRef = useRef();
   const priceInputRef = useRef();
@@ -63,7 +63,7 @@ export default function CreateProductForm({ onSubmit }) {
       clearFormRefs();
 
       router.refresh();
-      onSubmit();
+      onClose();
     }
   };
 
@@ -120,13 +120,22 @@ export default function CreateProductForm({ onSubmit }) {
         <input type="text" />
       </label> */}
 
-      <button
-        className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-        type="button"
-        onClick={handleSubmit}
-      >
-        Create Product
-      </button>
+      <div className="mt-4 text-center">
+        <button
+          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+          onClick={onClose}
+        >
+          Cancel
+        </button>
+
+        <button
+          className="ml-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          type="button"
+          onClick={handleSubmit}
+        >
+          Create Product
+        </button>
+      </div>
     </form>
   );
 }

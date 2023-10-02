@@ -34,3 +34,39 @@ a {
     background: black;
   }
 }
+.neon-glow {
+  text-shadow:
+      0 0 3px #FFB6C1,
+      0 0 6px #FFB6C1,
+      0 0 9px #FFD700;
+  animation: glowing 1.5s infinite alternate;
+}
+
+@keyframes glowing {
+  from {
+      text-shadow:
+          0 0 2px #FFB6C1,
+          0 0 4px #FFB6C1,
+          0 0 6px #FFD700;
+  }
+  to {
+      text-shadow:
+          0 0 3px #FFB6C1,
+          0 0 6px #FFB6C1,
+          0 0 9px #FFD700;
+  }
+}
+
+.flowing-gradient {
+  background-size: 100% 100%;
+  animation: flow 5s infinite alternate;  /* Increased the duration */
+}
+
+@keyframes flow {
+  0% {
+      background-position: 100% 0%;
+  }
+  100% {
+      background-position: 0% 100%;
+  }
+}

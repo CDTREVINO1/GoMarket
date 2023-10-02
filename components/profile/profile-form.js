@@ -57,7 +57,7 @@ function ProfileForm() {
   };
 
   return (
-    <section className="w-screen bg-[#E0F2FF] text-gray-900 dark:bg-gray-900">
+    <section className="text-gray-900 dark:bg-gray-900">
       <div className="mx-auto flex h-screen flex-col items-center justify-start space-y-8 px-14 pt-20 sm:md:px-8">
         <h1 className="text-2xl font-bold dark:text-gray-200">
           Change Password

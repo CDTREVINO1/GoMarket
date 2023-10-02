@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { handleUpdateProduct } from "./actions";
 import { useRouter } from "next/navigation";
 
-export default function EditProductForm({ product, onSubmit }) {
+export default function EditProductForm({ product, onClose }) {
   const nameInputRef = useRef();
   const descInputRef = useRef();
   const priceInputRef = useRef();
@@ -56,7 +56,7 @@ export default function EditProductForm({ product, onSubmit }) {
 
       clearFormRefs();
       router.refresh();
-      onSubmit();
+      onClose();
     }
   };
 
@@ -77,7 +77,7 @@ export default function EditProductForm({ product, onSubmit }) {
 
       <label
         htmlFor="description"
-        className="block font-semibold text-gray-700"
+        className="mt-4 block font-semibold text-gray-700"
       >
         Description:
       </label>
@@ -92,7 +92,7 @@ export default function EditProductForm({ product, onSubmit }) {
         <p className="text-red-600">{errors.description}</p>
       )}
 
-      <label htmlFor="price" className="block font-semibold text-gray-700">
+      <label htmlFor="price" className="mt-4 block font-semibold text-gray-700">
         Price:
       </label>
       <input
@@ -105,13 +105,22 @@ export default function EditProductForm({ product, onSubmit }) {
       />
       {errors.price && <p className="text-red-600">{errors.price}</p>}
 
-      <button
-        className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-        type="button"
-        onClick={handleSubmit}
-      >
-        Save product
-      </button>
+      <div className="mt-4 text-center">
+        <button
+          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+          onClick={onClose}
+        >
+          Cancel
+        </button>
+
+        <button
+          className="ml-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          type="button"
+          onClick={handleSubmit}
+        >
+          Save product
+        </button>
+      </div>
     </form>
   );
 }

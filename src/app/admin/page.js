@@ -15,7 +15,6 @@ export default async function AdminPage() {
   return (
     <main>
       <section className="ml-3 h-screen w-screen bg-slate-300">
-        <h1>Products</h1>
         <CreateProductModal />
         <ProductsList products={products} />
       </section>

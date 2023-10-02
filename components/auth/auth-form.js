@@ -93,7 +93,7 @@ function AuthForm() {
   };
 
   return (
-    <section className=" w-screen bg-[#E0F2FF] text-black dark:bg-slate-800">
+    <section className="w-screen bg-slate-100 text-black dark:bg-slate-800">
       <div className="sm:md mx-auto mt-20 flex h-screen flex-col items-center justify-center px-6">
         <div className="mb-auto w-full rounded-lg bg-white shadow-xl dark:bg-slate-400 sm:md:max-w-sm md:mt-0 xl:p-0">
           <div className="space-y-4 p-6 sm:p-8 md:space-y-6">

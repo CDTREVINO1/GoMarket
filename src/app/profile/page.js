@@ -14,7 +14,7 @@ export default async function ProfilePage() {
 
   return (
     <main>
-      <section className="h-screen w-screen bg-slate-300">
+      <section className="w-screen h-screen bg-slate-300">
         <ProfileForm />
         {orders ? (
           <OrderList orders={orders} />

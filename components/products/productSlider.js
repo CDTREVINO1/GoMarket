@@ -45,7 +45,7 @@ const Slider = ({ products }) => {
 
   return (
     <div
-      className="relative w-full overflow-hidden"
+      className="relative mb-6 w-full overflow-hidden"
       onMouseEnter={() => setAutoSlide(false)}
       onMouseLeave={() => setAutoSlide(true)}>
       <div

@@ -11,7 +11,7 @@ export default async function Header() {
   const session = await getServerSession(authOptions);
 
   return (
-    <nav className="sticky top-0 z-10 bg-white dark:border-gray-700 dark:bg-gray-800">
+    <nav className="sticky top-0 z-10 border-b bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
       <div className="mx-auto flex items-center justify-between py-4 md:py-0">
         <Link href="/" className="flex items-center">
           <span className="align-left ml-2 self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
@@ -26,8 +26,7 @@ export default async function Header() {
             <li>
               <Link
                 href="/products"
-                className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-              >
+                className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
                 Products
               </Link>
             </li>
@@ -36,8 +35,7 @@ export default async function Header() {
                 <Link
                   href="auth"
                   className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-                  aria-current="page"
-                >
+                  aria-current="page">
                   Login
                 </Link>
               </li>
@@ -46,8 +44,7 @@ export default async function Header() {
                 <li>
                   <Link
                     href="/profile"
-                    className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-                  >
+                    className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
                     Profile
                   </Link>
                 </li>
@@ -55,8 +52,7 @@ export default async function Header() {
                   <li>
                     <Link
                       href="/admin"
-                      className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-                    >
+                      className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
                       Admin
                     </Link>
                   </li>

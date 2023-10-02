@@ -29,7 +29,7 @@ export function AddToCart({ productId, availableForSale }) {
         });
       }}
       className={clsx(
-        "mx-auto mb-20 mt-20 flex w-full max-w-lg transform-gpu items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 px-10 py-3 text-lg font-semibold text-white shadow-md transition-transform hover:scale-105 dark:bg-gray-800",
+        "mx-auto flex w-full max-w-lg transform-gpu items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 px-10 py-3 text-lg font-semibold text-white shadow-md transition-transform hover:scale-105 dark:bg-gray-800",
         {
           "cursor-not-allowed opacity-60": !availableForSale || isPending,
         }
