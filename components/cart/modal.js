@@ -2,6 +2,7 @@
 
 import { Dialog, Transition } from "@headlessui/react";
 import ShoppingBagIcon from "components/icons/shopping-bag";
+import Price from "components/price";
 import OpenCart from "./open-cart";
 import Image from "next/image";
 import Link from "next/link";
@@ -130,12 +131,18 @@ export default function CartModal({ cart }) {
                                 src={item.product.images[0]}
                               />
                             </div>
+
                             <div className="flex flex-1 flex-col text-base">
                               <span className="font-semibold">
                                 {item.product.name}
                               </span>
                             </div>
+                            <Price
+                              className="flex justify-end space-y-2 text-right text-sm"
+                              amount={item.product.price * item.quantity}
+                            />
                           </Link>
+
                           <div className="flex h-9 flex-row">
                             <DeleteItemButton item={item} />
                             <p className="ml-2 flex w-full items-center justify-center border dark:border-gray-700">
@@ -153,11 +160,11 @@ export default function CartModal({ cart }) {
                   <div className="border-t border-gray-200 pt-2 text-sm text-black dark:text-white">
                     <div className="mb-2 flex items-center justify-between">
                       <p>Subtotal</p>
-                      {/* TODO: Subtotal go here */}
+                      <Price className="text-right" amount={cart?.totalPrice} />
                     </div>
                     <div className="mb-2 flex items-center justify-between">
                       <p>Taxes</p>
-                      {/* TODO: Taxes go here */}
+                      <p className="text-right">Calculated at checkout</p>
                     </div>
                     <div className="mb-2 flex items-center justify-between border-b border-gray-200 pb-2">
                       <p>Shipping</p>
@@ -165,10 +172,15 @@ export default function CartModal({ cart }) {
                     </div>
                     <div className="mb-2 flex items-center justify-between font-bold">
                       <p>Total</p>
-                      {/* TODO: Price goes here */}
+                      <Price className="text-right" amount={cart?.totalPrice} />
                     </div>
                   </div>
-                  <button onClick={processCheckout}>Proceed to checkout</button>
+                  <button
+                    className="block w-full rounded-full bg-blue-600 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
+                    onClick={processCheckout}
+                  >
+                    Proceed to checkout
+                  </button>
                 </div>
               )}
             </Dialog.Panel>
