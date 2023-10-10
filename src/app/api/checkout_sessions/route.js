@@ -15,6 +15,7 @@ export async function POST(request) {
       mode: "payment",
       success_url: `${process.env.SERVER_URL}/?success=true`,
       cancel_url: `${process.env.SERVER_URL}/?canceled=true`,
+      automatic_tax: { enabled: true },
       client_reference_id: cart._id,
       line_items: cart.items.map((item) => {
         return {
