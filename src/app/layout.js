@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         <Header />
         <Suspense>
-          <main className="flex h-screen flex-col">{children}</main>
+          <main className="flex flex-col w-screen h-screen">{children}</main>
         </Suspense>
       </body>
     </html>

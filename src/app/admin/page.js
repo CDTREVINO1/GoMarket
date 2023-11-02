@@ -13,11 +13,9 @@ export default async function AdminPage() {
   const products = await getProductsByAvailability();
 
   return (
-    <main>
-      <section className="ml-3 h-screen w-screen bg-slate-300">
-        <CreateProductModal />
-        <ProductsList products={products} />
-      </section>
+    <main className=" bg-slate-300 dark:bg-gray-600">
+      <CreateProductModal />
+      <ProductsList products={products} />
     </main>
   );
 }

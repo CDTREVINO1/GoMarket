@@ -64,8 +64,8 @@ const navigation = [
 
 export default function Footer() {
   return (
-    <footer className="mt-auto border-t bg-white dark:bg-gray-800">
-      <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
+    <footer className="mt-auto bg-white border-t dark:bg-gray-800">
+      <div className="px-6 py-12 mx-auto max-w-7xl md:flex md:items-center md:justify-between lg:px-8">
         <div className="flex justify-center space-x-6 md:order-2">
           {navigation.map((item) => (
             <a
@@ -73,13 +73,14 @@ export default function Footer() {
               href={item.href}
               className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
               <span className="sr-only">{item.name}</span>
-              <item.icon className="h-6 w-6" aria-hidden="true" />
+              <item.icon className="w-6 h-6" aria-hidden="true" />
             </a>
           ))}
         </div>
         <div className="mt-8 md:order-1 md:mt-0">
-          <p className="text-center text-xs leading-5 text-gray-500 dark:text-gray-400">
-            &copy; 2020 Your Company, Inc. All rights reserved.
+          <p className="text-xs leading-5 text-center text-gray-500 dark:text-gray-400">
+            &copy; {new Date().getFullYear()} Your Company, Inc. All rights
+            reserved.
           </p>
         </div>
       </div>

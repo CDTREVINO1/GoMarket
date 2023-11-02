@@ -11,10 +11,10 @@ export default async function Header() {
   const session = await getServerSession(authOptions);
 
   return (
-    <nav className="sticky top-0 z-10 border-b bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
-      <div className="mx-auto flex items-center justify-between py-4 md:py-0">
+    <nav className="sticky top-0 z-10 w-screen bg-white border-b shadow-md dark:border-gray-700 dark:bg-gray-800">
+      <div className="flex items-center justify-between py-4 mx-auto md:py-0">
         <Link href="/" className="flex items-center">
-          <span className="align-left ml-2 self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
+          <span className="self-center ml-6 text-2xl font-semibold align-left whitespace-nowrap dark:text-white">
             Online-Store
           </span>
         </Link>
@@ -22,11 +22,11 @@ export default async function Header() {
           <HamburgerDropdown />
         </div>
         <div className="hidden w-full md:block md:w-auto" id="navbar-hamburger">
-          <ul className="mt-4 flex flex-col space-y-2 rounded-lg font-medium dark:border-gray-700 dark:bg-gray-800 md:flex-row md:space-x-8 md:space-y-0">
+          <ul className="flex flex-col mt-4 space-y-2 font-medium rounded-lg dark:border-gray-700 dark:bg-gray-800 md:flex-row md:space-x-8 md:space-y-0">
             <li>
               <Link
                 href="/products"
-                className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
+                className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
                 Products
               </Link>
             </li>
@@ -34,7 +34,7 @@ export default async function Header() {
               <li>
                 <Link
                   href="auth"
-                  className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+                  className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
                   aria-current="page">
                   Login
                 </Link>
@@ -44,7 +44,7 @@ export default async function Header() {
                 <li>
                   <Link
                     href="/profile"
-                    className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
+                    className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
                     Profile
                   </Link>
                 </li>
@@ -52,7 +52,7 @@ export default async function Header() {
                   <li>
                     <Link
                       href="/admin"
-                      className="block rounded px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
+                      className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
                       Admin
                     </Link>
                   </li>

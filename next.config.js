@@ -7,6 +7,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "i.dummyjson.com",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
   experimental: {

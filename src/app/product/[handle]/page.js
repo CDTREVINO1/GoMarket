@@ -4,7 +4,8 @@ import { getProduct } from "lib/pos/queries/product";
 import Footer from "components/layout/footer";
 import Breadcrumb from "components/layout/breadcrumbs";
 import Divider from "components/layout/divider";
-import ProductImage from "./productImage";
+import ProductImage from "components/products/productImage";
+import SuggestedProducts from "components/products/suggested-products";
 
 export default async function ProductPage({ params }) {
   const product = await getProduct(params.handle);
@@ -27,15 +28,12 @@ export default async function ProductPage({ params }) {
             <ProductImage product={product} />
           </div>
 
-          {/* Product Details */}
           <div className="mx-4 flex max-w-lg flex-col justify-between bg-gray-100 p-6 md:w-1/2">
-            {/* Product Title and Brand */}
             <div>
               <h1 className="ml-2 mt-8 text-4xl font-bold tracking-tight text-gray-900 ">
                 {product.name}
               </h1>
 
-              {/* Product Price */}
               <div className="mt-3">
                 <h2 className="sr-only">Product information</h2>
                 <p className="mb-4 ml-2 mt-8 text-2xl font-thin tracking-tight text-gray-900">
@@ -45,13 +43,11 @@ export default async function ProductPage({ params }) {
 
               <Divider />
 
-              {/* Product Description */}
               <p className="ml-2 mt-8 text-lg text-gray-600">
                 {product.description}
               </p>
             </div>
 
-            {/* Add to Cart */}
             <div className="mt-auto">
               <AddToCart
                 availableForSale={product.availability}
@@ -60,6 +56,9 @@ export default async function ProductPage({ params }) {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <SuggestedProducts />
       </div>
       <Footer />
     </>

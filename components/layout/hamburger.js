@@ -41,12 +41,12 @@ function HamburgerDropdown({ sessionType }) {
   return (
     <div>
       <div className="flex items-center">
-        <CartModal className="mr-2 flex text-gray-600 hover:text-gray-900 focus:text-gray-900 focus:outline-none" />
+        <CartModal className="flex mr-2 text-gray-600 hover:text-gray-900 focus:text-gray-900 focus:outline-none" />
         <button
-          className="relative mb-3 mr-2 h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors dark:border-neutral-700 dark:text-white"
+          className="relative items-center justify-center mb-3 mr-2 text-black transition-colors border rounded-md h-11 w-11 border-neutral-200 dark:border-neutral-700 dark:text-white"
           onClick={toggleDropdown}>
           <svg
-            className="m-auto h-6 w-6"
+            className="w-6 h-6 m-auto"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -60,7 +60,7 @@ function HamburgerDropdown({ sessionType }) {
 
       {isOpen && (
         <div
-          className="absolute left-0 w-full bg-white shadow-lg"
+          className="absolute left-0 w-full bg-white shadow-lg dark:bg-gray-800"
           ref={dropdownRef}>
           <ul className="py-2">
             <li>

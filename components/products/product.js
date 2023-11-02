@@ -22,13 +22,13 @@ const Product = (props) => {
           damping: 25,
         }}>
         <Image
-          className="rounded-t-lg p-8"
-          src={images?.[0] || placeholderPic}
+          className="p-8 rounded-t-lg"
+          src={images?.[0].url || placeholderPic}
           alt="product image"
           height={300}
           width={300}
         />
-        <blockquote className="mx-auto mb-4 max-w-2xl text-black dark:text-gray-400 lg:mb-8">
+        <blockquote className="max-w-2xl mx-auto mb-4 text-black dark:text-gray-400 lg:mb-8">
           <h3 className="text-xl">{name}</h3>
           <h1>${price}</h1>
         </blockquote>

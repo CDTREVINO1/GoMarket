@@ -14,35 +14,31 @@ export default function ArchiveProductModal({ productId, isAvailable }) {
 
   return (
     <>
-      <button onClick={openModal}>
-        <a
-          href="#_"
-          className="group relative inline-flex items-center justify-start overflow-hidden rounded-xl bg-red-500 px-5 py-3 font-medium transition-all">
-          <span className="absolute right-0 top-0 inline-block h-4 w-4 rounded bg-red-700 transition-all duration-500 ease-in-out group-hover:-mr-4 group-hover:-mt-4">
-            <span className="absolute right-0 top-0 h-5 w-5 -translate-y-1/2 translate-x-1/2 rotate-45 bg-white"></span>
-          </span>
-          <span className="group-hover:translate-x absolute bottom-0 left-0 h-full w-full -translate-x-full translate-y-full rounded-2xl bg-red-600 transition-all delay-200 duration-500 ease-in-out group-hover:mb-12"></span>
-          <span className="relative w-full text-left text-white transition-colors duration-200 ease-in-out group-hover:text-white">
-            {conditionText}
-          </span>
-        </a>
+      <button
+        onClick={openModal}
+        className="px-4 py-2 mt-4 text-white transition duration-300 bg-red-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:hover:bg-blue-700 dark:focus:ring-blue-500 dark:focus:ring-opacity-50">
+        {conditionText}
       </button>
-      <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
-        <div className="fixed inset-0 bg-black opacity-30" aria-hidden="true" />
 
-        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-          <Dialog.Panel className="max-w-lg rounded-lg bg-white p-4 shadow-lg ">
-            <Dialog.Title className="text-center text-xl font-bold">
+      <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
+        <div
+          className="fixed inset-0 bg-black opacity-30 dark:bg-black dark:opacity-50"
+          aria-hidden="true"
+        />
+
+        <div className="fixed inset-0 flex items-center justify-center w-screen p-4">
+          <Dialog.Panel className="max-w-lg p-4 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+            <Dialog.Title className="text-xl font-bold text-center dark:text-gray-200">
               {conditionText} Product
             </Dialog.Title>
 
             {isAvailable ? (
-              <p>
+              <p className="dark:text-gray-300">
                 Archiving will hide this product from new purchases. Are you
                 sure you want to archive this product?
               </p>
             ) : (
-              <p>
+              <p className="dark:text-gray-300">
                 Unarchiving will reveal this product for new purchases. Are you
                 sure you want to unarchive this product?
               </p>
@@ -50,13 +46,13 @@ export default function ArchiveProductModal({ productId, isAvailable }) {
 
             <div className="mt-4 text-center">
               <button
-                className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+                className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800"
                 onClick={closeModal}>
                 Cancel
               </button>
 
               <button
-                className="ml-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                className="px-4 py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
                 onClick={() => {
                   handleArchiveProduct(productId, isAvailable);
                   router.refresh();

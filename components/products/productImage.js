@@ -1,16 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 function ProductImage({ product }) {
-  const [selectedImage, setSelectedImage] = useState(product.images[0]);
+  const [selectedImage, setSelectedImage] = useState(product.images[0].url);
 
   const handleImageClick = (image) => {
-    setSelectedImage(image);
+    setSelectedImage(image.url);
   };
 
   return (
-    <div className="m-auto max-w-3xl p-2 md:flex">
+    <div className="max-w-3xl p-2 m-auto md:flex">
       <div className="w-full">
         <div className="">
           {/* Main Image */}
@@ -20,7 +20,7 @@ function ProductImage({ product }) {
               alt={`Picture of product`}
               height={500}
               width={500}
-              className="w-full rounded-lg object-center"
+              className="object-center w-full rounded-lg"
             />
           </div>
           {/* Thumbnail Images */}
@@ -29,9 +29,10 @@ function ProductImage({ product }) {
               <div
                 key={index}
                 className="mr-2 cursor-pointer"
-                onClick={() => handleImageClick(image)}>
+                onClick={() => handleImageClick(image)}
+              >
                 <Image
-                  src={image}
+                  src={image.url}
                   alt={`Thumbnail of product - ${index}`}
                   height={100}
                   width={100}

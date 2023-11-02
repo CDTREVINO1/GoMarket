@@ -13,15 +13,22 @@ export default async function ProfilePage() {
   const orders = await fetchOrders(session?.user.id);
 
   return (
-    <main>
-      <section className="w-screen h-screen bg-slate-300">
+    <>
+      <section className="w-screen bg-white dark:bg-gray-600">
         <ProfileForm />
-        {orders ? (
-          <OrderList orders={orders} />
-        ) : (
-          <h1>No Order History Yet.</h1>
-        )}
+        <div className="h-screen pb-8 bg-gray-50 dark:bg-gray-600">
+          <h1 className="pt-10 pb-8 text-2xl font-bold text-center text-gray-900 dark:text-white md:text-3xl">
+            Order history
+          </h1>
+          {orders.length > 0 ? (
+            <OrderList orders={orders} />
+          ) : (
+            <h1 className="text-gray-900 dark:text-white">
+              No Order History Yet.
+            </h1>
+          )}
+        </div>
       </section>
-    </main>
+    </>
   );
 }

@@ -61,12 +61,14 @@ export default function EditProductForm({ product, onClose }) {
   };
 
   return (
-    <form className="mt-4">
-      <label htmlFor="name" className="block font-semibold text-gray-700">
+    <form className="mt-4 dark:text-gray-300">
+      <label
+        htmlFor="name"
+        className="block font-semibold text-gray-700 dark:text-gray-300">
         Name:
       </label>
       <input
-        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800"
         type="text"
         id="name"
         ref={nameInputRef}
@@ -77,12 +79,11 @@ export default function EditProductForm({ product, onClose }) {
 
       <label
         htmlFor="description"
-        className="mt-4 block font-semibold text-gray-700"
-      >
+        className="block mt-4 font-semibold text-gray-700 dark:text-gray-300">
         Description:
       </label>
       <textarea
-        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800"
         id="description"
         ref={descInputRef}
         defaultValue={product.description}
@@ -92,11 +93,13 @@ export default function EditProductForm({ product, onClose }) {
         <p className="text-red-600">{errors.description}</p>
       )}
 
-      <label htmlFor="price" className="mt-4 block font-semibold text-gray-700">
+      <label
+        htmlFor="price"
+        className="block mt-4 font-semibold text-gray-700 dark:text-gray-300">
         Price:
       </label>
       <input
-        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800"
         type="number"
         id="price"
         ref={priceInputRef}
@@ -107,17 +110,15 @@ export default function EditProductForm({ product, onClose }) {
 
       <div className="mt-4 text-center">
         <button
-          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-          onClick={onClose}
-        >
+          className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 dark:bg-red-700"
+          onClick={onClose}>
           Cancel
         </button>
 
         <button
-          className="ml-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          className="px-4 py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-600 dark:bg-blue-700"
           type="button"
-          onClick={handleSubmit}
-        >
+          onClick={handleSubmit}>
           Save product
         </button>
       </div>

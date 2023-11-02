@@ -1,24 +1,25 @@
 import Footer from "components/layout/footer";
-import Link from "next/link";
-import products from "lib/seeds/products";
 import Slider from "components/products/productSlider";
 import ContactUs from "components/layout/contactUs";
 import HeroSection from "components/layout/herosection";
+import { getProductsByAvailability } from "lib/pos/queries/product";
 
 export const metadata = {
   title: "Online Store",
 };
 
-export default function Page() {
+export default async function Page() {
+  const products = await getProductsByAvailability("available");
+
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex flex-col w-screen min-h-screen">
       <main className="flex-grow ">
         <HeroSection />
-        <div className="mt-6">
-          <h2 className="mb-2 text-center text-3xl font-extrabold text-gray-800 dark:text-gray-300 md:text-4xl lg:text-5xl">
+        <div className=" dark:bg-gray-600">
+          <h2 className="pt-4 text-3xl font-extrabold text-center text-gray-800 dark:text-white md:text-4xl lg:text-5xl">
             Featured Products
           </h2>
-          <div className="mt-4 flex flex-col md:flex-row md:flex-wrap md:justify-center md:space-x-4">
+          <div className="flex flex-col mt-4 md:flex-row md:flex-wrap md:justify-center md:space-x-4">
             <Slider products={products} />
           </div>
         </div>

@@ -69,70 +69,67 @@ export default function CreateProductForm({ onClose }) {
 
   return (
     <form className="mt-4">
-      <label htmlFor="name" className="block font-semibold text-gray-700">
+      <label
+        htmlFor="name"
+        className="block font-semibold text-gray-700 dark:text-gray-200">
         Name:
       </label>
       <input
         type="text"
         ref={nameInputRef}
-        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
       />
       {errors.name && <p className="text-red-600">{errors.name}</p>}
 
       <label
         htmlFor="description"
-        className="block font-semibold text-gray-700"
-      >
+        className="block font-semibold text-gray-700 dark:text-gray-200">
         Description:
       </label>
       <textarea
         ref={descInputRef}
-        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
       />
       {errors.description && (
         <p className="text-red-600">{errors.description}</p>
       )}
 
-      <label htmlFor="price" className="block font-semibold text-gray-700">
+      <label
+        htmlFor="price"
+        className="block font-semibold text-gray-700 dark:text-gray-200">
         Price: $
       </label>
       <input
         type="number"
         ref={priceInputRef}
-        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
       />
       {errors.price && <p className="text-red-600">{errors.price}</p>}
 
       {/* FIXME: This probably has to be a dropdown. */}
-      <label htmlFor="category" className="block font-semibold text-gray-700">
+      <label
+        htmlFor="category"
+        className="block font-semibold text-gray-700 dark:text-gray-200">
         Category:
       </label>
       <input
         type="text"
         ref={categoryInputRef}
-        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
       />
       {errors.category && <p className="text-red-600">{errors.category}</p>}
 
-      {/* TODO: Add a way to add product images. */}
-      {/* <label>
-        Images:
-        <input type="text" />
-      </label> */}
-
       <div className="mt-4 text-center">
         <button
-          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-          onClick={onClose}
-        >
+          className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 dark:bg-red-700"
+          onClick={onClose}>
           Cancel
         </button>
 
         <button
-          className="ml-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          className="px-4 py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-600 dark:bg-blue-700"
           type="button"
-          onClick={handleSubmit}
-        >
+          onClick={handleSubmit}>
           Create Product
         </button>
       </div>
