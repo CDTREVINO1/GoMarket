@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
+      default: "",
     },
     price: {
       type: Number,
@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      required: true,
+      default: "",
     },
     images: {
       type: [

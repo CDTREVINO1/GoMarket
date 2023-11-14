@@ -1,135 +1,285 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { handleCreateProduct } from "./actions";
+import Image from "next/image";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useDropzone } from "react-dropzone";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { handleCreateProduct, getSignature, saveToDatabase } from "./actions";
+import { ProductSchema } from "lib/schema";
 
 export default function CreateProductForm({ onClose }) {
-  const nameInputRef = useRef();
-  const descInputRef = useRef();
-  const priceInputRef = useRef();
-  const categoryInputRef = useRef();
-  const [errors, setErrors] = useState({});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(ProductSchema) });
+  const [files, setFiles] = useState([]);
+  const [rejected, setRejected] = useState([]);
   const router = useRouter();
 
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!nameInputRef.current.value.trim()) {
-      newErrors.name = "A product name is required.";
+  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+    if (acceptedFiles?.length) {
+      setFiles((previousFiles) => [
+        ...previousFiles,
+        ...acceptedFiles.map((file) =>
+          Object.assign(file, { preview: URL.createObjectURL(file) })
+        ),
+      ]);
     }
 
-    if (!descInputRef.current.value.trim()) {
-      newErrors.description = "A product description is required";
+    if (rejectedFiles?.length) {
+      setRejected((previousFiles) => [...previousFiles, ...rejectedFiles]);
     }
+  }, []);
 
-    if (!priceInputRef.current.value.trim()) {
-      newErrors.price = "Price is required";
-    } else if (
-      isNaN(priceInputRef.current.value) ||
-      priceInputRef.current.value <= 0
-    ) {
-      newErrors.price = "Price must be a valid number or greater than 0";
-    }
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: {
+      "image/*": [],
+    },
+    maxSize: 1024 * 1000,
+    maxFiles: 10,
+    onDrop,
+  });
 
-    if (!categoryInputRef.current.value.trim()) {
-      newErrors.category = "A category is required.";
-    }
+  useEffect(() => {
+    // Revoke the data uris to avoid memory leaks
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, [files]);
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const removeFile = (name) => {
+    setFiles((files) => files.filter((file) => file.name !== name));
   };
 
-  const clearFormRefs = () => {
-    nameInputRef.current.value = "";
-    descInputRef.current.value = "";
-    priceInputRef.current.value = "";
-    categoryInputRef.current.value = "";
+  const removeAll = () => {
+    setFiles([]);
+    setRejected([]);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const removeRejected = (name) => {
+    setRejected((files) => files.filter(({ file }) => file.name !== name));
+  };
 
-    if (validateForm()) {
-      const newProduct = {
-        name: nameInputRef.current.value,
-        description: descInputRef.current.value,
-        price: priceInputRef.current.value,
-        category: categoryInputRef.current.value,
-      };
+  async function uploadImages() {
+    // get a signature using server action
+    const { timestamp, signature } = await getSignature();
 
-      handleCreateProduct(newProduct);
+    // upload to cloudinary using the signature
+    const formData = new FormData();
+    let images = [];
 
-      clearFormRefs();
+    for (let file of files) {
+      formData.append("file", file);
+      formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_KEY);
+      formData.append("signature", signature);
+      formData.append("timestamp", timestamp);
+      formData.append("folder", "next");
 
-      router.refresh();
-      onClose();
+      const endpoint = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL;
+      const data = await fetch(endpoint, {
+        method: "POST",
+        body: formData,
+      }).then((res) => res.json());
+      const image = { public_id: data.public_id, url: data.secure_url };
+      images.push(image);
+
+      // write to database using server actions
+      await saveToDatabase({
+        version: data?.version,
+        signature: data?.signature,
+        public_id: data?.public_id,
+      });
     }
+    return images;
+  }
+
+  const onSubmit = async (data) => {
+    const newProduct = { ...data };
+
+    if (files.length > 0) {
+      const images = await uploadImages();
+      newProduct.images = images;
+    }
+
+    await handleCreateProduct(newProduct);
+    router.refresh();
+    onClose();
   };
 
   return (
-    <form className="mt-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
       <label
         htmlFor="name"
-        className="block font-semibold text-gray-700 dark:text-gray-200">
+        className="block font-semibold text-gray-700 dark:text-gray-200"
+      >
         Name:
       </label>
       <input
-        type="text"
-        ref={nameInputRef}
         className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
+        type="text"
+        id="name"
+        {...register("name")}
       />
-      {errors.name && <p className="text-red-600">{errors.name}</p>}
+      {errors.name?.message && (
+        <p className="text-red-600">{errors.name.message}</p>
+      )}
 
       <label
         htmlFor="description"
-        className="block font-semibold text-gray-700 dark:text-gray-200">
+        className="block font-semibold text-gray-700 dark:text-gray-200"
+      >
         Description:
       </label>
       <textarea
-        ref={descInputRef}
         className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
+        id="description"
+        {...register("description")}
       />
-      {errors.description && (
-        <p className="text-red-600">{errors.description}</p>
+      {errors.description?.message && (
+        <p className="text-red-600">{errors.description.message}</p>
       )}
 
       <label
         htmlFor="price"
-        className="block font-semibold text-gray-700 dark:text-gray-200">
+        className="block font-semibold text-gray-700 dark:text-gray-200"
+      >
         Price: $
       </label>
       <input
-        type="number"
-        ref={priceInputRef}
         className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
+        type="number"
+        id="price"
+        step="any"
+        {...register("price", { valueAsNumber: true })}
       />
-      {errors.price && <p className="text-red-600">{errors.price}</p>}
+      {errors.price?.message && (
+        <p className="text-red-600">{errors.price.message}</p>
+      )}
 
       {/* FIXME: This probably has to be a dropdown. */}
       <label
         htmlFor="category"
-        className="block font-semibold text-gray-700 dark:text-gray-200">
+        className="block font-semibold text-gray-700 dark:text-gray-200"
+      >
         Category:
       </label>
       <input
-        type="text"
-        ref={categoryInputRef}
         className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
+        type="text"
+        id="category"
+        {...register("category")}
       />
-      {errors.category && <p className="text-red-600">{errors.category}</p>}
+      {errors.category?.message && (
+        <p className="text-red-600">{errors.category.message}</p>
+      )}
+
+      {/* Add images */}
+      <label htmlFor="images" className="block font-semibold text-gray-700">
+        Images (Optional):
+      </label>
+      <div
+        {...getRootProps({
+          className: "dropzone",
+        })}
+      >
+        <input {...getInputProps({ name: "file" })} />
+        <div className="flex flex-col items-center justify-center gap-4">
+          <ArrowUpTrayIcon className="h-5 w-5 fill-current" />
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>Drag & drop files here, or click to select files</p>
+          )}
+        </div>
+      </div>
+
+      {/* Preview */}
+      <section className="mt-10">
+        <div className="flex gap-4">
+          <h2 className="title text-3xl font-semibold">Preview</h2>
+          <button
+            type="button"
+            onClick={removeAll}
+            className="mt-1 rounded-md border border-rose-400 px-3 text-[12px] font-bold uppercase tracking-wider text-stone-500 transition-colors hover:bg-rose-400 hover:text-white"
+          >
+            Remove all files
+          </button>
+        </div>
+
+        {/* Accepted files */}
+        <h3 className="title mt-10 border-b pb-3 text-lg font-semibold text-stone-600">
+          Accepted Files
+        </h3>
+        <ul className="mt-6 grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+          {files.map((file) => (
+            <li key={file.name} className="relative h-32 rounded-md shadow-lg">
+              <Image
+                src={file.preview}
+                alt={file.name}
+                width={100}
+                height={100}
+                onLoad={() => {
+                  URL.revokeObjectURL(file.preview);
+                }}
+                className="h-full w-full rounded-md object-contain"
+              />
+              <button
+                type="button"
+                className="absolute -right-3 -top-3 flex h-7 w-7 items-center justify-center rounded-full border border-rose-400 bg-rose-400 transition-colors hover:bg-white"
+                onClick={() => removeFile(file.name)}
+              >
+                <XMarkIcon className="h-5 w-5 fill-white transition-colors hover:fill-rose-400" />
+              </button>
+              <p className="mt-2 text-[12px] font-medium text-stone-500">
+                {file.name}
+              </p>
+            </li>
+          ))}
+        </ul>
+
+        {/* Rejected Files */}
+        <h3 className="title mt-24 border-b pb-3 text-lg font-semibold text-stone-600">
+          Rejected Files
+        </h3>
+        <ul className="mt-6 flex flex-col">
+          {rejected.map(({ file, errors }) => (
+            <li key={file.name} className="flex items-start justify-between">
+              <div>
+                <p className="mt-2 text-sm font-medium text-stone-500">
+                  {file.name}
+                </p>
+                <ul className="text-[12px] text-red-400">
+                  {errors.map((error) => (
+                    <li key={error.code}>{error.message}</li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                type="button"
+                className="mt-1 rounded-md border border-rose-400 px-3 py-1 text-[12px] font-bold uppercase tracking-wider text-stone-500 transition-colors hover:bg-rose-400 hover:text-white"
+                onClick={() => removeRejected(file.name)}
+              >
+                remove
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <div className="mt-4 text-center">
         <button
           className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 dark:bg-red-700"
-          onClick={onClose}>
+          onClick={onClose}
+        >
           Cancel
         </button>
 
         <button
           className="px-4 py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-600 dark:bg-blue-700"
-          type="button"
-          onClick={handleSubmit}>
+          type="submit"
+        >
           Create Product
         </button>
       </div>

@@ -1,12 +1,6 @@
 "use client";
 import { Fragment, useState } from "react";
-import {
-  Dialog,
-  Disclosure,
-  Menu,
-  Popover,
-  Transition,
-} from "@headlessui/react";
+import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
@@ -47,7 +41,8 @@ export default function CategorySection({ products }) {
             enterTo="opacity-100"
             leave="transition-opacity ease-linear duration-300"
             leaveFrom="opacity-100"
-            leaveTo="opacity-0">
+            leaveTo="opacity-0"
+          >
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
 
@@ -59,7 +54,8 @@ export default function CategorySection({ products }) {
               enterTo="translate-x-0"
               leave="transition ease-in-out duration-300 transform"
               leaveFrom="translate-x-0"
-              leaveTo="translate-x-full">
+              leaveTo="translate-x-full"
+            >
               <Dialog.Panel className="relative flex flex-col w-full h-full max-w-xs py-4 pb-6 ml-auto overflow-y-auto bg-white shadow-xl dark:bg-gray-900">
                 <div className="flex items-center justify-between px-4">
                   <h2 className="text-lg font-medium text-gray-900 dark:text-gray-200">
@@ -68,7 +64,8 @@ export default function CategorySection({ products }) {
                   <button
                     type="button"
                     className="flex items-center justify-center w-10 h-10 p-2 -mr-2 text-gray-400 bg-white rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-700"
-                    onClick={() => setOpen(false)}>
+                    onClick={() => setOpen(false)}
+                  >
                     <span className="sr-only">Close menu</span>
                     <XMarkIcon className="w-6 h-6" aria-hidden="true" />
                   </button>
@@ -79,7 +76,8 @@ export default function CategorySection({ products }) {
                     <Disclosure
                       as="div"
                       key={section.name}
-                      className="px-4 py-6 border-t border-gray-200">
+                      className="px-4 py-6 border-t border-gray-200"
+                    >
                       {({ open }) => (
                         <>
                           <h3 className="flow-root -mx-2 -my-3">
@@ -103,7 +101,8 @@ export default function CategorySection({ products }) {
                               {section.options.map((option, optionIdx) => (
                                 <div
                                   key={option.value}
-                                  className="flex items-center">
+                                  className="flex items-center"
+                                >
                                   <input
                                     id={`filter-mobile-${section.id}-${optionIdx}`}
                                     name={`${section.id}[]`}
@@ -113,7 +112,8 @@ export default function CategorySection({ products }) {
                                   />
                                   <label
                                     htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                    className="ml-3 text-sm text-gray-500 dark:text-gray-300">
+                                    className="ml-3 text-sm text-gray-500 dark:text-gray-300"
+                                  >
                                     {option.label}
                                   </label>
                                 </div>
@@ -143,7 +143,8 @@ export default function CategorySection({ products }) {
 
         <section
           aria-labelledby="filter-heading"
-          className="flex items-center justify-end py-6 border-t border-gray-200 dark:border-gray-700">
+          className="flex items-center justify-end py-6 border-t border-gray-200 dark:border-gray-700"
+        >
           <h2 id="filter-heading" className="sr-only">
             Product filters
           </h2>
@@ -152,7 +153,8 @@ export default function CategorySection({ products }) {
             <button
               type="button"
               className="inline-block text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 sm:hidden"
-              onClick={() => setOpen(true)}>
+              onClick={() => setOpen(true)}
+            >
               Filters
             </button>
 
@@ -162,7 +164,8 @@ export default function CategorySection({ products }) {
                   as="div"
                   key={section.name}
                   id={`desktop-menu-${sectionIdx}`}
-                  className="relative inline-block text-left">
+                  className="relative inline-block text-left"
+                >
                   <div>
                     <Popover.Button className="inline-flex items-center justify-center text-sm font-medium text-gray-700 group hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100">
                       <span>{section.name}</span>
@@ -185,7 +188,8 @@ export default function CategorySection({ products }) {
                     enterTo="transform opacity-100 scale-100"
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95">
+                    leaveTo="transform opacity-0 scale-95"
+                  >
                     <Popover.Panel className="absolute right-0 z-10 p-4 mt-2 origin-top-right bg-white rounded-md shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-900">
                       <form className="space-y-4">
                         {section.options.map((option, optionIdx) => (
@@ -199,7 +203,8 @@ export default function CategorySection({ products }) {
                             />
                             <label
                               htmlFor={`filter-${section.id}-${optionIdx}`}
-                              className="pr-6 ml-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-gray-300">
+                              className="pr-6 ml-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-gray-300"
+                            >
                               {option.label}
                             </label>
                           </div>

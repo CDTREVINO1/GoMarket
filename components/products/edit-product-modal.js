@@ -13,7 +13,8 @@ export default function EditProductModal({ product }) {
     <>
       <button
         onClick={openModal}
-        className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:hover:bg-blue-700 dark:focus:ring-blue-500 dark:focus:ring-opacity-50">
+        className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:hover:bg-blue-700 dark:focus:ring-blue-500 dark:focus:ring-opacity-50"
+      >
         Edit Product
       </button>
 

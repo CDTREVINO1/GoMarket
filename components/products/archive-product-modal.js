@@ -16,7 +16,8 @@ export default function ArchiveProductModal({ productId, isAvailable }) {
     <>
       <button
         onClick={openModal}
-        className="px-4 py-2 mt-4 text-white transition duration-300 bg-red-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:hover:bg-blue-700 dark:focus:ring-blue-500 dark:focus:ring-opacity-50">
+        className="px-4 py-2 mt-4 text-white transition duration-300 bg-red-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:hover:bg-blue-700 dark:focus:ring-blue-500 dark:focus:ring-opacity-50"
+      >
         {conditionText}
       </button>
 
@@ -47,7 +48,8 @@ export default function ArchiveProductModal({ productId, isAvailable }) {
             <div className="mt-4 text-center">
               <button
                 className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800"
-                onClick={closeModal}>
+                onClick={closeModal}
+              >
                 Cancel
               </button>
 
@@ -57,7 +59,8 @@ export default function ArchiveProductModal({ productId, isAvailable }) {
                   handleArchiveProduct(productId, isAvailable);
                   router.refresh();
                   closeModal();
-                }}>
+                }}
+              >
                 {conditionText}
               </button>
             </div>

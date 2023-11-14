@@ -12,7 +12,8 @@ const Product = (props) => {
   return (
     <Link
       href={linkPath}
-      className="m-2 flex h-[400px] flex-col items-center justify-center border  border-gray-300 bg-white p-8 text-center hover:underline dark:border-gray-700 dark:bg-gray-800">
+      className="m-2 flex h-[400px] flex-col items-center justify-center border  border-gray-300 bg-white p-8 text-center hover:underline dark:border-gray-700 dark:bg-gray-800"
+    >
       <motion.div
         whileHover={{ scale: 1.05 }}
         animate={{ scale: 1 }}
@@ -20,10 +21,11 @@ const Product = (props) => {
           type: "spring",
           stiffness: 300,
           damping: 25,
-        }}>
+        }}
+      >
         <Image
-          className="p-8 rounded-t-lg"
-          src={images?.[0].url || placeholderPic}
+          className="rounded-t-lg p-8"
+          src={images[0]?.url || placeholderPic}
           alt="product image"
           height={300}
           width={300}

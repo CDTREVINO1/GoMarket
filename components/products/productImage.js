@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import placeholderPic from "public/placeholder.png";
 
 function ProductImage({ product }) {
   const [selectedImage, setSelectedImage] = useState(product.images[0].url);
@@ -16,7 +17,7 @@ function ProductImage({ product }) {
           {/* Main Image */}
           <div className="mb-4">
             <Image
-              src={selectedImage}
+              src={selectedImage || placeholderPic}
               alt={`Picture of product`}
               height={500}
               width={500}
