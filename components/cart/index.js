@@ -1,14 +1,15 @@
-import { getCart } from "lib/pos/queries/cart";
-import { cookies } from "next/headers";
-import CartModal from "./modal";
+import { cookies } from "next/headers"
+import { getCart } from "lib/pos/queries/cart"
+
+import CartModal from "./modal"
 
 export default async function Cart() {
-  const cartId = cookies().get("cartId")?.value;
-  let cart;
+  const cartId = cookies().get("cartId")?.value
+  let cart
 
   if (cartId) {
-    cart = await getCart(cartId);
+    cart = await getCart(cartId)
   }
 
-  return <CartModal cart={cart} />;
+  return <CartModal cart={cart} />
 }

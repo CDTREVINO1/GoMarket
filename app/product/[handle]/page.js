@@ -1,22 +1,22 @@
-import { notFound } from "next/navigation";
-import { AddToCart } from "components/cart/add-to-cart";
-import { getProduct } from "lib/pos/queries/product";
-import Footer from "components/layout/footer";
-import Breadcrumb from "components/layout/breadcrumbs";
-import Divider from "components/layout/divider";
-import ProductImage from "components/products/productImage";
-import SuggestedProducts from "components/products/suggested-products";
+import { notFound } from "next/navigation"
+import { AddToCart } from "components/cart/add-to-cart"
+import Breadcrumb from "components/layout/breadcrumbs"
+import Divider from "components/layout/divider"
+import Footer from "components/layout/footer"
+import ProductImage from "components/products/productImage"
+import SuggestedProducts from "components/products/suggested-products"
+import { getProduct } from "lib/pos/queries/product"
 
 export default async function ProductPage({ params }) {
-  const product = await getProduct(params.handle);
+  const product = await getProduct(params.handle)
 
-  if (!product) return notFound();
+  if (!product) return notFound()
 
   const breadcrumbs = [
     { label: "Home", url: "/" },
     { label: "Products", url: "/products" },
     { label: `${product?.name}`, url: "/products/example" },
-  ];
+  ]
 
   return (
     <>
@@ -62,5 +62,5 @@ export default async function ProductPage({ params }) {
       </div>
       <Footer />
     </>
-  );
+  )
 }

@@ -1,31 +1,32 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import ArchiveProductModal from "./archive-product-modal";
-import EditProductModal from "./edit-product-modal";
+import { useState } from "react"
+
+import ArchiveProductModal from "./archive-product-modal"
+import EditProductModal from "./edit-product-modal"
 
 export default function ProductsList({ products }) {
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("all")
 
   const dateFormatter = new Intl.DateTimeFormat(undefined, {
     dateStyle: "medium",
     timeStyle: "short",
-  });
+  })
 
   const filteredProducts = () => {
     if (filter === "available") {
-      return products.filter((product) => product.availability === true);
+      return products.filter((product) => product.availability === true)
     } else if (filter === "archived") {
-      return products.filter((product) => product.availability === false);
-    } else return products;
-  };
+      return products.filter((product) => product.availability === false)
+    } else return products
+  }
 
   if (!products || products.length === 0) {
     return (
       <div className="product-list-placeholder">
         <p className="text-gray-500">No products available at the moment.</p>
       </div>
-    );
+    )
   }
 
   return (
@@ -100,5 +101,5 @@ export default function ProductsList({ products }) {
         ))}
       </ul>
     </div>
-  );
+  )
 }

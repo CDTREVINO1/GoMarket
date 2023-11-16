@@ -1,4 +1,4 @@
-import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
+import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline"
 
 export default function ContactUs() {
   return (
@@ -49,7 +49,8 @@ export default function ContactUs() {
               Looking for careers?{" "}
               <a
                 href="#"
-                className="font-medium text-gray-700 underline dark:text-gray-300">
+                className="font-medium text-gray-700 underline dark:text-gray-300"
+              >
                 View all job openings
               </a>
               .
@@ -114,7 +115,8 @@ export default function ContactUs() {
               <div>
                 <button
                   type="submit"
-                  className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 dark:hover:bg-blue-800">
+                  className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 dark:hover:bg-blue-800"
+                >
                   Submit
                 </button>
               </div>
@@ -123,5 +125,5 @@ export default function ContactUs() {
         </div>
       </div>
     </div>
-  );
+  )
 }

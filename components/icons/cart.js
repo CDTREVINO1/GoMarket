@@ -1,5 +1,6 @@
-import clsx from "clsx";
-import ShoppingBagIcon from "./shopping-bag";
+import clsx from "clsx"
+
+import ShoppingBagIcon from "./shopping-bag"
 
 export default function CartIcon({ className, quantity }) {
   return (
@@ -16,5 +17,5 @@ export default function CartIcon({ className, quantity }) {
         </div>
       ) : null}
     </div>
-  );
+  )
 }

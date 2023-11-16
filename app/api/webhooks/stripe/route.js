@@ -1,31 +1,30 @@
-import { headers } from "next/headers";
-import Stripe from "stripe";
-import Cart from "models/cart";
-import User from "models/user";
-import GuestOrder from "models/guest-order";
-import Order from "models/order";
-
-import dbConnect from "lib/dbConnect";
+import { headers } from "next/headers"
+import dbConnect from "lib/dbConnect"
+import Cart from "models/cart"
+import GuestOrder from "models/guest-order"
+import Order from "models/order"
+import User from "models/user"
+import Stripe from "stripe"
 
 export async function POST(request) {
-  const body = await request.text();
-  const signature = headers().get("Stripe-Signature");
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-  await dbConnect();
+  const body = await request.text()
+  const signature = headers().get("Stripe-Signature")
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+  await dbConnect()
 
-  let event;
+  let event
 
   try {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
-    );
+    )
   } catch (error) {
-    return new Response(`Webhook Error: ${error.message}`, { status: 400 });
+    return new Response(`Webhook Error: ${error.message}`, { status: 400 })
   }
 
-  const stripeSession = event.data.object;
+  const stripeSession = event.data.object
 
   if (
     !stripeSession?.metadata?.userId &&
@@ -35,7 +34,7 @@ export async function POST(request) {
       { _id: stripeSession.client_reference_id },
       { $set: { items: [] } },
       { returnDocument: "before" }
-    );
+    )
 
     const newGuestOrder = await GuestOrder.create({
       stripeCheckoutId: stripeSession.id,
@@ -47,10 +46,10 @@ export async function POST(request) {
         return {
           product: item.product,
           quantity: item.quantity,
-        };
+        }
       }),
       shippingAddress: stripeSession.shipping_details,
-    });
+    })
   }
 
   if (
@@ -61,8 +60,8 @@ export async function POST(request) {
       { _id: stripeSession.client_reference_id },
       { $set: { items: [] } },
       { returnDocument: "before" }
-    );
-    const user = await User.findById(stripeSession?.metadata?.userId);
+    )
+    const user = await User.findById(stripeSession?.metadata?.userId)
 
     const newOrder = await Order.create({
       user: user._id,
@@ -75,14 +74,14 @@ export async function POST(request) {
         return {
           product: item.product,
           quantity: item.quantity,
-        };
+        }
       }),
       shippingAddress: stripeSession.shipping_details,
-    });
+    })
 
-    await user.orders.push(newOrder);
-    await user.save();
+    await user.orders.push(newOrder)
+    await user.save()
   }
 
-  return new Response(null, { status: 200 });
+  return new Response(null, { status: 200 })
 }

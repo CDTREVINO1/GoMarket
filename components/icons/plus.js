@@ -13,5 +13,5 @@ export default function PlusIcon({ className }) {
       <path d="M12 5V19" />
       <path d="M5 12H19" />
     </svg>
-  );
+  )
 }

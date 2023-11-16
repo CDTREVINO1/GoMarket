@@ -1,16 +1,16 @@
-import Stripe from "stripe";
-import { authOptions } from "lib/auth";
-import { getServerSession } from "next-auth";
+import { authOptions } from "lib/auth"
+import { getServerSession } from "next-auth"
+import Stripe from "stripe"
 
 export async function POST(request) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
 
-  const userId = session?.user?.id ?? null;
+  const userId = session?.user?.id ?? null
 
   try {
-    let cart = await request.json();
+    let cart = await request.json()
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
     const stripeSession = await stripe.checkout.sessions.create({
       mode: "payment",
       success_url: `${process.env.SERVER_URL}/?success=true`,
@@ -27,16 +27,16 @@ export async function POST(request) {
             unit_amount: item.product.price * 100,
           },
           quantity: item.quantity,
-        };
+        }
       }),
       metadata: {
         userId: userId,
       },
-    });
+    })
 
-    return new Response(JSON.stringify({ url: stripeSession.url }));
+    return new Response(JSON.stringify({ url: stripeSession.url }))
   } catch (error) {
-    console.log(error);
-    return new Response(JSON.stringify(error.issues), { status: 422 });
+    console.log(error)
+    return new Response(JSON.stringify(error.issues), { status: 422 })
   }
 }

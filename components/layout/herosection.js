@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link"
 
 export default function HeroSection() {
   return (
@@ -14,10 +14,11 @@ export default function HeroSection() {
 
         <Link
           href="/products"
-          className="inline-block px-10 py-4 text-xl font-medium text-blue-700 transition-all duration-300 transform bg-white rounded-lg shadow-lg hover:scale-105 hover:shadow-xl dark:bg-blue-700 dark:text-gray-200">
+          className="inline-block px-10 py-4 text-xl font-medium text-blue-700 transition-all duration-300 transform bg-white rounded-lg shadow-lg hover:scale-105 hover:shadow-xl dark:bg-blue-700 dark:text-gray-200"
+        >
           Shop Now
         </Link>
       </div>
     </div>
-  );
+  )
 }

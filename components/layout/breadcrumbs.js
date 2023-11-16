@@ -1,7 +1,7 @@
-"use client";
-import { ChevronRightIcon, HomeIcon } from "@heroicons/react/20/solid";
+"use client"
 
-import Link from "next/link";
+import Link from "next/link"
+import { ChevronRightIcon } from "@heroicons/react/20/solid"
 
 const Breadcrumb = ({ links }) => {
   return (
@@ -13,7 +13,8 @@ const Breadcrumb = ({ links }) => {
               <>
                 <Link
                   href={link.url}
-                  className="text-gray-600 hover:scale-110 hover:text-gray-800">
+                  className="text-gray-600 hover:scale-110 hover:text-gray-800"
+                >
                   {link.label}
                 </Link>
                 <ChevronRightIcon className="h-4 w-10" />
@@ -25,7 +26,7 @@ const Breadcrumb = ({ links }) => {
         ))}
       </ol>
     </nav>
-  );
-};
+  )
+}
 
-export default Breadcrumb;
+export default Breadcrumb

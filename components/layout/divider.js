@@ -8,5 +8,5 @@ export default function Divider() {
         <span className="bg-white px-2 text-gray-500"></span>
       </div>
     </div>
-  );
+  )
 }

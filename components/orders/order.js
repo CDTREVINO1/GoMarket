@@ -1,12 +1,12 @@
-import Link from "next/link";
+import Link from "next/link"
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
   dateStyle: "medium",
   timeStyle: "short",
-});
+})
 
 export default function Order({ order }) {
-  const { _id, orderTotal, orderItems, createdAt } = order;
+  const { _id, orderTotal, orderItems, createdAt } = order
 
   return (
     <div className="max-w-4xl m-10 mx-auto bg-white border shadow-md rounded-xl dark:bg-gray-800">
@@ -31,7 +31,8 @@ export default function Order({ order }) {
         {orderItems.map((item, index) => (
           <li
             key={index}
-            className="flex flex-col items-start p-4 border-b sm:flex-row">
+            className="flex flex-col items-start p-4 border-b sm:flex-row"
+          >
             <div className="flex-shrink-0 mx-auto overflow-hidden sm:mx-0 sm:h-32 sm:w-32">
               <img
                 src={item.product.images[0].url}
@@ -58,7 +59,8 @@ export default function Order({ order }) {
 
                   <Link
                     href={`/product/${item.product.handle}`}
-                    className="text-indigo-600 hover:text-indigo-500">
+                    className="text-indigo-600 hover:text-indigo-500"
+                  >
                     View product
                   </Link>
                 </div>
@@ -68,5 +70,5 @@ export default function Order({ order }) {
         ))}
       </ul>
     </div>
-  );
+  )
 }

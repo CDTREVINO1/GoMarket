@@ -1,13 +1,14 @@
-"use client";
-import Link from "next/link";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import placeholderPic from "public/placeholder.png";
+"use client"
+
+import Image from "next/image"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import placeholderPic from "public/placeholder.png"
 
 const Product = (props) => {
-  const { handle, name, price, images } = props;
+  const { handle, name, price, images } = props
 
-  const linkPath = `/product/${handle}`;
+  const linkPath = `/product/${handle}`
 
   return (
     <Link
@@ -36,7 +37,7 @@ const Product = (props) => {
         </blockquote>
       </motion.div>
     </Link>
-  );
-};
+  )
+}
 
-export default Product;
+export default Product

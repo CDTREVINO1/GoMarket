@@ -1,24 +1,25 @@
-"use client";
+"use client"
 
-import Image from "next/image";
-import { useState, useCallback, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useDropzone } from "react-dropzone";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { handleCreateProduct, getSignature, saveToDatabase } from "./actions";
-import { ProductSchema } from "lib/schema";
+import { useCallback, useEffect, useState } from "react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/solid"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ProductSchema } from "lib/schema"
+import { useDropzone } from "react-dropzone"
+import { useForm } from "react-hook-form"
+
+import { getSignature, handleCreateProduct, saveToDatabase } from "./actions"
 
 export default function CreateProductForm({ onClose }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(ProductSchema) });
-  const [files, setFiles] = useState([]);
-  const [rejected, setRejected] = useState([]);
-  const router = useRouter();
+  } = useForm({ resolver: zodResolver(ProductSchema) })
+  const [files, setFiles] = useState([])
+  const [rejected, setRejected] = useState([])
+  const router = useRouter()
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     if (acceptedFiles?.length) {
@@ -27,13 +28,13 @@ export default function CreateProductForm({ onClose }) {
         ...acceptedFiles.map((file) =>
           Object.assign(file, { preview: URL.createObjectURL(file) })
         ),
-      ]);
+      ])
     }
 
     if (rejectedFiles?.length) {
-      setRejected((previousFiles) => [...previousFiles, ...rejectedFiles]);
+      setRejected((previousFiles) => [...previousFiles, ...rejectedFiles])
     }
-  }, []);
+  }, [])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
@@ -42,71 +43,71 @@ export default function CreateProductForm({ onClose }) {
     maxSize: 1024 * 1000,
     maxFiles: 10,
     onDrop,
-  });
+  })
 
   useEffect(() => {
     // Revoke the data uris to avoid memory leaks
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, [files]);
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview))
+  }, [files])
 
   const removeFile = (name) => {
-    setFiles((files) => files.filter((file) => file.name !== name));
-  };
+    setFiles((files) => files.filter((file) => file.name !== name))
+  }
 
   const removeAll = () => {
-    setFiles([]);
-    setRejected([]);
-  };
+    setFiles([])
+    setRejected([])
+  }
 
   const removeRejected = (name) => {
-    setRejected((files) => files.filter(({ file }) => file.name !== name));
-  };
+    setRejected((files) => files.filter(({ file }) => file.name !== name))
+  }
 
   async function uploadImages() {
     // get a signature using server action
-    const { timestamp, signature } = await getSignature();
+    const { timestamp, signature } = await getSignature()
 
     // upload to cloudinary using the signature
-    const formData = new FormData();
-    let images = [];
+    const formData = new FormData()
+    let images = []
 
     for (let file of files) {
-      formData.append("file", file);
-      formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_KEY);
-      formData.append("signature", signature);
-      formData.append("timestamp", timestamp);
-      formData.append("folder", "next");
+      formData.append("file", file)
+      formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_KEY)
+      formData.append("signature", signature)
+      formData.append("timestamp", timestamp)
+      formData.append("folder", "next")
 
-      const endpoint = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL;
+      const endpoint = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL
       const data = await fetch(endpoint, {
         method: "POST",
         body: formData,
-      }).then((res) => res.json());
-      const image = { public_id: data.public_id, url: data.secure_url };
-      images.push(image);
+      }).then((res) => res.json())
+      const image = { public_id: data.public_id, url: data.secure_url }
+      images.push(image)
 
       // write to database using server actions
       await saveToDatabase({
         version: data?.version,
         signature: data?.signature,
         public_id: data?.public_id,
-      });
+      })
     }
-    return images;
+    return images
   }
 
   const onSubmit = async (data) => {
-    const newProduct = { ...data };
+    const newProduct = { ...data }
 
     if (files.length > 0) {
-      const images = await uploadImages();
-      newProduct.images = images;
+      const images = await uploadImages()
+      newProduct.images = images
     }
 
-    await handleCreateProduct(newProduct);
-    router.refresh();
-    onClose();
-  };
+    await handleCreateProduct(newProduct)
+    router.refresh()
+    onClose()
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
@@ -221,7 +222,7 @@ export default function CreateProductForm({ onClose }) {
                 width={100}
                 height={100}
                 onLoad={() => {
-                  URL.revokeObjectURL(file.preview);
+                  URL.revokeObjectURL(file.preview)
                 }}
                 className="h-full w-full rounded-md object-contain"
               />
@@ -284,5 +285,5 @@ export default function CreateProductForm({ onClose }) {
         </button>
       </div>
     </form>
-  );
+  )
 }

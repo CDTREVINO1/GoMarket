@@ -1,34 +1,35 @@
-"use client";
+"use client"
 
-import { Dialog, Transition } from "@headlessui/react";
-import ShoppingBagIcon from "components/icons/shopping-bag";
-import Price from "components/price";
-import OpenCart from "./open-cart";
-import Image from "next/image";
-import Link from "next/link";
-import { Fragment, useEffect, useRef, useState } from "react";
-import CloseCart from "./close-cart";
-import DeleteItemButton from "./delete-item-button";
-import EditItemQuantityButton from "./edit-item-quantity-button";
+import { Fragment, useEffect, useRef, useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Dialog, Transition } from "@headlessui/react"
+import ShoppingBagIcon from "components/icons/shopping-bag"
+import Price from "components/price"
+
+import CloseCart from "./close-cart"
+import DeleteItemButton from "./delete-item-button"
+import EditItemQuantityButton from "./edit-item-quantity-button"
+import OpenCart from "./open-cart"
 
 export default function CartModal({ cart }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const quantityRef = useRef(cart?.totalQuantity);
-  const openCart = () => setIsOpen(true);
-  const closeCart = () => setIsOpen(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const quantityRef = useRef(cart?.totalQuantity)
+  const openCart = () => setIsOpen(true)
+  const closeCart = () => setIsOpen(false)
 
   useEffect(() => {
     // Open cart modal when when quantity changes.
     if (cart?.totalQuantity !== quantityRef.current) {
       // But only if it's not already open (quantity also changes when editing items in cart).
       if (!isOpen) {
-        setIsOpen(true);
+        setIsOpen(true)
       }
 
       // Always update the quantity reference
-      quantityRef.current = cart?.totalQuantity;
+      quantityRef.current = cart?.totalQuantity
     }
-  }, [isOpen, cart?.totalQuantity, quantityRef]);
+  }, [isOpen, cart?.totalQuantity, quantityRef])
 
   async function processCheckout() {
     try {
@@ -36,21 +37,21 @@ export default function CartModal({ cart }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(cart),
-      });
+      })
 
       if (!response?.ok) {
-        console.log("Something went wrong with the request.");
-        throw new Error("Network response was not OK");
+        console.log("Something went wrong with the request.")
+        throw new Error("Network response was not OK")
       }
 
-      const session = await response.json();
+      const session = await response.json()
       if (session) {
-        window.location.href = session.url;
+        window.location.href = session.url
       }
     } catch (error) {
       console.log(
         "There has been a problem with your fetch operation: " + error
-      );
+      )
     }
   }
 
@@ -109,7 +110,7 @@ export default function CartModal({ cart }) {
                 <div className="flex h-full flex-col justify-between overflow-hidden p-1">
                   <ul className="flex-grow overflow-auto py-4">
                     {cart.items.map((item, i) => {
-                      const productUrl = `/product/${item.product.handle}`;
+                      const productUrl = `/product/${item.product.handle}`
 
                       return (
                         <li
@@ -154,7 +155,7 @@ export default function CartModal({ cart }) {
                             <EditItemQuantityButton item={item} type="plus" />
                           </div>
                         </li>
-                      );
+                      )
                     })}
                   </ul>
                   <div className="border-t border-gray-200 pt-2 text-sm text-black dark:text-white">
@@ -188,5 +189,5 @@ export default function CartModal({ cart }) {
         </Dialog>
       </Transition>
     </>
-  );
+  )
 }

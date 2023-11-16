@@ -1,9 +1,9 @@
-import Image from "next/image";
-import Link from "next/link";
-import { getProductsByAvailability } from "lib/pos/queries/product";
+import Image from "next/image"
+import Link from "next/link"
+import { getProductsByAvailability } from "lib/pos/queries/product"
 
 const SuggestedProducts = async () => {
-  const products = await getProductsByAvailability("available");
+  const products = await getProductsByAvailability("available")
 
   return (
     <>
@@ -23,7 +23,7 @@ const SuggestedProducts = async () => {
           </div>
           <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
             {products.slice(0, 4).map((product, index) => {
-              const linkPath = `/product/${product.handle}`;
+              const linkPath = `/product/${product.handle}`
 
               return (
                 <Link key={index} href={linkPath}>
@@ -54,13 +54,13 @@ const SuggestedProducts = async () => {
                     </div>
                   </div>
                 </Link>
-              );
+              )
             })}
           </div>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default SuggestedProducts;
+export default SuggestedProducts

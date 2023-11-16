@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { useState, useRef } from "react";
+import { useRef, useState } from "react"
 
 function ProfileForm() {
-  const oldPasswordRef = useRef();
-  const newPasswordRef = useRef();
-  const confirmNewPasswordRef = useRef();
+  const oldPasswordRef = useRef()
+  const newPasswordRef = useRef()
+  const confirmNewPasswordRef = useRef()
 
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("")
 
   const changePasswordHandler = async (passwordData) => {
     const response = await fetch("/api/user/change-password", {
@@ -16,44 +16,44 @@ function ProfileForm() {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    })
 
-    const data = await response.json();
+    const data = await response.json()
 
     if (!response.ok) {
-      throw new Error(data.message || "Something went wrong!");
+      throw new Error(data.message || "Something went wrong!")
     }
 
-    return data;
-  };
+    return data
+  }
 
   const submitHandler = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const enteredOldPassword = oldPasswordRef.current.value;
-    const enteredNewPassword = newPasswordRef.current.value;
-    const confirmedNewPassword = confirmNewPasswordRef.current?.value;
+    const enteredOldPassword = oldPasswordRef.current.value
+    const enteredNewPassword = newPasswordRef.current.value
+    const confirmedNewPassword = confirmNewPasswordRef.current?.value
 
     if (enteredNewPassword.trim() !== confirmedNewPassword.trim()) {
-      setStatus("New password and confirm password do not match.");
-      return;
+      setStatus("New password and confirm password do not match.")
+      return
     }
 
     try {
       const result = await changePasswordHandler({
         oldPassword: enteredOldPassword,
         newPassword: enteredNewPassword,
-      });
+      })
 
-      setStatus(result.message);
+      setStatus(result.message)
     } catch (error) {
-      setStatus(error.message);
+      setStatus(error.message)
     }
 
-    oldPasswordRef.current.value = "";
-    newPasswordRef.current.value = "";
-    confirmNewPasswordRef.current.value = "";
-  };
+    oldPasswordRef.current.value = ""
+    newPasswordRef.current.value = ""
+    confirmNewPasswordRef.current.value = ""
+  }
 
   return (
     <section className="pb-8 text-gray-900 dark:bg-gray-900 ">
@@ -70,7 +70,8 @@ function ProfileForm() {
           <div>
             <label
               className="block mb-2 text-sm font-medium dark:text-white"
-              htmlFor="old-password">
+              htmlFor="old-password"
+            >
               Current Password
             </label>
             <input
@@ -85,7 +86,8 @@ function ProfileForm() {
           <div>
             <label
               className="block mb-2 text-sm font-medium dark:text-white"
-              htmlFor="new-password">
+              htmlFor="new-password"
+            >
               New Password
             </label>
             <input
@@ -100,7 +102,8 @@ function ProfileForm() {
           <div>
             <label
               className="block mb-2 text-sm font-medium dark:text-white"
-              htmlFor="confirm-new-password">
+              htmlFor="confirm-new-password"
+            >
               Confirm New Password
             </label>
             <input
@@ -120,6 +123,6 @@ function ProfileForm() {
         </form>
       </div>
     </section>
-  );
+  )
 }
-export default ProfileForm;
+export default ProfileForm

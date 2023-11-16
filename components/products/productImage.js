@@ -1,14 +1,15 @@
-"use client";
-import { useState } from "react";
-import Image from "next/image";
-import placeholderPic from "public/placeholder.png";
+"use client"
+
+import { useState } from "react"
+import Image from "next/image"
+import placeholderPic from "public/placeholder.png"
 
 function ProductImage({ product }) {
-  const [selectedImage, setSelectedImage] = useState(product.images[0].url);
+  const [selectedImage, setSelectedImage] = useState(product.images[0].url)
 
   const handleImageClick = (image) => {
-    setSelectedImage(image.url);
-  };
+    setSelectedImage(image.url)
+  }
 
   return (
     <div className="max-w-3xl p-2 m-auto md:flex">
@@ -47,7 +48,7 @@ function ProductImage({ product }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default ProductImage;
+export default ProductImage

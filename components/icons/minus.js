@@ -12,5 +12,5 @@ export default function MinusIcon({ className }) {
     >
       <path d="M5 12H19" />
     </svg>
-  );
+  )
 }

@@ -1,15 +1,15 @@
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useTransition } from "react"
+import { useRouter } from "next/navigation"
+import clsx from "clsx"
+import { removeItem, updateItemQuantity } from "components/cart/actions"
+import MinusIcon from "components/icons/minus"
+import PlusIcon from "components/icons/plus"
 
-import clsx from "clsx";
-import { removeItem, updateItemQuantity } from "components/cart/actions";
-import MinusIcon from "components/icons/minus";
-import PlusIcon from "components/icons/plus";
-import LoadingDots from "../loading-dots";
+import LoadingDots from "../loading-dots"
 
 export default function EditItemQuantityButton({ item, type }) {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
 
   return (
     <button
@@ -25,15 +25,15 @@ export default function EditItemQuantityButton({ item, type }) {
                   itemId: item._id,
                   quantity:
                     type === "plus" ? item.quantity + 1 : item.quantity - 1,
-                });
+                })
 
           if (error) {
-            alert(error);
-            return;
+            alert(error)
+            return
           }
 
-          router.refresh();
-        });
+          router.refresh()
+        })
       }}
       disabled={isPending}
       className={clsx(
@@ -52,5 +52,5 @@ export default function EditItemQuantityButton({ item, type }) {
         <MinusIcon className="h-4 w-4" />
       )}
     </button>
-  );
+  )
 }

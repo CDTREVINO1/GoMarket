@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import Image from "next/image";
-import { useState, useRef } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import placeholderPic from "public/placeholder.png";
+import { useRef, useState } from "react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { signIn } from "next-auth/react"
+import placeholderPic from "public/placeholder.png"
 
 const createUser = async (username, password, email) => {
   const response = await fetch("/api/auth/signup", {
@@ -13,50 +13,50 @@ const createUser = async (username, password, email) => {
     headers: {
       "Content-Type": "application/json",
     },
-  });
+  })
 
-  const data = await response.json();
+  const data = await response.json()
 
   if (!response.ok) {
-    throw new Error(data.message || "Something went wrong!");
+    throw new Error(data.message || "Something went wrong!")
   }
 
-  return data;
-};
+  return data
+}
 
 function AuthForm() {
-  const emailInputRef = useRef();
-  const usernameInputRef = useRef();
-  const passwordInputRef = useRef();
-  const confirmedPasswordInputRef = useRef();
+  const emailInputRef = useRef()
+  const usernameInputRef = useRef()
+  const passwordInputRef = useRef()
+  const confirmedPasswordInputRef = useRef()
 
-  const [isLogin, setIsLogin] = useState(true);
-  const [status, setStatus] = useState("");
-  const router = useRouter();
+  const [isLogin, setIsLogin] = useState(true)
+  const [status, setStatus] = useState("")
+  const router = useRouter()
 
   function switchAuthModeHandler() {
-    setIsLogin((prevState) => !prevState);
+    setIsLogin((prevState) => !prevState)
   }
 
   const clearLoginRefs = () => {
-    usernameInputRef.current.value = "";
-    passwordInputRef.current.value = "";
-  };
+    usernameInputRef.current.value = ""
+    passwordInputRef.current.value = ""
+  }
 
   const clearCreateAccountRefs = () => {
-    usernameInputRef.current.value = "";
-    emailInputRef.current.value = "";
-    passwordInputRef.current.value = "";
-    confirmedPasswordInputRef.current.value = "";
-  };
+    usernameInputRef.current.value = ""
+    emailInputRef.current.value = ""
+    passwordInputRef.current.value = ""
+    confirmedPasswordInputRef.current.value = ""
+  }
 
   const submitHandler = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const enteredUsername = usernameInputRef.current?.value;
-    const enteredEmail = emailInputRef.current?.value;
-    const enteredPassword = passwordInputRef?.current.value;
-    const confirmedPassword = confirmedPasswordInputRef.current?.value;
+    const enteredUsername = usernameInputRef.current?.value
+    const enteredEmail = emailInputRef.current?.value
+    const enteredPassword = passwordInputRef?.current.value
+    const confirmedPassword = confirmedPasswordInputRef.current?.value
 
     if (isLogin) {
       const result = await signIn("credentials", {
@@ -64,17 +64,17 @@ function AuthForm() {
         user: enteredUsername,
         password: enteredPassword,
         callbackUrl: "/",
-      });
+      })
 
       if (!result.error) {
-        router.refresh();
-        router.replace("/");
+        router.refresh()
+        router.replace("/")
       }
-      setStatus(result.error);
+      setStatus(result.error)
     } else {
       if (enteredPassword.trim() !== confirmedPassword.trim()) {
-        setStatus("New password and confirm password do not match.");
-        return;
+        setStatus("New password and confirm password do not match.")
+        return
       }
 
       try {
@@ -82,16 +82,16 @@ function AuthForm() {
           enteredUsername,
           enteredPassword,
           enteredEmail
-        );
+        )
 
-        clearCreateAccountRefs();
-        switchAuthModeHandler();
-        setStatus(result.message);
+        clearCreateAccountRefs()
+        switchAuthModeHandler()
+        setStatus(result.message)
       } catch (error) {
-        setStatus(error.message);
+        setStatus(error.message)
       }
     }
-  };
+  }
 
   return (
     <>
@@ -200,8 +200,8 @@ function AuthForm() {
               <button
                 type="button"
                 onClick={() => {
-                  switchAuthModeHandler();
-                  isLogin ? clearLoginRefs() : clearCreateAccountRefs();
+                  switchAuthModeHandler()
+                  isLogin ? clearLoginRefs() : clearCreateAccountRefs()
                 }}
                 className="mt-2 text-sm text-indigo-600 underline hover:text-indigo-500 dark:text-indigo-400"
               >
@@ -214,7 +214,7 @@ function AuthForm() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default AuthForm;
+export default AuthForm

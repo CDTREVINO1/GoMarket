@@ -1,16 +1,16 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "lib/auth";
-import { redirect } from "next/navigation";
-import ProfileForm from "components/profile/profile-form";
-import OrderList from "components/orders/order-list";
-import { fetchOrders } from "lib/pos/queries/orders";
+import { redirect } from "next/navigation"
+import OrderList from "components/orders/order-list"
+import ProfileForm from "components/profile/profile-form"
+import { authOptions } from "lib/auth"
+import { fetchOrders } from "lib/pos/queries/orders"
+import { getServerSession } from "next-auth/next"
 
 export default async function ProfilePage() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
 
-  if (!session) redirect("/auth");
+  if (!session) redirect("/auth")
 
-  const orders = await fetchOrders(session?.user.id);
+  const orders = await fetchOrders(session?.user.id)
 
   return (
     <>
@@ -30,5 +30,5 @@ export default async function ProfilePage() {
         </div>
       </section>
     </>
-  );
+  )
 }

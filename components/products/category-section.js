@@ -1,22 +1,23 @@
-"use client";
-import { Fragment, useState } from "react";
-import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+"use client"
+
+import { Fragment, useState } from "react"
+import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react"
+import { ChevronDownIcon } from "@heroicons/react/20/solid"
+import { XMarkIcon } from "@heroicons/react/24/outline"
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(" ")
 }
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
 export default function CategorySection({ products }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const categories = Array.from(
     new Set(products.map((product) => product.category))
-  );
+  )
 
   const filters = [
     {
@@ -28,7 +29,7 @@ export default function CategorySection({ products }) {
         label: capitalizeFirstLetter(category),
       })),
     },
-  ];
+  ]
 
   return (
     <div className={`bg-gray-50 dark:bg-gray-600 `}>
@@ -219,5 +220,5 @@ export default function CategorySection({ products }) {
         </section>
       </div>
     </div>
-  );
+  )
 }

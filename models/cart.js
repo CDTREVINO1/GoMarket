@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Product = require("./product");
+const mongoose = require("mongoose")
+const Product = require("./product")
 
 const cartSchema = new mongoose.Schema(
   {
@@ -28,6 +28,6 @@ const cartSchema = new mongoose.Schema(
     },
   },
   { timestamps: true }
-);
+)
 
-module.exports = mongoose.models.Cart || mongoose.model("Cart", cartSchema);
+module.exports = mongoose.models.Cart || mongoose.model("Cart", cartSchema)

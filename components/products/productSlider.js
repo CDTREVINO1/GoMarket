@@ -1,48 +1,49 @@
-"use client";
-import { useEffect, useState, useCallback } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import placeholderPic from "public/placeholder.png";
+"use client"
+
+import { useCallback, useEffect, useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import placeholderPic from "public/placeholder.png"
 
 const Slider = ({ products }) => {
-  const slideWidth = 400;
-  const [offset, setOffset] = useState(0);
-  const [autoSlide, setAutoSlide] = useState(true);
+  const slideWidth = 400
+  const [offset, setOffset] = useState(0)
+  const [autoSlide, setAutoSlide] = useState(true)
 
   const moveNext = useCallback(() => {
     if (offset >= (products.length - 1) * slideWidth) {
-      setOffset(0);
+      setOffset(0)
     } else {
-      setOffset((prevOffset) => prevOffset + 10);
+      setOffset((prevOffset) => prevOffset + 10)
     }
-  }, [offset, products.length]);
+  }, [offset, products.length])
 
   const jumpNext = () => {
-    setAutoSlide(false);
+    setAutoSlide(false)
     if (offset >= (products.length - 1) * slideWidth) {
-      setOffset(0);
+      setOffset(0)
     } else {
-      setOffset((prevOffset) => prevOffset + slideWidth);
+      setOffset((prevOffset) => prevOffset + slideWidth)
     }
-    setTimeout(() => setAutoSlide(true), 3000);
-  };
+    setTimeout(() => setAutoSlide(true), 3000)
+  }
 
   const jumpPrevious = () => {
-    setAutoSlide(false);
+    setAutoSlide(false)
     if (offset <= 0) {
-      setOffset((products.length - 1) * slideWidth);
+      setOffset((products.length - 1) * slideWidth)
     } else {
-      setOffset((prevOffset) => prevOffset - slideWidth);
+      setOffset((prevOffset) => prevOffset - slideWidth)
     }
-    setTimeout(() => setAutoSlide(true), 3000);
-  };
+    setTimeout(() => setAutoSlide(true), 3000)
+  }
 
   useEffect(() => {
     if (autoSlide) {
-      const intervalId = setInterval(moveNext, 100);
-      return () => clearInterval(intervalId);
+      const intervalId = setInterval(moveNext, 100)
+      return () => clearInterval(intervalId)
     }
-  }, [offset, autoSlide, moveNext]);
+  }, [offset, autoSlide, moveNext])
 
   return (
     <div
@@ -58,7 +59,7 @@ const Slider = ({ products }) => {
         className="flex whitespace-nowrap"
       >
         {[...products, ...products].map((product, index) => {
-          const linkPath = `/product/${product.handle}`;
+          const linkPath = `/product/${product.handle}`
 
           return (
             <div
@@ -85,7 +86,7 @@ const Slider = ({ products }) => {
                 </Link>
               </div>
             </div>
-          );
+          )
         })}
       </div>
       <button
@@ -101,7 +102,7 @@ const Slider = ({ products }) => {
         →
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default Slider;
+export default Slider

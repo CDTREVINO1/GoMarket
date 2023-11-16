@@ -1,19 +1,20 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Dialog } from "@headlessui/react";
-import CreateProductForm from "components/products/create-product-form";
+import { useState } from "react"
+import { Dialog } from "@headlessui/react"
+import CreateProductForm from "components/products/create-product-form"
 
 export default function CreateProductModal() {
-  const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const openModal = () => setIsOpen(true)
+  const closeModal = () => setIsOpen(false)
 
   return (
     <>
       <button
         onClick={openModal}
-        className="px-4 py-2 mx-2 my-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200">
+        className="px-4 py-2 mx-2 my-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
+      >
         Create New Product
       </button>
       <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
@@ -33,5 +34,5 @@ export default function CreateProductModal() {
         </div>
       </Dialog>
     </>
-  );
+  )
 }

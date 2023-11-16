@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
 const userRoles = {
   USER: "user",
   ADMIN: "admin",
-};
+}
 
 const UserSchema = new Schema(
   {
@@ -30,6 +30,6 @@ const UserSchema = new Schema(
     orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
   },
   { timestamps: true }
-);
+)
 
-module.exports = mongoose.models.User || mongoose.model("User", UserSchema);
+module.exports = mongoose.models.User || mongoose.model("User", UserSchema)

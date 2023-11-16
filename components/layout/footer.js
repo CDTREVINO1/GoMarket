@@ -60,7 +60,7 @@ const navigation = [
       </svg>
     ),
   },
-];
+]
 
 export default function Footer() {
   return (
@@ -71,7 +71,8 @@ export default function Footer() {
             <a
               key={item.name}
               href={item.href}
-              className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
+              className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"
+            >
               <span className="sr-only">{item.name}</span>
               <item.icon className="w-6 h-6" aria-hidden="true" />
             </a>
@@ -85,5 +86,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )
 }

@@ -1,6 +1,7 @@
-import Product from "./product";
-import CategorySection from "./category-section";
-import Footer from "components/layout/footer";
+import Footer from "components/layout/footer"
+
+import CategorySection from "./category-section"
+import Product from "./product"
 
 const ProductsGrid = ({ products }) => {
   return (
@@ -21,7 +22,7 @@ const ProductsGrid = ({ products }) => {
       </ul>
       <Footer />
     </main>
-  );
-};
+  )
+}
 
-export default ProductsGrid;
+export default ProductsGrid

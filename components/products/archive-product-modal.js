@@ -1,16 +1,17 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Dialog } from "@headlessui/react";
-import { handleArchiveProduct } from "./actions";
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { Dialog } from "@headlessui/react"
+
+import { handleArchiveProduct } from "./actions"
 
 export default function ArchiveProductModal({ productId, isAvailable }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
-  const conditionText = isAvailable ? "Archive" : "Unarchive";
+  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
+  const openModal = () => setIsOpen(true)
+  const closeModal = () => setIsOpen(false)
+  const conditionText = isAvailable ? "Archive" : "Unarchive"
 
   return (
     <>
@@ -56,9 +57,9 @@ export default function ArchiveProductModal({ productId, isAvailable }) {
               <button
                 className="px-4 py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
                 onClick={() => {
-                  handleArchiveProduct(productId, isAvailable);
-                  router.refresh();
-                  closeModal();
+                  handleArchiveProduct(productId, isAvailable)
+                  router.refresh()
+                  closeModal()
                 }}
               >
                 {conditionText}
@@ -68,5 +69,5 @@ export default function ArchiveProductModal({ productId, isAvailable }) {
         </div>
       </Dialog>
     </>
-  );
+  )
 }

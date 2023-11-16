@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import clsx from "clsx"
 
 const Price = ({
   amount,
@@ -16,6 +16,6 @@ const Price = ({
       className={clsx("ml-1 inline", currencyCodeClassName)}
     >{`${currencyCode}`}</span>
   </p>
-);
+)
 
-export default Price;
+export default Price

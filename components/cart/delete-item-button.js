@@ -1,29 +1,28 @@
-import CloseIcon from "components/icons/close";
-import LoadingDots from "components/loading-dots";
-import { useRouter } from "next/navigation";
-
-import clsx from "clsx";
-import { useTransition } from "react";
-import { removeItem } from "components/cart/actions";
+import { useTransition } from "react"
+import { useRouter } from "next/navigation"
+import clsx from "clsx"
+import { removeItem } from "components/cart/actions"
+import CloseIcon from "components/icons/close"
+import LoadingDots from "components/loading-dots"
 
 export default function DeleteItemButton({ item }) {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
 
   return (
     <button
       aria-label="Remove cart item"
       onClick={() => {
         startTransition(async () => {
-          const error = await removeItem(item._id);
+          const error = await removeItem(item._id)
 
           if (error) {
-            alert(error);
-            return;
+            alert(error)
+            return
           }
 
-          router.refresh();
-        });
+          router.refresh()
+        })
       }}
       disabled={isPending}
       className={clsx(
@@ -39,5 +38,5 @@ export default function DeleteItemButton({ item }) {
         <CloseIcon className="hover:text-accent-3 mx-[1px] h-4 w-4" />
       )}
     </button>
-  );
+  )
 }

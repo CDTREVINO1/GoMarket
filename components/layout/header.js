@@ -1,14 +1,15 @@
-import Link from "next/link";
-import { Suspense } from "react";
-import { getServerSession } from "next-auth/next";
-import Cart from "components/cart/index";
-import CartIcon from "components/icons/cart";
-import LogoutButton from "./logout-button";
-import { authOptions } from "lib/auth";
-import HamburgerDropdown from "./hamburger";
+import { Suspense } from "react"
+import Link from "next/link"
+import Cart from "components/cart/index"
+import CartIcon from "components/icons/cart"
+import { authOptions } from "lib/auth"
+import { getServerSession } from "next-auth/next"
+
+import HamburgerDropdown from "./hamburger"
+import LogoutButton from "./logout-button"
 
 export default async function Header() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
 
   return (
     <nav className="sticky top-0 z-10 w-screen bg-white border-b shadow-md dark:border-gray-700 dark:bg-gray-800">
@@ -26,7 +27,8 @@ export default async function Header() {
             <li>
               <Link
                 href="/products"
-                className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
+                className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+              >
                 Products
               </Link>
             </li>
@@ -35,7 +37,8 @@ export default async function Header() {
                 <Link
                   href="auth"
                   className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-                  aria-current="page">
+                  aria-current="page"
+                >
                   Login
                 </Link>
               </li>
@@ -44,7 +47,8 @@ export default async function Header() {
                 <li>
                   <Link
                     href="/profile"
-                    className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
+                    className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+                  >
                     Profile
                   </Link>
                 </li>
@@ -52,7 +56,8 @@ export default async function Header() {
                   <li>
                     <Link
                       href="/admin"
-                      className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white">
+                      className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+                    >
                       Admin
                     </Link>
                   </li>
@@ -71,5 +76,5 @@ export default async function Header() {
         </div>
       </div>
     </nav>
-  );
+  )
 }

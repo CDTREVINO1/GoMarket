@@ -1,13 +1,14 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Dialog } from "@headlessui/react";
-import EditProductForm from "./edit-product-form";
+import { useState } from "react"
+import { Dialog } from "@headlessui/react"
+
+import EditProductForm from "./edit-product-form"
 
 export default function EditProductModal({ product }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const openModal = () => setIsOpen(true)
+  const closeModal = () => setIsOpen(false)
 
   return (
     <>
@@ -35,5 +36,5 @@ export default function EditProductModal({ product }) {
         </div>
       </Dialog>
     </>
-  );
+  )
 }

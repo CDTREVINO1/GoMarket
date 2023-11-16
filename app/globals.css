@@ -3,11 +3,11 @@
 @tailwind utilities;
 /* styles.css */
 /* Import the "Lato" font */
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
 
 /* Reset the default font for all elements */
 * {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   /* Add other global styles as needed */
 }
 
@@ -36,37 +36,37 @@ a {
 }
 .neon-glow {
   text-shadow:
-      0 0 3px #FFB6C1,
-      0 0 6px #FFB6C1,
-      0 0 9px #FFD700;
+    0 0 3px #ffb6c1,
+    0 0 6px #ffb6c1,
+    0 0 9px #ffd700;
   animation: glowing 1.5s infinite alternate;
 }
 
 @keyframes glowing {
   from {
-      text-shadow:
-          0 0 2px #FFB6C1,
-          0 0 4px #FFB6C1,
-          0 0 6px #FFD700;
+    text-shadow:
+      0 0 2px #ffb6c1,
+      0 0 4px #ffb6c1,
+      0 0 6px #ffd700;
   }
   to {
-      text-shadow:
-          0 0 3px #FFB6C1,
-          0 0 6px #FFB6C1,
-          0 0 9px #FFD700;
+    text-shadow:
+      0 0 3px #ffb6c1,
+      0 0 6px #ffb6c1,
+      0 0 9px #ffd700;
   }
 }
 
 .flowing-gradient {
   background-size: 100% 100%;
-  animation: flow 5s infinite alternate;  /* Increased the duration */
+  animation: flow 5s infinite alternate; /* Increased the duration */
 }
 
 @keyframes flow {
   0% {
-      background-position: 100% 0%;
+    background-position: 100% 0%;
   }
   100% {
-      background-position: 0% 100%;
+    background-position: 0% 100%;
   }
 }
