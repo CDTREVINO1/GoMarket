@@ -54,7 +54,7 @@ export async function getSignature(public_id) {
   }
 
   const signature = cloudinary.utils.api_sign_request(
-    { timestamp, folder: "next" },
+    { timestamp, folder: "products" },
     cloudinaryConfig.api_secret
   )
 

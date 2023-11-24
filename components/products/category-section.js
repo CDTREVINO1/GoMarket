@@ -8,12 +8,22 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
 }
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
 
-export default function CategorySection({ products }) {
+export default function CategorySection({
+  products,
+  selectedCategories,
+  onCategoryChange,
+}) {
   const [open, setOpen] = useState(false)
+  const handleCheckboxChange = (category) => {
+    const updatedCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter(
+          (selectedCategory) => selectedCategory !== category
+        )
+      : [...selectedCategories, category]
+
+    onCategoryChange(updatedCategories)
+  }
 
   const categories = Array.from(
     new Set(products.map((product) => product.category))
@@ -26,7 +36,7 @@ export default function CategorySection({ products }) {
       options: categories.map((category) => ({
         value: category,
 
-        label: capitalizeFirstLetter(category),
+        label: category,
       })),
     },
   ]
@@ -110,6 +120,12 @@ export default function CategorySection({ products }) {
                                     defaultValue={option.value}
                                     type="checkbox"
                                     className="w-4 h-4 text-blue-700 border-gray-300 rounded focus:ring-blue-700"
+                                    checked={selectedCategories.includes(
+                                      option.value
+                                    )}
+                                    onChange={() =>
+                                      handleCheckboxChange(option.value)
+                                    }
                                   />
                                   <label
                                     htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
@@ -172,7 +188,7 @@ export default function CategorySection({ products }) {
                       <span>{section.name}</span>
                       {sectionIdx === 0 ? (
                         <span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700 dark:bg-gray-700 dark:text-gray-300">
-                          1
+                          {section.options.length}
                         </span>
                       ) : null}
                       <ChevronDownIcon
@@ -201,6 +217,12 @@ export default function CategorySection({ products }) {
                               defaultValue={option.value}
                               type="checkbox"
                               className="w-4 h-4 text-blue-700 border-gray-300 rounded focus:ring-blue-700"
+                              checked={selectedCategories.includes(
+                                option.value
+                              )}
+                              onChange={() =>
+                                handleCheckboxChange(option.value)
+                              }
                             />
                             <label
                               htmlFor={`filter-${section.id}-${optionIdx}`}

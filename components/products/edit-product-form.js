@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { zodResolver } from "@hookform/resolvers/zod"
+import categories from "lib/categories"
 import { ProductSchema } from "lib/schema"
 import { useDropzone } from "react-dropzone"
 import { useForm } from "react-hook-form"
@@ -92,7 +93,7 @@ export default function EditProductForm({ product, onClose }) {
       formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_KEY)
       formData.append("signature", signature)
       formData.append("timestamp", timestamp)
-      formData.append("folder", "next")
+      formData.append("folder", "products")
 
       const endpoint = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL
       const data = await fetch(endpoint, {
@@ -218,12 +219,18 @@ export default function EditProductForm({ product, onClose }) {
       <label htmlFor="category" className="block font-semibold text-gray-700">
         Category:
       </label>
-      <input
-        className="w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-        type="text"
-        id="category"
-        {...register("category")}
-      />
+      <select
+        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
+        {...register("category", {
+          required: "Please select at least one category",
+        })}
+      >
+        {categories.map((category, index) => (
+          <option key={index} value={category}>
+            {category}
+          </option>
+        ))}
+      </select>
       {errors.category?.message && (
         <p className="text-red-600">{errors.category.message}</p>
       )}

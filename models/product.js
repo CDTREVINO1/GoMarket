@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const categories = require("lib/categories")
 
 const productSchema = new mongoose.Schema(
   {
@@ -24,7 +25,11 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      default: "",
+      enum: {
+        values: categories,
+        message: "Please select a product category.",
+      },
+      default: "Other",
     },
     images: {
       type: [

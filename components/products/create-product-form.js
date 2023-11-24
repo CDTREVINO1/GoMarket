@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { zodResolver } from "@hookform/resolvers/zod"
+import categories from "lib/categories"
 import { ProductSchema } from "lib/schema"
 import { useDropzone } from "react-dropzone"
 import { useForm } from "react-hook-form"
@@ -15,11 +16,12 @@ export default function CreateProductForm({ onClose }) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({ resolver: zodResolver(ProductSchema) })
   const [files, setFiles] = useState([])
   const [rejected, setRejected] = useState([])
   const router = useRouter()
+  const isAddingImages = files.length > 0
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     if (acceptedFiles?.length) {
@@ -76,7 +78,7 @@ export default function CreateProductForm({ onClose }) {
       formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_KEY)
       formData.append("signature", signature)
       formData.append("timestamp", timestamp)
-      formData.append("folder", "next")
+      formData.append("folder", "products")
 
       const endpoint = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL
       const data = await fetch(endpoint, {
@@ -159,19 +161,25 @@ export default function CreateProductForm({ onClose }) {
         <p className="text-red-600">{errors.price.message}</p>
       )}
 
-      {/* FIXME: This probably has to be a dropdown. */}
       <label
         htmlFor="category"
         className="block font-semibold text-gray-700 dark:text-gray-200"
       >
         Category:
       </label>
-      <input
+      <select
         className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
-        type="text"
-        id="category"
-        {...register("category")}
-      />
+        {...register("category", {
+          required: "Please select a category",
+        })}
+      >
+        <option value="">--Select One--</option>
+        {categories.map((category, index) => (
+          <option key={index} value={category}>
+            {category}
+          </option>
+        ))}
+      </select>
       {errors.category?.message && (
         <p className="text-red-600">{errors.category.message}</p>
       )}
@@ -278,8 +286,13 @@ export default function CreateProductForm({ onClose }) {
         </button>
 
         <button
-          className="px-4 py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-600 dark:bg-blue-700"
+          className={`ml-2 rounded px-4 py-2 text-white ${
+            !isAddingImages && !isDirty
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          }`}
           type="submit"
+          disabled={!isAddingImages && !isDirty}
         >
           Create Product
         </button>

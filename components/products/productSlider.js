@@ -71,7 +71,7 @@ const Slider = ({ products }) => {
                 <Image
                   height={200}
                   width={200}
-                  src={product.images[0].url || placeholderPic}
+                  src={product.images[0]?.url || placeholderPic}
                   alt={product.name}
                   className="object-cover w-full h-48 rounded-t-lg"
                 />
