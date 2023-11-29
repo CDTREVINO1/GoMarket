@@ -3,6 +3,8 @@ import Header from "components/layout/header"
 
 import "./globals.css"
 
+import Providers from "./providers"
+
 export const metadata = {
   title: "Home",
   description: "Welcome to the Online Store",
@@ -18,10 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        <Suspense>
-          <main className="flex flex-col w-screen h-screen">{children}</main>
-        </Suspense>
+        <Providers>
+          <Header />
+          <Suspense>
+            <main className="flex flex-col w-screen h-screen">{children}</main>
+          </Suspense>
+        </Providers>
       </body>
     </html>
   )

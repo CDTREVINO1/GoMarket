@@ -3,8 +3,12 @@
 import React, { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import CartModal from "components/cart/modal"
+import { useSession } from "next-auth/react"
 
-function HamburgerDropdown({ sessionType }) {
+import LogoutButton from "./logout-button"
+
+function HamburgerDropdown() {
+  const { data: session, status } = useSession()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef(null)
   const toggleDropdown = () => {
@@ -77,26 +81,44 @@ function HamburgerDropdown({ sessionType }) {
               </Link>
             </li>
 
-            <li>
-              <Link
-                href="/auth"
-                onClick={closeDropdown} // Close the dropdown when this link is clicked
-                className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-                aria-current="page"
-              >
-                Login
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href="/profile"
-                onClick={closeDropdown}
-                className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                Profile
-              </Link>
-            </li>
+            {!session && status !== "loading" ? (
+              <li>
+                <Link
+                  href="auth"
+                  onClick={closeDropdown}
+                  className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+                  aria-current="page"
+                >
+                  Login
+                </Link>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <Link
+                    href="/profile"
+                    onClick={closeDropdown}
+                    className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+                  >
+                    Profile
+                  </Link>
+                </li>
+                {session?.user.role === "admin" && (
+                  <li>
+                    <Link
+                      href="/admin"
+                      onClick={closeDropdown}
+                      className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+                    >
+                      Admin
+                    </Link>
+                  </li>
+                )}
+                <li>
+                  <LogoutButton />
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}
