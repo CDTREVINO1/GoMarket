@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import Footer from "components/layout/footer"
+import Footer from "@/components/layout/footer"
 
 import CategorySection from "./category-section"
 import Product from "./product"

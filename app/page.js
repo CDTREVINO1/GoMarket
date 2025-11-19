@@ -1,8 +1,8 @@
-import ContactUs from "components/layout/contactUs"
-import Footer from "components/layout/footer"
-import HeroSection from "components/layout/herosection"
-import Slider from "components/products/productSlider"
-import { getProductsByAvailability } from "lib/pos/queries/product"
+import ContactUs from "@/components/layout/contactUs"
+import Footer from "@/components/layout/footer"
+import HeroSection from "@/components/layout/herosection"
+import Slider from "@/components/products/productSlider"
+import { getProductsByAvailability } from "@/lib/pos/queries/product"
 
 export const metadata = {
   title: "Online Store",

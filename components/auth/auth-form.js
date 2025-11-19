@@ -3,10 +3,10 @@
 import { useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { UserSchema } from "@/lib/schema"
+import placeholderPic from "@/public/placeholder.png"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { UserSchema } from "lib/schema"
 import { signIn } from "next-auth/react"
-import placeholderPic from "public/placeholder.png"
 import { useForm } from "react-hook-form"
 
 import CreateUserForm from "./create-user-form"

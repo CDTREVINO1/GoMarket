@@ -1,9 +1,9 @@
 import { useTransition } from "react"
 import { useRouter } from "next/navigation"
+import { removeItem } from "@/components/cart/actions"
+import CloseIcon from "@/components/icons/close"
+import LoadingDots from "@/components/loading-dots"
 import clsx from "clsx"
-import { removeItem } from "components/cart/actions"
-import CloseIcon from "components/icons/close"
-import LoadingDots from "components/loading-dots"
 
 export default function DeleteItemButton({ item }) {
   const router = useRouter()

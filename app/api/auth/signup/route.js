@@ -1,6 +1,6 @@
-import { hashPassword } from "lib/auth"
-import dbConnect from "lib/dbConnect"
-import User from "models/user"
+import { hashPassword } from "@/lib/auth"
+import dbConnect from "@/lib/dbConnect"
+import User from "@/models/user"
 
 export async function POST(request) {
   try {

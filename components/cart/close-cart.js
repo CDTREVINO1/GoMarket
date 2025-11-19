@@ -1,5 +1,5 @@
+import CloseIcon from "@/components/icons/close"
 import clsx from "clsx"
-import CloseIcon from "components/icons/close"
 
 export default function CloseCart({ className }) {
   return (

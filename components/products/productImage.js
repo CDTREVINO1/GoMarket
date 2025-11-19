@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import placeholderPic from "public/placeholder.png"
+import placeholderPic from "@/public/placeholder.png"
 
 function ProductImage({ product }) {
   const [selectedImage, setSelectedImage] = useState(product.images[0].url)

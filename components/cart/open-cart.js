@@ -1,5 +1,5 @@
+import ShoppingBagIcon from "@/components/icons/shopping-bag"
 import clsx from "clsx"
-import ShoppingBagIcon from "components/icons/shopping-bag"
 
 export default function openCart({ className, quantity }) {
   return (

@@ -1,6 +1,6 @@
-import { authOptions, hashPassword, verifyPassword } from "lib/auth"
-import dbConnect from "lib/dbConnect"
-import User from "models/user"
+import { authOptions, hashPassword, verifyPassword } from "@/lib/auth"
+import dbConnect from "@/lib/dbConnect"
+import User from "@/models/user"
 import { getServerSession } from "next-auth/next"
 
 export async function PATCH(request) {

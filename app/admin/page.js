@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation"
-import CreateProductModal from "components/products/create-product-modal"
-import ProductsList from "components/products/products-list"
-import { authOptions } from "lib/auth"
-import { getProductsByAvailability } from "lib/pos/queries/product"
+import CreateProductModal from "@/components/products/create-product-modal"
+import ProductsList from "@/components/products/products-list"
+import { authOptions } from "@/lib/auth"
+import { getProductsByAvailability } from "@/lib/pos/queries/product"
 import { getServerSession } from "next-auth"
 
 export default async function AdminPage() {

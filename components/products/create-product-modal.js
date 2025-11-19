@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
+import CreateProductForm from "@/components/products/create-product-form"
 import { Dialog } from "@headlessui/react"
-import CreateProductForm from "components/products/create-product-form"
 
 export default function CreateProductModal() {
   const [isOpen, setIsOpen] = useState(false)

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import CartModal from "components/cart/modal"
+import CartModal from "@/components/cart/modal"
 import { useSession } from "next-auth/react"
 
 import LogoutButton from "./logout-button"

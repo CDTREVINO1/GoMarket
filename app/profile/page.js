@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation"
-import OrderList from "components/orders/order-list"
-import ProfileForm from "components/profile/profile-form"
-import { authOptions } from "lib/auth"
-import { fetchOrders } from "lib/pos/queries/orders"
+import OrderList from "@/components/orders/order-list"
+import ProfileForm from "@/components/profile/profile-form"
+import { authOptions } from "@/lib/auth"
+import { fetchOrders } from "@/lib/pos/queries/orders"
 import { getServerSession } from "next-auth/next"
 
 export default async function ProfilePage() {

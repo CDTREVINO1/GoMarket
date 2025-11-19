@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import placeholderPic from "public/placeholder.png"
+import placeholderPic from "@/public/placeholder.png"
 
 const Slider = ({ products }) => {
   const slideWidth = 400
