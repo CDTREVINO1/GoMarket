@@ -1,9 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 /* styles.css */
 /* Import the "Lato" font */
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
 
 /* Reset the default font for all elements */
 * {

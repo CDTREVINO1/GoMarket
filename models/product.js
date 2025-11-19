@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const categories = require("lib/categories")
+const categories = require("@/lib/categories")
 
 const productSchema = new mongoose.Schema(
   {
