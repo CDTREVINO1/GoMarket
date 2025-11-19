@@ -1,5 +1,5 @@
-import ProductsGrid from "components/products/products-grid"
-import { getProductsByAvailability } from "lib/pos/queries/product"
+import ProductsGrid from "@/components/products/products-grid"
+import { getProductsByAvailability } from "@/lib/pos/queries/product"
 
 export default async function AllProductsPage() {
   const products = await getProductsByAvailability("available")

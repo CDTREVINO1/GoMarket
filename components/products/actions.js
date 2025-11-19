@@ -1,13 +1,13 @@
 "use server"
 
-import { v2 as cloudinary } from "cloudinary"
-import { cloudinaryConfig } from "lib/cloudinary"
+import { cloudinaryConfig } from "@/lib/cloudinary"
 import {
   archiveProduct,
   createProduct,
   deleteImage,
   updateProduct,
-} from "lib/pos/mutations/product"
+} from "@/lib/pos/mutations/product"
+import { v2 as cloudinary } from "cloudinary"
 
 export const handleCreateProduct = async (productData) => {
   try {

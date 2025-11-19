@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { getProductsByAvailability } from "lib/pos/queries/product"
+import { getProductsByAvailability } from "@/lib/pos/queries/product"
 
 const SuggestedProducts = async () => {
   const products = await getProductsByAvailability("available")

@@ -1,5 +1,5 @@
 import { cookies } from "next/headers"
-import { getCart } from "lib/pos/queries/cart"
+import { getCart } from "@/lib/pos/queries/cart"
 
 import CartModal from "./modal"
 

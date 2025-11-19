@@ -1,5 +1,5 @@
+import { CreateUserSchema } from "@/lib/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CreateUserSchema } from "lib/schema"
 import { useForm } from "react-hook-form"
 
 const createUser = async (username, password, email) => {

@@ -6,8 +6,8 @@ import {
   createCart,
   removeFromCart,
   updateCart,
-} from "lib/pos/mutations/cart"
-import { doesCartExist, getCart } from "lib/pos/queries/cart"
+} from "@/lib/pos/mutations/cart"
+import { doesCartExist, getCart } from "@/lib/pos/queries/cart"
 
 export const setCookie = async (cartId) => {
   const oneWeek = 7 * 24 * 60 * 60 * 1000

@@ -2,8 +2,8 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import placeholderPic from "@/public/placeholder.png"
 import { motion } from "framer-motion"
-import placeholderPic from "public/placeholder.png"
 
 const Product = (props) => {
   const { handle, name, price, images } = props

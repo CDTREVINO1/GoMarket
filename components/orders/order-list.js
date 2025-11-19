@@ -1,4 +1,4 @@
-import Order from "components/orders/order"
+import Order from "@/components/orders/order"
 
 export default function OrderList({ orders }) {
   return (

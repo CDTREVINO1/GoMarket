@@ -1,9 +1,9 @@
 import { useTransition } from "react"
 import { useRouter } from "next/navigation"
+import { removeItem, updateItemQuantity } from "@/components/cart/actions"
+import MinusIcon from "@/components/icons/minus"
+import PlusIcon from "@/components/icons/plus"
 import clsx from "clsx"
-import { removeItem, updateItemQuantity } from "components/cart/actions"
-import MinusIcon from "components/icons/minus"
-import PlusIcon from "components/icons/plus"
 
 import LoadingDots from "../loading-dots"
 

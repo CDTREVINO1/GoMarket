@@ -1,8 +1,8 @@
 import { Suspense } from "react"
 import Link from "next/link"
-import Cart from "components/cart/index"
-import CartIcon from "components/icons/cart"
-import { authOptions } from "lib/auth"
+import Cart from "@/components/cart/index"
+import CartIcon from "@/components/icons/cart"
+import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth/next"
 
 import HamburgerDropdown from "./hamburger"

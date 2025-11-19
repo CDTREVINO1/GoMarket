@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import categories from "@/lib/categories"
+import { ProductSchema } from "@/lib/schema"
 import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { zodResolver } from "@hookform/resolvers/zod"
-import categories from "lib/categories"
-import { ProductSchema } from "lib/schema"
 import { useDropzone } from "react-dropzone"
 import { useForm } from "react-hook-form"
 

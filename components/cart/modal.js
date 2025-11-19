@@ -3,9 +3,9 @@
 import { Fragment, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import ShoppingBagIcon from "@/components/icons/shopping-bag"
+import Price from "@/components/price"
 import { Dialog, Transition } from "@headlessui/react"
-import ShoppingBagIcon from "components/icons/shopping-bag"
-import Price from "components/price"
 
 import CloseCart from "./close-cart"
 import DeleteItemButton from "./delete-item-button"

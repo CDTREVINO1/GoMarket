@@ -2,8 +2,8 @@
 
 import { useTransition } from "react"
 import { useRouter } from "next/navigation"
+import { addItem } from "@/components/cart/actions"
 import clsx from "clsx"
-import { addItem } from "components/cart/actions"
 
 import LoadingDots from "../loading-dots"
 
