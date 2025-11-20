@@ -71,12 +71,12 @@ const Slider = ({ products }) => {
                 <Image
                   height={200}
                   width={200}
-                  src={product.images[0]?.url || placeholderPic}
-                  alt={product.name}
+                  src={product.images[0] || placeholderPic}
+                  alt={product.title}
                   className="object-cover w-full h-48 rounded-t-lg"
                 />
                 <blockquote className="max-w-2xl mx-auto mb-4 text-black dark:text-gray-400">
-                  <h3>{product.name}</h3>
+                  <h3>{product.title}</h3>
                 </blockquote>
                 <Link
                   href={linkPath}

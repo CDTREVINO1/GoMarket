@@ -1,9 +1,9 @@
 const mongoose = require("mongoose")
-const categories = require("@/lib/categories")
+const categories = require("../lib/categories")
 
 const productSchema = new mongoose.Schema(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
@@ -32,12 +32,7 @@ const productSchema = new mongoose.Schema(
       default: "Other",
     },
     images: {
-      type: [
-        {
-          public_id: String,
-          url: String,
-        },
-      ],
+      type: [String],
       default: [],
     },
     handle: {

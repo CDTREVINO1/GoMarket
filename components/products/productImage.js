@@ -5,10 +5,10 @@ import Image from "next/image"
 import placeholderPic from "@/public/placeholder.png"
 
 function ProductImage({ product }) {
-  const [selectedImage, setSelectedImage] = useState(product.images[0].url)
+  const [selectedImage, setSelectedImage] = useState(product.images[0])
 
   const handleImageClick = (image) => {
-    setSelectedImage(image.url)
+    setSelectedImage(image)
   }
 
   return (
@@ -34,7 +34,7 @@ function ProductImage({ product }) {
                 onClick={() => handleImageClick(image)}
               >
                 <Image
-                  src={image.url}
+                  src={image}
                   alt={`Thumbnail of product - ${index}`}
                   height={100}
                   width={100}

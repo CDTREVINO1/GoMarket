@@ -6,7 +6,7 @@ import placeholderPic from "@/public/placeholder.png"
 import { motion } from "framer-motion"
 
 const Product = (props) => {
-  const { handle, name, price, images } = props
+  const { handle, title, price, images } = props
 
   const linkPath = `/product/${handle}`
 
@@ -26,13 +26,13 @@ const Product = (props) => {
       >
         <Image
           className="rounded-t-lg p-8"
-          src={images[0]?.url || placeholderPic}
+          src={images[0] || placeholderPic}
           alt="product image"
           height={300}
           width={300}
         />
         <blockquote className="max-w-2xl mx-auto mb-4 text-black dark:text-gray-400 lg:mb-8">
-          <h3 className="text-xl">{name}</h3>
+          <h3 className="text-xl">{title}</h3>
           <h1>${price}</h1>
         </blockquote>
       </motion.div>

@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+
 import { getProductsByAvailability } from "@/lib/pos/queries/product"
 
 const SuggestedProducts = async () => {
@@ -33,8 +34,8 @@ const SuggestedProducts = async () => {
                   >
                     <div className="mx-2 rounded-lg">
                       <Image
-                        src={product.images[0].url}
-                        alt={product.name}
+                        src={product.images[0]}
+                        alt={product.title}
                         className="h-48 w-full rounded-lg object-cover"
                         width={250}
                         height={250}
@@ -49,7 +50,7 @@ const SuggestedProducts = async () => {
                       </div>
                     </div>
                     <div className="mt-4 flex items-center justify-between space-x-8 pb-2 text-base font-medium text-gray-900">
-                      <h3>{product.name}</h3>
+                      <h3>{product.title}</h3>
                       <p>${product.price}</p>
                     </div>
                   </div>

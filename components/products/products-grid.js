@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
+
 import Footer from "@/components/layout/footer"
 
 import CategorySection from "./category-section"
@@ -57,7 +58,7 @@ const ProductsGrid = ({ products }) => {
           <Product
             key={product._id}
             id={product._id}
-            name={product.name}
+            title={product.title}
             description={product.description}
             price={product.price}
             images={product.images}
