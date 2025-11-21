@@ -11,16 +11,13 @@ const Breadcrumb = ({ links }) => {
           <li key={index} className="flex items-center">
             {index < links.length - 1 ? (
               <>
-                <Link
-                  href={link.url}
-                  className="text-gray-600 hover:scale-110 hover:text-gray-800"
-                >
+                <Link href={link.url} className="hover:scale-110">
                   {link.label}
                 </Link>
                 <ChevronRightIcon className="h-4 w-10" />
               </>
             ) : (
-              <span className="text-gray-900">{link.label}</span>
+              <span>{link.label}</span>
             )}
           </li>
         ))}

@@ -1,7 +1,7 @@
 export default function AdminLayout({ children }) {
   return (
     <>
-      <section className="container mx-auto max-w-7xl bg-blue-100 px-4 py-5 sm:py-7">
+      <section className="container mx-auto max-w-7xl border px-4 py-5 sm:py-7">
         <h1 className="text-bold text-2xl">Admin Dashboard</h1>
       </section>
 

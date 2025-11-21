@@ -29,24 +29,22 @@ export default async function ProductPage({ params }) {
             <ProductImage product={product} />
           </div>
 
-          <div className="mx-4 flex max-w-lg flex-col justify-between bg-gray-100 p-6 md:w-1/2">
+          <div className="mx-4 flex max-w-lg flex-col justify-between p-6 md:w-1/2">
             <div>
-              <h1 className="mt-8 ml-2 text-4xl font-bold tracking-tight text-gray-900">
+              <h1 className="mt-8 ml-2 text-4xl font-bold tracking-tight">
                 {product.title}
               </h1>
 
               <div className="mt-3">
                 <h2 className="sr-only">Product information</h2>
-                <p className="mt-8 mb-4 ml-2 text-2xl font-thin tracking-tight text-gray-900">
+                <p className="mt-8 mb-4 ml-2 text-2xl font-thin tracking-tight">
                   ${product.price}
                 </p>
               </div>
 
               <Divider />
 
-              <p className="mt-8 ml-2 text-lg text-gray-600">
-                {product.description}
-              </p>
+              <p className="mt-8 ml-2 text-lg">{product.description}</p>
             </div>
 
             <div className="mt-auto">
