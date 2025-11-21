@@ -1,9 +1,10 @@
 import { Suspense } from "react"
-import Header from "@/components/layout/header"
+
+import { Footer } from "@/components/layout/footer"
+import { Header } from "@/components/layout/header"
+import Providers from "@/app/providers"
 
 import "./globals.css"
-
-import Providers from "./providers"
 
 export const metadata = {
   title: "Home",
@@ -12,19 +13,16 @@ export const metadata = {
   content: "initial-scale=1.0, width=device-width height=device-height",
 }
 
-export default function RootLayout({
-  // Layouts must accept a children prop.
-  // This will be populated with nested layouts or pages
-  children,
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
         <Providers>
           <Header />
           <Suspense>
-            <main className="flex flex-col w-screen h-screen">{children}</main>
+            <main className="flex w-screen flex-col">{children}</main>
           </Suspense>
+          <Footer />
         </Providers>
       </body>
     </html>

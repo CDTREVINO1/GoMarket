@@ -60,9 +60,9 @@ const navigation = [
       </svg>
     ),
   },
-]
+];
 
-export default function Footer() {
+export function Footer() {
   return (
     <footer className="mt-auto bg-white border-t dark:bg-gray-800">
       <div className="px-6 py-12 mx-auto max-w-7xl md:flex md:items-center md:justify-between lg:px-8">
@@ -86,5 +86,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

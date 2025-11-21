@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-import Footer from "@/components/layout/footer"
-
 import CategorySection from "./category-section"
 import Product from "./product"
 
@@ -53,7 +51,7 @@ const ProductsGrid = ({ products }) => {
         selectedCategories={selectedCategories}
         onCategoryChange={handleCategoryChange}
       />
-      <ul className="grid m-auto border-gray-200 max-w-fit dark:border-gray-700 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <ul className="m-auto grid max-w-fit border-gray-200 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 dark:border-gray-700">
         {filteredProducts.map((product) => (
           <Product
             key={product._id}
@@ -66,7 +64,6 @@ const ProductsGrid = ({ products }) => {
           />
         ))}
       </ul>
-      <Footer />
     </main>
   )
 }

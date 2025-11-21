@@ -8,8 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useDropzone } from "react-dropzone"
 import { useForm } from "react-hook-form"
 
-import categories from "lib/categories"
-import { ProductSchema } from "lib/schema"
+import categories from "@/lib/categories"
+import { ProductSchema } from "@/lib/schema"
 
 import { getSignature, handleCreateProduct, saveToDatabase } from "./actions"
 
@@ -121,7 +121,7 @@ export default function CreateProductForm({ onClose }) {
         Name:
       </label>
       <input
-        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
+        className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
         type="text"
         id="name"
         {...register("name")}
@@ -137,7 +137,7 @@ export default function CreateProductForm({ onClose }) {
         Description:
       </label>
       <textarea
-        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
+        className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
         id="description"
         {...register("description")}
       />
@@ -152,7 +152,7 @@ export default function CreateProductForm({ onClose }) {
         Price: $
       </label>
       <input
-        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
+        className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
         type="number"
         id="price"
         step="any"
@@ -169,7 +169,7 @@ export default function CreateProductForm({ onClose }) {
         Category:
       </label>
       <select
-        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:text-gray-200"
+        className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
         {...register("category", {
           required: "Please select a category",
         })}
@@ -212,7 +212,7 @@ export default function CreateProductForm({ onClose }) {
           <button
             type="button"
             onClick={removeAll}
-            className="mt-1 rounded-md border border-rose-400 px-3 text-[12px] font-bold uppercase tracking-wider text-stone-500 transition-colors hover:bg-rose-400 hover:text-white"
+            className="mt-1 rounded-md border border-rose-400 px-3 text-[12px] font-bold tracking-wider text-stone-500 uppercase transition-colors hover:bg-rose-400 hover:text-white"
           >
             Remove all files
           </button>
@@ -237,7 +237,7 @@ export default function CreateProductForm({ onClose }) {
               />
               <button
                 type="button"
-                className="absolute -right-3 -top-3 flex h-7 w-7 items-center justify-center rounded-full border border-rose-400 bg-rose-400 transition-colors hover:bg-white"
+                className="absolute -top-3 -right-3 flex h-7 w-7 items-center justify-center rounded-full border border-rose-400 bg-rose-400 transition-colors hover:bg-white"
                 onClick={() => removeFile(file.name)}
               >
                 <XMarkIcon className="h-5 w-5 fill-white transition-colors hover:fill-rose-400" />
@@ -268,7 +268,7 @@ export default function CreateProductForm({ onClose }) {
               </div>
               <button
                 type="button"
-                className="mt-1 rounded-md border border-rose-400 px-3 py-1 text-[12px] font-bold uppercase tracking-wider text-stone-500 transition-colors hover:bg-rose-400 hover:text-white"
+                className="mt-1 rounded-md border border-rose-400 px-3 py-1 text-[12px] font-bold tracking-wider text-stone-500 uppercase transition-colors hover:bg-rose-400 hover:text-white"
                 onClick={() => removeRejected(file.name)}
               >
                 remove
@@ -280,7 +280,7 @@ export default function CreateProductForm({ onClose }) {
 
       <div className="mt-4 text-center">
         <button
-          className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 dark:bg-red-700"
+          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 dark:bg-red-700"
           onClick={onClose}
         >
           Cancel
@@ -289,7 +289,7 @@ export default function CreateProductForm({ onClose }) {
         <button
           className={`ml-2 rounded px-4 py-2 text-white ${
             !isAddingImages && !isDirty
-              ? "bg-gray-400 cursor-not-allowed"
+              ? "cursor-not-allowed bg-gray-400"
               : "bg-blue-500 hover:bg-blue-600"
           }`}
           type="submit"
