@@ -4,26 +4,20 @@ import HeroSection from "@/components/layout/herosection"
 import Slider from "@/components/products/productSlider"
 
 export const metadata = {
-  title: "Online Store",
+  title: "GoMarket",
 }
 
 export default async function Page() {
   const products = await getProductsByAvailability("available")
 
   return (
-    <div className="flex flex-col w-screen min-h-screen">
-      <main className="grow">
-        <HeroSection />
-        <div className=" dark:bg-gray-600">
-          <h2 className="pt-4 text-3xl font-extrabold text-center text-gray-800 dark:text-white md:text-4xl lg:text-5xl">
-            Featured Products
-          </h2>
-          <div className="flex flex-col mt-4 md:flex-row md:flex-wrap md:justify-center md:space-x-4">
-            <Slider products={products} />
-          </div>
-        </div>
-        <ContactUs />
-      </main>
-    </div>
+    <main>
+      <HeroSection />
+      <h2 className="pt-4 text-center text-3xl font-extrabold md:text-4xl lg:text-5xl">
+        Featured Products
+      </h2>
+      <Slider products={products} />
+      <ContactUs />
+    </main>
   )
 }

@@ -1,22 +1,16 @@
 export default function AdminLayout({ children }) {
   return (
     <>
-      <section className="py-5 sm:py-7 bg-blue-100">
-        <div className="container max-w-screen-xl mx-auto px-4">
-          <h1 className="text-bold text-2xl">Admin Dashboard</h1>
-        </div>
+      <section className="container mx-auto max-w-7xl bg-blue-100 px-4 py-5 sm:py-7">
+        <h1 className="text-bold text-2xl">Admin Dashboard</h1>
       </section>
 
-      <section className="py-10">
-        <div className="container max-w-screen-xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row -mx-4">
-            <main className="md:w-2/3 lg:w-3/4 px-4">
-              <article className="border border-gray-200 bg-white shadow-sm rounded mb-5 p-3 lg:p-5">
-                {children}
-              </article>
-            </main>
-          </div>
-        </div>
+      <section className="container mx-auto max-w-7xl px-4 py-10">
+        <main className="-mx-4 flex flex-col px-4 md:w-2/3 md:flex-row lg:w-3/4">
+          <article className="mb-5 rounded border border-gray-200 p-3 lg:p-5">
+            {children}
+          </article>
+        </main>
       </section>
     </>
   )
