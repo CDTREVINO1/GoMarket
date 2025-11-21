@@ -1,15 +1,26 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { signOut } from "next-auth/react"
 
+import { Button } from "@/components/ui/button"
+
 const LogoutButton = () => {
+  const router = useRouter()
+
+  const handleSignOut = async () => {
+    await signOut({ redirect: false })
+    router.refresh()
+  }
+
   return (
-    <button
-      className="block px-4 py-2 text-gray-900 transition duration-300 ease-in-out rounded hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-      onClick={() => signOut()}
+    <Button
+      className="cursor-pointer text-foreground"
+      variant="default"
+      onClick={handleSignOut}
     >
       Logout
-    </button>
+    </Button>
   )
 }
 

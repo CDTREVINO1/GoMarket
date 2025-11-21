@@ -3,9 +3,11 @@
 import { Fragment, useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { Dialog, Transition } from "@headlessui/react"
+
+import { Button } from "@/components/ui/button"
 import ShoppingBagIcon from "@/components/icons/shopping-bag"
 import Price from "@/components/price"
-import { Dialog, Transition } from "@headlessui/react"
 
 import CloseCart from "./close-cart"
 import DeleteItemButton from "./delete-item-button"
@@ -57,9 +59,16 @@ export default function CartModal({ cart }) {
 
   return (
     <>
-      <button aria-label="Open cart" onClick={openCart} data-testid="open-cart">
+      <Button
+        aria-label="Open cart"
+        onClick={openCart}
+        data-testid="open-cart"
+        size="icon"
+        variant="default"
+        className="text-foreground"
+      >
         <OpenCart quantity={cart?.totalQuantity} />
-      </button>
+      </Button>
       <Transition show={isOpen}>
         <Dialog
           onClose={closeCart}
@@ -86,7 +95,7 @@ export default function CartModal({ cart }) {
             leaveFrom="translate-x-0"
             leaveTo="translate-x-full"
           >
-            <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col bg-white p-6 text-black dark:bg-black dark:text-white md:w-3/5 lg:w-2/5">
+            <Dialog.Panel className="fixed top-0 right-0 bottom-0 flex h-full w-full flex-col bg-white p-6 text-black md:w-3/5 lg:w-2/5 dark:bg-black dark:text-white">
               <div className="flex items-center justify-between">
                 <p className="text-lg font-bold">My Cart</p>
                 <button

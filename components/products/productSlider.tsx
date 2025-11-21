@@ -47,7 +47,7 @@ const Slider = ({ products }) => {
 
   return (
     <div
-      className="relative w-full mb-6 overflow-hidden"
+      className="relative mb-6 overflow-hidden"
       onMouseEnter={() => setAutoSlide(false)}
       onMouseLeave={() => setAutoSlide(true)}
     >
@@ -64,23 +64,23 @@ const Slider = ({ products }) => {
           return (
             <div
               key={index}
-              className="inline-block h-auto p-4 w-80 "
+              className="inline-block h-auto w-80 p-4"
               style={{ flexShrink: 0 }}
             >
-              <div className="flex flex-col items-center justify-center p-8 text-center bg-white border border-gray-300 rounded-xl dark:border-gray-700 dark:bg-gray-800">
+              <div className="flex flex-col items-center justify-center rounded-xl border border-gray-300 bg-white p-8 text-center dark:border-gray-700 dark:bg-gray-800">
                 <Image
                   height={200}
                   width={200}
                   src={product.images[0] || placeholderPic}
                   alt={product.title}
-                  className="object-cover w-full h-48 rounded-t-lg"
+                  className="h-48 w-full rounded-t-lg object-cover"
                 />
-                <blockquote className="max-w-2xl mx-auto mb-4 text-black dark:text-gray-400">
+                <blockquote className="mx-auto mb-4 max-w-2xl text-black dark:text-gray-400">
                   <h3>{product.title}</h3>
                 </blockquote>
                 <Link
                   href={linkPath}
-                  className="px-5 py-2 text-white transition duration-300 ease-in-out transform bg-blue-600 rounded-lg shadow-md hover:scale-105 hover:bg-blue-700 hover:shadow-lg active:scale-100 active:bg-blue-800"
+                  className="transform rounded-lg bg-blue-600 px-5 py-2 text-white shadow-md transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-700 hover:shadow-lg active:scale-100 active:bg-blue-800"
                 >
                   View Product
                 </Link>
@@ -91,13 +91,13 @@ const Slider = ({ products }) => {
       </div>
       <button
         onClick={jumpPrevious}
-        className="absolute p-2 text-white bg-blue-600 rounded-full left-2 top-1/2"
+        className="absolute top-1/2 left-2 rounded-full bg-blue-600 p-2 text-white"
       >
         ←
       </button>
       <button
         onClick={jumpNext}
-        className="absolute p-2 text-white bg-blue-600 rounded-full right-2 top-1/2"
+        className="absolute top-1/2 right-2 rounded-full bg-blue-600 p-2 text-white"
       >
         →
       </button>

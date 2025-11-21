@@ -2,8 +2,8 @@ import Link from "next/link"
 
 export default function HeroSection() {
   return (
-    <div className="relative py-12 text-center">
-      <div className="relative container mx-auto px-4">
+    <div className="py-12 text-center">
+      <div className="container mx-auto px-4">
         <h1 className="mb-4 text-5xl leading-none font-extrabold md:text-6xl lg:text-7xl">
           Discover Our Latest Collection
         </h1>
