@@ -14,7 +14,7 @@ export default async function ProfilePage() {
   const orders = await fetchOrders(session?.user.id)
 
   return (
-    <section>
+    <section className="h-full px-6">
       <ProfileForm />
       <h1 className="pt-10 pb-8 text-center text-2xl font-bold md:text-3xl">
         Order history

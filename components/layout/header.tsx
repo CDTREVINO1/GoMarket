@@ -7,9 +7,6 @@ import Cart from "@/components/cart/index"
 import CartIcon from "@/components/icons/cart"
 import { HeaderNav } from "@/components/layout/Nav"
 
-import HamburgerDropdown from "./hamburger"
-import LogoutButton from "./logout-button"
-
 export async function Header() {
   const session = await getServerSession(authOptions)
 

@@ -1,4 +1,8 @@
+import Link from "next/link"
+
 import { ThemeToggle } from "@/components/ui/ThemeToggle"
+
+import { Button } from "../ui/button"
 
 const navigation = [
   {
@@ -66,27 +70,25 @@ const navigation = [
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t bg-white dark:bg-gray-800">
-      <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
-        <div className="flex justify-center space-x-6 md:order-2">
+    <footer className="border-t bg-primary p-8">
+      <div className="mx-auto max-w-7xl md:flex md:items-center md:justify-between lg:px-8">
+        <div className="flex justify-center space-x-4 md:order-2 md:scale-125">
           {navigation.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"
-            >
-              <span className="sr-only">{item.name}</span>
-              <item.icon className="h-6 w-6" aria-hidden="true" />
-            </a>
+            <Button key={item.name} variant="default" asChild>
+              <Link href={item.href}>
+                <span className="sr-only">{item.name}</span>
+                <item.icon aria-hidden="true" />
+              </Link>
+            </Button>
           ))}
+          <ThemeToggle />
         </div>
-        <div className="mt-8 md:order-1 md:mt-0">
-          <p className="text-center text-xs leading-5 text-gray-500 dark:text-gray-400">
-            &copy; {new Date().getFullYear()} Your Company, Inc. All rights
+        <div className="mt-4 md:order-1 md:mt-0">
+          <p>
+            &copy; {new Date().getFullYear()} GoMarket, Inc. All rights
             reserved.
           </p>
         </div>
-        <ThemeToggle />
       </div>
     </footer>
   )

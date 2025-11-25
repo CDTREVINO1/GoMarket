@@ -11,6 +11,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -30,14 +31,29 @@ export const HeaderNav = () => {
     <nav className="flex items-center justify-between">
       <div className="hidden items-center gap-4 md:flex">
         {!session ? (
-          <Button className="text-foreground" variant="default" asChild>
-            <Link href="auth">Login</Link>
-          </Button>
+          <Fragment>
+            <Button className="text-foreground" variant="default" asChild>
+              <Link href="/products">Products</Link>
+            </Button>
+            <Button className="text-foreground" variant="default" asChild>
+              <Link href="auth">Login</Link>
+            </Button>
+          </Fragment>
         ) : (
           <Fragment>
             <Button className="text-foreground" variant="default" asChild>
+              <Link href="/products">Products</Link>
+            </Button>
+
+            <Button className="text-foreground" variant="default" asChild>
               <Link href="/profile">Profile</Link>
             </Button>
+
+            {session?.user.role === "admin" && (
+              <Button className="text-foreground" variant="default" asChild>
+                <Link href="/admin">Admin</Link>
+              </Button>
+            )}
 
             <LogoutButton />
           </Fragment>
@@ -54,8 +70,14 @@ export const HeaderNav = () => {
           <SheetContent side="right" className="w-64">
             <SheetHeader>
               <SheetTitle className="text-lg font-semibold">Menu</SheetTitle>
+              <SheetDescription>Where do you want to go next?</SheetDescription>
             </SheetHeader>
             <div className="mt-4 flex flex-col space-y-4 px-6">
+              <SheetClose asChild>
+                <Button className="text-foreground" variant="default" asChild>
+                  <Link href="/products">Products</Link>
+                </Button>
+              </SheetClose>
               {!session ? (
                 <SheetClose asChild>
                   <Button className="text-foreground" asChild>
@@ -73,6 +95,19 @@ export const HeaderNav = () => {
                       <Link href="/profile">Profile</Link>
                     </Button>
                   </SheetClose>
+
+                  {session?.user.role === "admin" && (
+                    <SheetClose asChild>
+                      <Button
+                        className="text-foreground"
+                        variant="default"
+                        asChild
+                      >
+                        <Link href="/admin">Admin</Link>
+                      </Button>
+                    </SheetClose>
+                  )}
+
                   <SheetClose asChild>
                     <Button
                       className="text-foreground"
