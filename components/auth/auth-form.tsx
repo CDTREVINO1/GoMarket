@@ -3,20 +3,38 @@
 import { useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { UserSchema } from "@/lib/schema"
 import placeholderPic from "@/public/placeholder.png"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
+
+import { UserSchema } from "@/lib/schema"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
 
 import CreateUserForm from "./create-user-form"
 
 export default function AuthForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ resolver: zodResolver(UserSchema) })
+  const form = useForm({
+    resolver: zodResolver(UserSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  })
   const [isLogin, setIsLogin] = useState(true)
   const [status, setStatus] = useState("")
   const router = useRouter()
@@ -25,7 +43,7 @@ export default function AuthForm() {
     setIsLogin((prevState) => !prevState)
   }
 
-  const onSubmit = async (data) => {
+  const formSubmitHandler = async (data) => {
     const { username, password } = data
 
     try {
@@ -37,8 +55,8 @@ export default function AuthForm() {
       })
 
       if (!result.error) {
-        router.refresh()
         router.replace("/")
+        router.refresh()
       } else {
         setStatus(result.error)
       }
@@ -48,86 +66,96 @@ export default function AuthForm() {
   }
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-        <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-          <div>
-            <Image
-              className="w-auto h-12 mx-auto"
-              src={placeholderPic}
-              alt="Logo"
-              width={100}
-              height={100}
-            />
-            <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 dark:text-gray-100">
-              {isLogin ? "Login" : "Create an account"}
-            </h2>
-          </div>
-          {status && <p className="text-center text-red-500">{status}</p>}
+    <Card className="w-full scale-[85%] sm:max-w-md md:scale-100">
+      <CardHeader>
+        <CardTitle>{isLogin ? "Login" : "Create an account"}</CardTitle>
+        <CardDescription>
+          <Image
+            className="mx-auto h-12 w-auto"
+            src={placeholderPic}
+            alt="Logo"
+            width={100}
+            height={100}
+          />
+        </CardDescription>
+        {status && <p className="text-center text-red-500">{status}</p>}
+      </CardHeader>
 
-          {isLogin ? (
-            <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Username
-              </label>
-              <input
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-200 sm:text-sm"
-                type="text"
-                id="username"
+      <CardContent>
+        {isLogin ? (
+          <form id="form-login" onSubmit={form.handleSubmit(formSubmitHandler)}>
+            <FieldGroup>
+              <Controller
                 name="username"
-                autoComplete="username"
-                {...register("username")}
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="form-login-username">
+                      Username
+                    </FieldLabel>
+                    <Input
+                      {...field}
+                      id="form-login-username"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="Username"
+                      autoComplete="off"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
               />
-              {errors.username?.message && (
-                <p className="text-red-600">{errors.username.message}</p>
-              )}
 
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-              >
-                Password
-              </label>
-              <input
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-200 sm:text-sm"
-                type="password"
-                id="password"
+              <Controller
                 name="password"
-                autoComplete="current-password"
-                {...register("password")}
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="form-login-password">
+                      Password
+                    </FieldLabel>
+                    <Input
+                      {...field}
+                      id="form-login-password"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="Password"
+                      autoComplete="off"
+                      type="password"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
               />
-              {errors.password?.message && (
-                <p className="text-red-600">{errors.password.message}</p>
-              )}
 
-              <button
-                className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md group hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-indigo-500"
+              <Button
+                className="cursor-pointer"
+                disabled={form.formState.isLoading}
                 type="submit"
               >
                 Login
-              </button>
-            </form>
-          ) : (
-            <CreateUserForm setStatus={setStatus} />
-          )}
-          <div className="flex items-center justify-center">
-            <button
-              className="mt-2 text-sm text-indigo-600 underline hover:text-indigo-500 dark:text-indigo-400"
-              type="button"
-              onClick={() => {
-                switchAuthModeHandler()
-              }}
-            >
-              {isLogin
-                ? "Don't have an account? Sign up here"
-                : "Already have an account? Login here"}
-            </button>
-          </div>
+              </Button>
+            </FieldGroup>
+          </form>
+        ) : (
+          <CreateUserForm setStatus={setStatus} />
+        )}
+
+        <div className="flex items-center justify-center">
+          <Button
+            variant="link"
+            onClick={() => {
+              switchAuthModeHandler()
+            }}
+          >
+            {isLogin
+              ? "Don't have an account? Sign up here"
+              : "Already have an account? Login here"}
+          </Button>
         </div>
-      </div>
-    </>
+      </CardContent>
+    </Card>
   )
 }

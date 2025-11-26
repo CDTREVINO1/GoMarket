@@ -1,6 +1,15 @@
-import { CreateUserSchema } from "@/lib/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
+
+import { CreateUserSchema } from "@/lib/schema"
+import { Button } from "@/components/ui/button"
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
 
 const createUser = async (username, password, email) => {
   const response = await fetch("/api/auth/signup", {
@@ -21,13 +30,17 @@ const createUser = async (username, password, email) => {
 }
 
 export default function CreateUserForm({ setStatus }) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ resolver: zodResolver(CreateUserSchema) })
+  const form = useForm({
+    resolver: zodResolver(CreateUserSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      passwordConfirm: "",
+    },
+  })
 
-  const onSubmit = async (data) => {
+  const formSubmitHandler = async (data) => {
     const { username, email, password } = data
 
     try {
@@ -40,88 +53,99 @@ export default function CreateUserForm({ setStatus }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label
-        htmlFor="username"
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-      >
-        Username
-      </label>
-      <input
-        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-200 sm:text-sm"
-        type="text"
-        id="username"
-        name="username"
-        autoComplete="username"
-        {...register("username")}
-      />
-      {errors.username?.message && (
-        <p className="text-red-600">{errors.username.message}</p>
-      )}
+    <form
+      id="form-create-account"
+      onSubmit={form.handleSubmit(formSubmitHandler)}
+    >
+      <FieldGroup>
+        <Controller
+          name="username"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-create-account-username">
+                Username
+              </FieldLabel>
+              <Input
+                {...field}
+                id="form-create-account-username"
+                aria-invalid={fieldState.invalid}
+                placeholder="Username"
+                autoComplete="off"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-      <label
-        htmlFor="email"
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-      >
-        Email Address
-      </label>
-      <input
-        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-200 sm:text-sm"
-        type="email"
-        id="email"
-        name="email"
-        autoComplete="email"
-        {...register("email")}
-      />
-      {errors.email?.message && (
-        <p className="text-red-600">{errors.email.message}</p>
-      )}
+        <Controller
+          name="email"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-create-account-email">Email</FieldLabel>
+              <Input
+                {...field}
+                id="form-create-account-email"
+                aria-invalid={fieldState.invalid}
+                placeholder="Email"
+                autoComplete="off"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-      <label
-        htmlFor="password"
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-      >
-        Password
-      </label>
-      <input
-        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-200 sm:text-sm"
-        type="password"
-        id="password"
-        name="password"
-        autoComplete="current-password"
-        {...register("password")}
-      />
-      {errors.password?.message && (
-        <p className="text-red-600">{errors.password.message}</p>
-      )}
+        <Controller
+          name="password"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-create-account-password">
+                Password
+              </FieldLabel>
+              <Input
+                {...field}
+                id="form-create-account-password"
+                aria-invalid={fieldState.invalid}
+                placeholder="Password"
+                autoComplete="off"
+                type="password"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-      <label
-        htmlFor="confirm-password"
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-      >
-        Confirm Password
-      </label>
-      <input
-        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-200 sm:text-sm"
-        type="password"
-        id="confirm-password"
-        name="confirm-password"
-        autoComplete="current-password"
-        {...register("confirmedPassword")}
-      />
-      {errors.confirmedPassword?.message && (
-        <p className="text-red-600">{errors.confirmedPassword.message}</p>
-      )}
-      {errors[""]?.message && (
-        <p className="text-red-600">{errors[""].message}</p>
-      )}
+        <Controller
+          name="passwordConfirm"
+          control={form.control}
+          rules={{
+            validate: (value) =>
+              value === password.current || "The passwords do not match",
+          }}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-create-account-confirm-password">
+                Confirm Password
+              </FieldLabel>
+              <Input
+                {...field}
+                id="form-create-account-confirm-password"
+                aria-invalid={fieldState.invalid}
+                placeholder="Confirm Password"
+                autoComplete="off"
+                type="password"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-      <button
-        className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md group hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-indigo-500"
-        type="submit"
-      >
-        Create Account
-      </button>
+        <Button className="cursor-pointer" type="submit">
+          Create Account
+        </Button>
+      </FieldGroup>
     </form>
   )
 }
