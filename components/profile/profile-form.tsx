@@ -1,11 +1,35 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Controller, useForm } from "react-hook-form"
+
+import { ChangePasswordSchema } from "@/lib/schema"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
 
 function ProfileForm() {
-  const oldPasswordRef = useRef()
-  const newPasswordRef = useRef()
-  const confirmNewPasswordRef = useRef()
+  const form = useForm({
+    resolver: zodResolver(ChangePasswordSchema),
+    defaultValues: {
+      currentPassword: "",
+      newPassword: "",
+      passwordConfirm: "",
+    },
+  })
 
   const [status, setStatus] = useState("")
 
@@ -19,110 +43,135 @@ function ProfileForm() {
     })
 
     const data = await response.json()
-
-    if (!response.ok) {
-      throw new Error(data.message || "Something went wrong!")
-    }
-
     return data
   }
 
-  const submitHandler = async (event) => {
-    event.preventDefault()
-
-    const enteredOldPassword = oldPasswordRef.current.value
-    const enteredNewPassword = newPasswordRef.current.value
-    const confirmedNewPassword = confirmNewPasswordRef.current?.value
-
-    if (enteredNewPassword.trim() !== confirmedNewPassword.trim()) {
-      setStatus("New password and confirm password do not match.")
-      return
-    }
+  const formSubmitHandler = async (data) => {
+    const { currentPassword, newPassword } = data
 
     try {
       const result = await changePasswordHandler({
-        oldPassword: enteredOldPassword,
-        newPassword: enteredNewPassword,
+        oldPassword: currentPassword,
+        newPassword: newPassword,
       })
-
       setStatus(result.message)
+      form.reset()
     } catch (error) {
       setStatus(error.message)
     }
+  }
 
-    oldPasswordRef.current.value = ""
-    newPasswordRef.current.value = ""
-    confirmNewPasswordRef.current.value = ""
+  const passwordsMatchError = form.formState.errors[""]?.message
+
+  const clearPasswordInputs = () => {
+    form.reset({
+      currentPassword: "",
+      newPassword: "",
+      passwordConfirm: "",
+    })
   }
 
   return (
-    <section className="pb-8">
-      <div className="mx-auto flex h-1/2 flex-col items-center justify-start space-y-8 px-14 pt-10 sm:md:px-8">
-        <h1 className="text-2xl font-bold">Change Password</h1>
-
-        <form onSubmit={submitHandler} className="w-full max-w-md space-y-6">
+    <Card className="w-full scale-[85%] sm:max-w-md md:scale-100">
+      <CardHeader>
+        <CardTitle>Account</CardTitle>
+        <CardDescription>
           {status && (
-            <div className="text-center text-blue-500 dark:text-blue-300">
-              {status}
-            </div>
+            <p className="text-center text-xs text-red-500">{status}</p>
           )}
-
-          <div>
-            <label
-              className="mb-2 block text-sm font-medium"
-              htmlFor="old-password"
-            >
-              Current Password
-            </label>
-            <input
-              className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-white dark:bg-gray-800"
-              type="password"
-              id="old-password"
-              ref={oldPasswordRef}
-              onClick={() => setStatus("")}
+          {form.formState.errors[""]?.message && (
+            <p className="text-center text-xs text-red-600">
+              {form.formState.errors[""].message}
+            </p>
+          )}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={form.handleSubmit(formSubmitHandler)}>
+          <FieldGroup>
+            <Controller
+              name="currentPassword"
+              control={form.control}
+              rules={{
+                validate: (value) =>
+                  value === password.current || "The passwords do not match",
+              }}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="form-account-current-password">
+                    Current Password
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id="form-account-current-password"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Current Password"
+                    autoComplete="off"
+                    type="password"
+                    onClick={() => {
+                      passwordsMatchError && clearPasswordInputs()
+                    }}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
-          </div>
-
-          <div>
-            <label
-              className="mb-2 block text-sm font-medium"
-              htmlFor="new-password"
-            >
-              New Password
-            </label>
-            <input
-              className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-white dark:bg-gray-800"
-              type="password"
-              id="new-password"
-              ref={newPasswordRef}
-              onClick={() => setStatus("")}
+            <Controller
+              name="newPassword"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="form-account-password">
+                    New Password
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id="form-account-password"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="New Password"
+                    autoComplete="off"
+                    type="password"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
-          </div>
-
-          <div>
-            <label
-              className="mb-2 block text-sm font-medium"
-              htmlFor="confirm-new-password"
-            >
-              Confirm New Password
-            </label>
-            <input
-              className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-white dark:bg-gray-800"
-              type="password"
-              id="confirm-new-password"
-              ref={confirmNewPasswordRef}
-              onClick={() => setStatus("")}
+            <Controller
+              name="passwordConfirm"
+              control={form.control}
+              rules={{
+                validate: (value) =>
+                  value === newPassword.current || "The passwords do not match",
+              }}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="form-account-confirm-password">
+                    Confirm Password
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id="form-account-confirm-password"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Confirm Password"
+                    autoComplete="off"
+                    type="password"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
-          </div>
-
-          <div className="text-center">
-            <button className="mt-4 rounded-lg border border-blue-500 bg-blue-500 px-6 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:ring-4 focus:ring-blue-400 focus:outline-none dark:border-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800">
-              Change Password
-            </button>
-          </div>
+            <Button type="submit">Change Password</Button>
+          </FieldGroup>
         </form>
-      </div>
-    </section>
+      </CardContent>
+    </Card>
   )
 }
+
 export default ProfileForm
