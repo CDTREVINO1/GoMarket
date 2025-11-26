@@ -39,7 +39,7 @@ To get started with GoMarket, please follow the instructions below.
 Create a `.env.local` file in the root of the project and add the following environment variables:
 
 ```bash
-MONGODB_URI=your_mongodb_connection_string
+DATABASE_URL=your_database_connection_string
 NEXT_PUBLIC_SERVER_URL=http://localhost:3000
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_public_stripe_publishable_key
 STRIPE_SECRET_KEY=your_stripe_secret_key

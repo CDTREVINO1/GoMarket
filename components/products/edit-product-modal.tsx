@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { Dialog } from "@headlessui/react"
 
+import { Button } from "@/components/ui/button"
+
 import EditProductForm from "./edit-product-form"
 
 export default function EditProductModal({ product }) {
@@ -12,12 +14,12 @@ export default function EditProductModal({ product }) {
 
   return (
     <>
-      <button
+      <Button
         onClick={openModal}
-        className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:bg-gray-800 dark:hover:bg-blue-700 dark:focus:ring-blue-500 dark:focus:ring-opacity-50"
+        className="focus:ring-opacity-50 dark:focus:ring-opacity-50 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:ring focus:ring-blue-500 focus:outline-none dark:bg-gray-800 dark:hover:bg-blue-700 dark:focus:ring-blue-500"
       >
         Edit Product
-      </button>
+      </Button>
 
       <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
         <div
@@ -25,9 +27,9 @@ export default function EditProductModal({ product }) {
           aria-hidden="true"
         />
 
-        <div className="fixed inset-0 flex items-center justify-center w-screen p-4">
-          <Dialog.Panel className="max-w-lg p-4 bg-white rounded-lg shadow-lg min-w-md dark:bg-gray-800">
-            <Dialog.Title className="text-xl font-bold text-center dark:text-gray-200">
+        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+          <Dialog.Panel className="max-w-lg min-w-md rounded-lg bg-white p-4 shadow-lg dark:bg-gray-800">
+            <Dialog.Title className="text-center text-xl font-bold dark:text-gray-200">
               Edit Product
             </Dialog.Title>
 

@@ -1,7 +1,12 @@
-import { authOptions, hashPassword, verifyPassword } from "@/lib/auth"
-import dbConnect from "@/lib/dbConnect"
-import User from "@/models/user"
 import { getServerSession } from "next-auth/next"
+
+import {
+  authOptions,
+  comparePasswords,
+  hashPassword,
+  verifyPassword,
+} from "@/lib/auth"
+import prisma from "@/lib/prisma"
 
 export async function PATCH(request) {
   try {
@@ -13,12 +18,12 @@ export async function PATCH(request) {
         status: 401,
       })
 
-    const username = session.user.name
+    const userId = session.user.id
     const { oldPassword, newPassword } = data
 
-    await dbConnect()
-
-    const user = await User.findOne({ username: username })
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    })
 
     if (!user)
       return new Response(JSON.stringify({ message: "User not found." }), {
@@ -43,16 +48,30 @@ export async function PATCH(request) {
         { status: 422 }
       )
 
+    const passwordsMatch = await comparePasswords(currentPassword, newPassword)
+
+    if (passwordsMatch) {
+      return new Response(
+        JSON.stringify({
+          message: "New password must be different from current password.",
+        }),
+        { status: 422 }
+      )
+    }
+
     const hashedPassword = await hashPassword(newPassword)
 
-    const result = await User.updateOne(
-      { username: username },
-      { $set: { password: hashedPassword } }
-    )
-
-    return new Response(JSON.stringify({ message: "Password updated." }), {
-      status: 200,
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
     })
+
+    return new Response(
+      JSON.stringify({ message: "Password updated successfully." }),
+      {
+        status: 200,
+      }
+    )
   } catch (error) {
     console.log(error)
     return new Response(JSON.stringify({ error: error }), { status: 422 })

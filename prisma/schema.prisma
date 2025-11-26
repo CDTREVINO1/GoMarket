@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type CartsItems {
+  id       String @map("_id") @db.ObjectId
+  product  String @db.ObjectId
+  quantity Int
+}
+
+type GuestordersOrderItems {
+  id       String @map("_id") @db.ObjectId
+  product  String @db.ObjectId
+  quantity Int
+}
+
+type OrdersOrderItems {
+  id       String @map("_id") @db.ObjectId
+  product  String @db.ObjectId
+  quantity Int
+}
+
+model carts {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int          @map("__v")
+  createdAt DateTime     @db.Date
+  expireAt  DateTime     @db.Date
+  items     CartsItems[]
+  updatedAt DateTime     @db.Date
+
+  @@index([expireAt], map: "expireAt_1")
+}
+
+model guestorders {
+  id               String                  @id @default(auto()) @map("_id") @db.ObjectId
+  v                Int                     @map("__v")
+  createdAt        DateTime                @db.Date
+  currency         String
+  orderItems       GuestordersOrderItems[]
+  orderStatus      String
+  orderTotal       Int
+  paymentStatus    String
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  shippingAddress  Json?
+  stripeCheckoutId String
+  updatedAt        DateTime                @db.Date
+}
+
+model orders {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  v                Int                @map("__v")
+  createdAt        DateTime           @db.Date
+  currency         String
+  orderItems       OrdersOrderItems[]
+  orderStatus      String
+  orderTotal       Int
+  paymentStatus    String
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  shippingAddress  Json?
+  stripeCheckoutId String
+  updatedAt        DateTime           @db.Date
+  user             String             @db.ObjectId
+}
+
+model products {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  v             Int      @map("__v")
+  availability  Boolean
+  category      String
+  createdAt     DateTime @db.Date
+  description   String
+  handle        String
+  images        String[]
+  price         Float
+  stripePriceId String
+  title         String
+  updatedAt     DateTime @db.Date
+}
+
+model users {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int      @map("__v")
+  createdAt DateTime @db.Date
+  email     String   @unique(map: "email_1")
+  orders    String[]
+  password  String
+  role      String
+  updatedAt DateTime @db.Date
+  username  String   @unique(map: "username_1")
+}
