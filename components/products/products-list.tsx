@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 
+import { Button } from "@/components/ui/button"
+
 import ArchiveProductModal from "./archive-product-modal"
 import EditProductModal from "./edit-product-modal"
 
@@ -30,9 +32,9 @@ export default function ProductsList({ products }) {
   }
 
   return (
-    <div className="mx-auto mb-4 w-fit rounded-lg p-4">
-      <div className="mx-auto flex w-fit">
-        <button
+    <div>
+      <div>
+        <Button
           onClick={() => setFilter("all")}
           className={`mr-4 rounded-lg border border-blue-500 px-8 py-2 text-center shadow-md focus:outline-none ${
             filter === "all"
@@ -41,8 +43,8 @@ export default function ProductsList({ products }) {
           } `}
         >
           All
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={() => setFilter("available")}
           className={`mr-4 rounded-lg border border-blue-500 px-4 py-2 text-center shadow-md focus:outline-none ${
             filter === "available"
@@ -51,8 +53,8 @@ export default function ProductsList({ products }) {
           } `}
         >
           Available
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={() => setFilter("archived")}
           className={`rounded-lg border border-blue-500 px-4 py-2 text-center shadow-md focus:outline-none ${
             filter === "archived"
@@ -61,7 +63,7 @@ export default function ProductsList({ products }) {
           } `}
         >
           Archived
-        </button>
+        </Button>
       </div>
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {filteredProducts()?.map((product) => (
@@ -69,7 +71,7 @@ export default function ProductsList({ products }) {
             key={product._id}
             className="m-2 max-w-xs rounded-lg border border-gray-200 p-4 shadow-lg"
           >
-            <h3 className="text-xl font-semibold">{product.name}</h3>
+            <h3 className="text-xl font-semibold">{product.title}</h3>
             <p className="text-lg font-semibold">${product.price}</p>
             <p className="">
               Created {dateFormatter.format(Date.parse(product.createdAt))}

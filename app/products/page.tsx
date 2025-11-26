@@ -13,8 +13,8 @@ export default async function AllProductsPage() {
   }
 
   return (
-    <>
+    <section>
       <ProductsGrid products={products} />
-    </>
+    </section>
   )
 }

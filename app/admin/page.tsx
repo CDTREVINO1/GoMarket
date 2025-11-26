@@ -1,35 +1,23 @@
-import Link from "next/link"
-import { redirect } from "next/navigation"
-import { getServerSession } from "next-auth"
-
-import { authOptions } from "@/lib/auth"
-import { getProductsByAvailability } from "@/lib/pos/queries/product"
-import CreateProductModal from "@/components/products/create-product-modal"
-import ProductsList from "@/components/products/products-list"
-
 export default async function AdminPage() {
-  const session = await getServerSession(authOptions)
-
-  if (!session) redirect("/auth")
-
-  if (session?.user.role !== "admin")
-    return (
-      <main>
-        You are not authorized to access this page. Return to{" "}
-        {
-          <Link className="cursor-pointer underline" href="/">
-            home
-          </Link>
-        }
-      </main>
-    )
-
-  const products = await getProductsByAvailability()
-
   return (
-    <main className="bg-slate-300 dark:bg-gray-600">
-      <CreateProductModal />
-      <ProductsList products={products} />
-    </main>
+    <section className="space-y-6">
+      <h2 className="text-2xl font-bold">Dashboard Overview</h2>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <article className="rounded-xl border bg-background p-4">
+          <h3 className="text-sm font-medium text-muted-foreground">
+            Total Users
+          </h3>
+          <p className="text-2xl font-bold">20</p>
+        </article>
+
+        <article className="rounded-xl border bg-background p-4">
+          <h3 className="text-sm font-medium text-muted-foreground">
+            Total Products
+          </h3>
+          <p className="text-2xl font-bold">20</p>
+        </article>
+      </div>
+    </section>
   )
 }
