@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 
-import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,
@@ -15,7 +14,7 @@ import {
 import ArchiveProductModal from "./archive-product-modal"
 import EditProductModal from "./edit-product-modal"
 
-export default function ProductsList({ products }) {
+export default function ProductsTable({ products }) {
   const [filter, setFilter] = useState("all")
 
   const dateFormatter = new Intl.DateTimeFormat(undefined, {
@@ -40,39 +39,8 @@ export default function ProductsList({ products }) {
   }
 
   return (
-    <div>
-      <Button
-        onClick={() => setFilter("all")}
-        className={`mr-4 rounded-lg border border-blue-500 px-8 py-2 text-center shadow-md focus:outline-none ${
-          filter === "all"
-            ? "bg-blue-500 text-white"
-            : "bg-white text-blue-500 hover:bg-blue-50"
-        } `}
-      >
-        All
-      </Button>
-      <Button
-        onClick={() => setFilter("available")}
-        className={`mr-4 rounded-lg border border-blue-500 px-4 py-2 text-center shadow-md focus:outline-none ${
-          filter === "available"
-            ? "bg-blue-500 text-white"
-            : "bg-white text-blue-500 hover:bg-blue-50"
-        } `}
-      >
-        Available
-      </Button>
-      <Button
-        onClick={() => setFilter("archived")}
-        className={`rounded-lg border border-blue-500 px-4 py-2 text-center shadow-md focus:outline-none ${
-          filter === "archived"
-            ? "bg-blue-500 text-white"
-            : "bg-white text-blue-500 hover:bg-blue-50"
-        } `}
-      >
-        Archived
-      </Button>
-
-      <Table>
+    <div className="relative w-full overflow-x-auto">
+      <Table className="relative w-full overflow-x-auto">
         <TableHeader>
           <TableRow>
             <TableHead>Title</TableHead>

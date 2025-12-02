@@ -3,12 +3,12 @@
 import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import categories from "@/lib/categories"
-import { ProductSchema } from "@/lib/schema"
 import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useDropzone } from "react-dropzone"
 import { useForm } from "react-hook-form"
+
+import { ProductSchema } from "@/lib/schema"
 
 import {
   deleteImageFromDatabase,
@@ -25,7 +25,7 @@ export default function EditProductForm({ product, onClose }) {
   } = useForm({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
-      name: product.name,
+      title: product.title,
       description: product.description,
       price: product.price,
       category: product.category,
@@ -175,23 +175,23 @@ export default function EditProductForm({ product, onClose }) {
         Name (required):
       </label>
       <input
-        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800"
+        className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800"
         type="text"
         id="name"
-        {...register("name")}
+        {...register("title")}
       />
-      {errors.name?.message && (
+      {errors.title?.message && (
         <p className="text-red-600">{errors.name.message}</p>
       )}
 
       <label
         htmlFor="description"
-        className="block mt-4 font-semibold text-gray-700 dark:text-gray-300"
+        className="mt-4 block font-semibold text-gray-700 dark:text-gray-300"
       >
         Description:
       </label>
       <textarea
-        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800"
+        className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800"
         id="description"
         {...register("description")}
       />
@@ -201,12 +201,12 @@ export default function EditProductForm({ product, onClose }) {
 
       <label
         htmlFor="price"
-        className="block mt-4 font-semibold text-gray-700 dark:text-gray-300"
+        className="mt-4 block font-semibold text-gray-700 dark:text-gray-300"
       >
         Price (required):
       </label>
       <input
-        className="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-500 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800"
+        className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800"
         type="number"
         id="price"
         step="any"
@@ -216,7 +216,7 @@ export default function EditProductForm({ product, onClose }) {
         <p className="text-red-600">{errors.price.message}</p>
       )}
 
-      <label htmlFor="category" className="block font-semibold text-gray-700">
+      {/* <label htmlFor="category" className="block font-semibold text-gray-700">
         Category:
       </label>
       <select
@@ -233,7 +233,7 @@ export default function EditProductForm({ product, onClose }) {
       </select>
       {errors.category?.message && (
         <p className="text-red-600">{errors.category.message}</p>
-      )}
+      )} */}
 
       <div className="mb-6 flex flex-wrap">
         {productImages.map((image, index) => (
@@ -249,7 +249,7 @@ export default function EditProductForm({ product, onClose }) {
               />
               <button
                 type="button"
-                className="absolute right-2 top-2 text-red-500"
+                className="absolute top-2 right-2 text-red-500"
                 onClick={() => handleDeletedImage(index)}
               >
                 Delete
@@ -286,7 +286,7 @@ export default function EditProductForm({ product, onClose }) {
           <button
             type="button"
             onClick={removeAll}
-            className="mt-1 rounded-md border border-rose-400 px-3 text-[12px] font-bold uppercase tracking-wider text-stone-500 transition-colors hover:bg-rose-400 hover:text-white"
+            className="mt-1 rounded-md border border-rose-400 px-3 text-[12px] font-bold tracking-wider text-stone-500 uppercase transition-colors hover:bg-rose-400 hover:text-white"
           >
             Remove all files
           </button>
@@ -311,7 +311,7 @@ export default function EditProductForm({ product, onClose }) {
               />
               <button
                 type="button"
-                className="absolute -right-3 -top-3 flex h-7 w-7 items-center justify-center rounded-full border border-rose-400 bg-rose-400 transition-colors hover:bg-white"
+                className="absolute -top-3 -right-3 flex h-7 w-7 items-center justify-center rounded-full border border-rose-400 bg-rose-400 transition-colors hover:bg-white"
                 onClick={() => removeFile(file.name)}
               >
                 <XMarkIcon className="h-5 w-5 fill-white transition-colors hover:fill-rose-400" />
@@ -342,7 +342,7 @@ export default function EditProductForm({ product, onClose }) {
               </div>
               <button
                 type="button"
-                className="mt-1 rounded-md border border-rose-400 px-3 py-1 text-[12px] font-bold uppercase tracking-wider text-stone-500 transition-colors hover:bg-rose-400 hover:text-white"
+                className="mt-1 rounded-md border border-rose-400 px-3 py-1 text-[12px] font-bold tracking-wider text-stone-500 uppercase transition-colors hover:bg-rose-400 hover:text-white"
                 onClick={() => removeRejected(file.name)}
               >
                 remove
@@ -354,7 +354,7 @@ export default function EditProductForm({ product, onClose }) {
 
       <div className="mt-4 text-center">
         <button
-          className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 dark:bg-red-700"
+          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 dark:bg-red-700"
           onClick={onClose}
         >
           Cancel
@@ -363,7 +363,7 @@ export default function EditProductForm({ product, onClose }) {
         <button
           className={`ml-2 rounded px-4 py-2 text-white ${
             !isEditingImages && !isDirty
-              ? "bg-gray-400 cursor-not-allowed"
+              ? "cursor-not-allowed bg-gray-400"
               : "bg-blue-500 hover:bg-blue-600"
           }`}
           type="submit"

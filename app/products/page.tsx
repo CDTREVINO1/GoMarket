@@ -1,8 +1,12 @@
-import { getProductsByAvailability } from "@/lib/pos/queries/product"
+import prisma from "@/lib/prisma"
 import ProductsGrid from "@/components/products/products-grid"
 
 export default async function AllProductsPage() {
-  const products = await getProductsByAvailability("available")
+  const products = await prisma.products.findMany({
+    where: {
+      availability: true,
+    },
+  })
 
   if (!products || products.length === 0) {
     return (

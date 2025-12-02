@@ -72,7 +72,7 @@ export function Footer() {
   return (
     <footer className="border-t bg-primary p-8">
       <div className="mx-auto max-w-7xl md:flex md:items-center md:justify-between lg:px-8">
-        <div className="flex justify-center space-x-4 md:order-2 md:scale-125">
+        <div className="flex justify-center space-x-4 md:order-2">
           {navigation.map((item) => (
             <Button key={item.name} variant="default" asChild>
               <Link href={item.href}>

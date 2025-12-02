@@ -3,22 +3,28 @@
 import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { DollarSign, Upload, X } from "lucide-react"
 import { useDropzone } from "react-dropzone"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 
-import categories from "@/lib/categories"
 import { ProductSchema } from "@/lib/schema"
+import { Button } from "@/components/ui/button"
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 
+import { Card, CardContent } from "../ui/card"
+import CategorySelect from "../ui/category-select"
 import { getSignature, handleCreateProduct, saveToDatabase } from "./actions"
 
-export default function CreateProductForm({ onClose }) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isDirty },
-  } = useForm({ resolver: zodResolver(ProductSchema) })
+export default function CreateProductForm({ setOpen }) {
+  const form = useForm({ resolver: zodResolver(ProductSchema) })
   const [files, setFiles] = useState([])
   const [rejected, setRejected] = useState([])
   const router = useRouter()
@@ -109,195 +115,286 @@ export default function CreateProductForm({ onClose }) {
 
     await handleCreateProduct(newProduct)
     router.refresh()
-    onClose()
+    setOpen(false)
+    // form.reset()
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
-      <label
-        htmlFor="name"
-        className="block font-semibold text-gray-700 dark:text-gray-200"
-      >
-        Name:
-      </label>
-      <input
-        className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
-        type="text"
-        id="name"
-        {...register("name")}
-      />
-      {errors.name?.message && (
-        <p className="text-red-600">{errors.name.message}</p>
-      )}
-
-      <label
-        htmlFor="description"
-        className="block font-semibold text-gray-700 dark:text-gray-200"
-      >
-        Description:
-      </label>
-      <textarea
-        className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
-        id="description"
-        {...register("description")}
-      />
-      {errors.description?.message && (
-        <p className="text-red-600">{errors.description.message}</p>
-      )}
-
-      <label
-        htmlFor="price"
-        className="block font-semibold text-gray-700 dark:text-gray-200"
-      >
-        Price: $
-      </label>
-      <input
-        className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
-        type="number"
-        id="price"
-        step="any"
-        {...register("price", { valueAsNumber: true })}
-      />
-      {errors.price?.message && (
-        <p className="text-red-600">{errors.price.message}</p>
-      )}
-
-      <label
-        htmlFor="category"
-        className="block font-semibold text-gray-700 dark:text-gray-200"
-      >
-        Category:
-      </label>
-      <select
-        className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
-        {...register("category", {
-          required: "Please select a category",
-        })}
-      >
-        <option value="">--Select One--</option>
-        {categories.map((category, index) => (
-          <option key={index} value={category}>
-            {category}
-          </option>
-        ))}
-      </select>
-      {errors.category?.message && (
-        <p className="text-red-600">{errors.category.message}</p>
-      )}
-
-      {/* Add images */}
-      <label htmlFor="images" className="block font-semibold text-gray-700">
-        Images (Optional):
-      </label>
-      <div
-        {...getRootProps({
-          className: "dropzone",
-        })}
-      >
-        <input {...getInputProps({ name: "file" })} />
-        <div className="flex flex-col items-center justify-center gap-4">
-          <ArrowUpTrayIcon className="h-5 w-5 fill-current" />
-          {isDragActive ? (
-            <p>Drop the files here ...</p>
-          ) : (
-            <p>Drag & drop files here, or click to select files</p>
-          )}
-        </div>
-      </div>
-
-      {/* Preview */}
-      <section className="mt-10">
-        <div className="flex gap-4">
-          <h2 className="title text-3xl font-semibold">Preview</h2>
-          <button
-            type="button"
-            onClick={removeAll}
-            className="mt-1 rounded-md border border-rose-400 px-3 text-[12px] font-bold tracking-wider text-stone-500 uppercase transition-colors hover:bg-rose-400 hover:text-white"
-          >
-            Remove all files
-          </button>
-        </div>
-
-        {/* Accepted files */}
-        <h3 className="title mt-10 border-b pb-3 text-lg font-semibold text-stone-600">
-          Accepted Files
-        </h3>
-        <ul className="mt-6 grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-          {files.map((file) => (
-            <li key={file.name} className="relative h-32 rounded-md shadow-lg">
-              <Image
-                src={file.preview}
-                alt={file.name}
-                width={100}
-                height={100}
-                onLoad={() => {
-                  URL.revokeObjectURL(file.preview)
-                }}
-                className="h-full w-full rounded-md object-contain"
+    <form
+      id="form-create-product"
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="mt-4"
+    >
+      <FieldGroup>
+        <Controller
+          name="title"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-create-product-title">Title</FieldLabel>
+              <Input
+                {...field}
+                id="form-create-product-title"
+                aria-invalid={fieldState.invalid}
+                autoComplete="off"
               />
-              <button
-                type="button"
-                className="absolute -top-3 -right-3 flex h-7 w-7 items-center justify-center rounded-full border border-rose-400 bg-rose-400 transition-colors hover:bg-white"
-                onClick={() => removeFile(file.name)}
-              >
-                <XMarkIcon className="h-5 w-5 fill-white transition-colors hover:fill-rose-400" />
-              </button>
-              <p className="mt-2 text-[12px] font-medium text-stone-500">
-                {file.name}
-              </p>
-            </li>
-          ))}
-        </ul>
+            </Field>
+          )}
+        />
 
-        {/* Rejected Files */}
-        <h3 className="title mt-24 border-b pb-3 text-lg font-semibold text-stone-600">
-          Rejected Files
-        </h3>
-        <ul className="mt-6 flex flex-col">
-          {rejected.map(({ file, errors }) => (
-            <li key={file.name} className="flex items-start justify-between">
-              <div>
-                <p className="mt-2 text-sm font-medium text-stone-500">
-                  {file.name}
-                </p>
-                <ul className="text-[12px] text-red-400">
-                  {errors.map((error) => (
-                    <li key={error.code}>{error.message}</li>
-                  ))}
-                </ul>
+        {/* <label
+          htmlFor="name"
+          className="block font-semibold text-gray-700 dark:text-gray-200"
+        >
+          Name:
+        </label>
+        <input
+          className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
+          type="text"
+          id="name"
+          {...register("name")}
+        />
+        {errors.name?.message && (
+          <p className="text-red-600">{errors.name.message}</p>
+        )} */}
+
+        <Controller
+          name="description"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-create-product-description">
+                Description
+              </FieldLabel>
+              <Textarea
+                {...field}
+                id="form-create-product-description"
+                aria-invalid={fieldState.invalid}
+                autoComplete="off"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        {/* <label
+          htmlFor="description"
+          className="block font-semibold text-gray-700 dark:text-gray-200"
+        >
+          Description:
+        </label>
+        <textarea
+          className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
+          id="description"
+          {...register("description")}
+        />
+        {errors.description?.message && (
+          <p className="text-red-600">{errors.description.message}</p>
+        )} */}
+
+        <Controller
+          name="price"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-create-product-price">Price</FieldLabel>
+              <Input
+                {...field}
+                id="price"
+                type="number"
+                step="0.01"
+                aria-invalid={fieldState.invalid}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        {/* <label
+          htmlFor="price"
+          className="block font-semibold text-gray-700 dark:text-gray-200"
+        >
+          Price: $
+        </label>
+        <input
+          className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
+          type="number"
+          id="price"
+          step="any"
+          {...register("price", { valueAsNumber: true })}
+        />
+        {errors.price?.message && (
+          <p className="text-red-600">{errors.price.message}</p>
+        )} */}
+
+        <CategorySelect control={form.control} />
+
+        {/* <label
+          htmlFor="category"
+          className="block font-semibold text-gray-700 dark:text-gray-200"
+        >
+          Category:
+        </label>
+        <select
+          className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
+          {...register("category", {
+            required: "Please select a category",
+          })}
+        >
+          <option value="">--Select One--</option>
+          {categories.map((category, index) => (
+            <option key={index} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+        {errors.category?.message && (
+          <p className="text-red-600">{errors.category.message}</p>
+        )} */}
+
+        <Field>
+          <FieldLabel htmlFor="images">Images (Optional):</FieldLabel>
+          <Card
+            {...getRootProps({
+              className: "dropzone",
+            })}
+          >
+            <CardContent className="flex flex-col items-center justify-center gap-4 py-10">
+              <Input {...getInputProps({ name: "file" })} />
+              <div className="flex flex-col items-center justify-center gap-4">
+                <Upload />
+                {isDragActive ? (
+                  <p>Drop the files here ...</p>
+                ) : (
+                  <p>Drag & drop files here, or click to select files</p>
+                )}
               </div>
+            </CardContent>
+          </Card>
+        </Field>
+
+        {/* Add images */}
+        {/* <label htmlFor="images" className="block font-semibold text-gray-700">
+          Images (Optional):
+        </label>
+        <div
+          {...getRootProps({
+            className: "dropzone",
+          })}
+        >
+          <input {...getInputProps({ name: "file" })} />
+          <div className="flex flex-col items-center justify-center gap-4">
+            <Upload />
+            {isDragActive ? (
+              <p>Drop the files here ...</p>
+            ) : (
+              <p>Drag & drop files here, or click to select files</p>
+            )}
+          </div>
+        </div> */}
+
+        {/* Preview */}
+        {(files.length > 0 || rejected.length > 0) && (
+          <section className="mt-10">
+            <div className="flex gap-4">
+              <h2 className="title text-3xl font-semibold">Preview</h2>
               <button
                 type="button"
-                className="mt-1 rounded-md border border-rose-400 px-3 py-1 text-[12px] font-bold tracking-wider text-stone-500 uppercase transition-colors hover:bg-rose-400 hover:text-white"
-                onClick={() => removeRejected(file.name)}
+                onClick={removeAll}
+                className="mt-1 rounded-md border border-rose-400 px-3 text-[12px] font-bold tracking-wider text-stone-500 uppercase transition-colors hover:bg-rose-400 hover:text-white"
               >
-                remove
+                Remove all files
               </button>
-            </li>
-          ))}
-        </ul>
-      </section>
+            </div>
 
-      <div className="mt-4 text-center">
-        <button
-          className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 dark:bg-red-700"
-          onClick={onClose}
-        >
-          Cancel
-        </button>
+            {/* Accepted files */}
+            <h3 className="title mt-10 border-b pb-3 text-lg font-semibold text-stone-600">
+              Accepted Files
+            </h3>
+            <ul className="mt-6 grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+              {files.map((file) => (
+                <li
+                  key={file.name}
+                  className="relative h-32 rounded-md shadow-lg"
+                >
+                  <Image
+                    src={file.preview}
+                    alt={file.name}
+                    width={100}
+                    height={100}
+                    onLoad={() => {
+                      URL.revokeObjectURL(file.preview)
+                    }}
+                    className="h-full w-full rounded-md object-contain"
+                  />
+                  <button
+                    type="button"
+                    className="absolute -top-3 -right-3 flex h-7 w-7 items-center justify-center rounded-full border border-rose-400 bg-rose-400 transition-colors hover:bg-white"
+                    onClick={() => removeFile(file.name)}
+                  >
+                    <X />
+                  </button>
+                  <p className="mt-2 text-[12px] font-medium text-stone-500">
+                    {file.name}
+                  </p>
+                </li>
+              ))}
+            </ul>
 
-        <button
-          className={`ml-2 rounded px-4 py-2 text-white ${
-            !isAddingImages && !isDirty
-              ? "cursor-not-allowed bg-gray-400"
-              : "bg-blue-500 hover:bg-blue-600"
-          }`}
-          type="submit"
-          disabled={!isAddingImages && !isDirty}
-        >
-          Create Product
-        </button>
-      </div>
+            {/* Rejected Files */}
+            <h3 className="title mt-24 border-b pb-3 text-lg font-semibold text-stone-600">
+              Rejected Files
+            </h3>
+            <ul className="mt-6 flex flex-col">
+              {rejected.map(({ file, errors }) => (
+                <li
+                  key={file.name}
+                  className="flex items-start justify-between"
+                >
+                  <div>
+                    <p className="mt-2 text-sm font-medium text-stone-500">
+                      {file.name}
+                    </p>
+                    <ul className="text-[12px] text-red-400">
+                      {errors.map((error) => (
+                        <li key={error.code}>{error.message}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <button
+                    type="button"
+                    className="mt-1 rounded-md border border-rose-400 px-3 py-1 text-[12px] font-bold tracking-wider text-stone-500 uppercase transition-colors hover:bg-rose-400 hover:text-white"
+                    onClick={() => removeRejected(file.name)}
+                  >
+                    remove
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <div className="text-center">
+          <Button
+            className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 dark:bg-red-700"
+            onClick={() => setOpen(false)}
+          >
+            Cancel
+          </Button>
+
+          <Button
+            className={`ml-2 rounded px-4 py-2 text-white ${
+              !isAddingImages && !form.formState.isDirty
+                ? "cursor-not-allowed bg-gray-400"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
+            type="submit"
+            disabled={!isAddingImages && !form.formState.isDirty}
+          >
+            Create Product
+          </Button>
+        </div>
+      </FieldGroup>
     </form>
   )
 }
