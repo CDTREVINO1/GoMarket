@@ -31,10 +31,10 @@ export default async function AdminProductsPage({
   })
 
   return (
-    <section className="flex h-full min-w-0 flex-col overflow-x-hidden">
+    <section className="flex h-full flex-col">
       <h2 className="text-2xl font-bold">Products</h2>
 
-      <article className="flex min-w-0 flex-1 flex-col overflow-x-hidden">
+      <article className="flex flex-1 flex-col">
         <div className="flex items-center justify-between">
           <Search />
           <CreateProductModal />

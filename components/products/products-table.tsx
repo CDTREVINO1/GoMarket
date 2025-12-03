@@ -39,47 +39,45 @@ export default function ProductsTable({ products }) {
   }
 
   return (
-    <div className="relative w-full overflow-x-auto">
-      <Table className="relative w-full overflow-x-auto">
-        <TableHeader>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Title</TableHead>
+          <TableHead>Price</TableHead>
+          <TableHead>Date Created</TableHead>
+          <TableHead>Date Updated</TableHead>
+          <TableHead />
+          <TableHead />
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {filteredProducts()?.length === 0 && (
           <TableRow>
-            <TableHead>Title</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Date Created</TableHead>
-            <TableHead>Date Updated</TableHead>
-            <TableHead />
-            <TableHead />
+            <TableCell>No products matched for criteria.</TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredProducts()?.length === 0 && (
-            <TableRow>
-              <TableCell>No products matched for criteria.</TableCell>
-            </TableRow>
-          )}
-          {filteredProducts()?.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell>{product.title}</TableCell>
-              <TableCell>${product.price}</TableCell>
-              <TableCell>
-                {dateFormatter.format(Date.parse(product.createdAt))}
-              </TableCell>
-              <TableCell>
-                {dateFormatter.format(Date.parse(product.updatedAt))}
-              </TableCell>
-              <TableCell>
-                <EditProductModal product={product} />
-              </TableCell>
-              <TableCell>
-                <ArchiveProductModal
-                  productId={product._id}
-                  isAvailable={product.availability}
-                />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+        )}
+        {filteredProducts()?.map((product) => (
+          <TableRow key={product.id}>
+            <TableCell>{product.title}</TableCell>
+            <TableCell>${product.price}</TableCell>
+            <TableCell>
+              {dateFormatter.format(Date.parse(product.createdAt))}
+            </TableCell>
+            <TableCell>
+              {dateFormatter.format(Date.parse(product.updatedAt))}
+            </TableCell>
+            <TableCell>
+              <EditProductModal product={product} />
+            </TableCell>
+            <TableCell>
+              <ArchiveProductModal
+                productId={product._id}
+                isAvailable={product.availability}
+              />
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   )
 }
