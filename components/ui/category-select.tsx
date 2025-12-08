@@ -10,15 +10,13 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+// TODO: Change type from any.
 interface CategorySelectProps {
   control: any
   error?: any
 }
 
-export default function CategorySelect({
-  control,
-  error,
-}: CategorySelectProps) {
+export default function CategorySelect({ control }: CategorySelectProps) {
   return (
     <Controller
       name="category"
@@ -50,10 +48,8 @@ export default function CategorySelect({
   )
 }
 
-// Optional: Enhanced version with descriptions
 export function CategorySelectWithDescriptions({
   control,
-  error,
 }: CategorySelectProps) {
   return (
     <Controller
@@ -72,7 +68,7 @@ export function CategorySelectWithDescriptions({
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
             <SelectContent position="item-aligned">
-              {TRANSACTION_CATEGORIES.map((category) => (
+              {PRODUCT_CATEGORIES.map((category) => (
                 <SelectItem
                   key={category.id}
                   value={category.id}
@@ -86,7 +82,7 @@ export function CategorySelectWithDescriptions({
           {field.value && (
             <p className="mt-1 text-xs text-gray-500">
               {
-                TRANSACTION_CATEGORIES.find((c) => c.id === field.value)
+                PRODUCT_CATEGORIES.find((c) => c.id === field.value)
                   ?.description
               }
             </p>

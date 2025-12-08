@@ -1,5 +1,7 @@
 import { cache } from "react"
 
+import prisma from "@/lib/prisma"
+
 export const getCart = cache(async (cartId: string) => {
   try {
     if (!cartId) return null

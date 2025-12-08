@@ -1,9 +1,10 @@
+import type { Metadata } from "next"
+
 import prisma from "@/lib/prisma"
-import ContactUs from "@/components/layout/contactUs"
 import HeroSection from "@/components/layout/herosection"
 import Slider from "@/components/products/productSlider"
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "GoMarket",
 }
 
@@ -17,12 +18,10 @@ export default async function Page() {
   return (
     <main>
       <HeroSection />
-      <h2 className="pt-4 text-center text-3xl font-extrabold md:text-4xl lg:text-5xl">
+      <h2 className="pt-4 text-center text-xl font-extrabold md:text-2xl lg:text-3xl">
         Featured Products
       </h2>
-      {/* FIXME: These two are causing overflow */}
       <Slider products={products} />
-      <ContactUs />
     </main>
   )
 }

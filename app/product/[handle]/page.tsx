@@ -2,12 +2,16 @@ import { notFound } from "next/navigation"
 
 import prisma from "@/lib/prisma"
 import { AddToCart } from "@/components/cart/add-to-cart"
-import Breadcrumb from "@/components/layout/breadcrumbs"
+import BreadcrumbsComponent from "@/components/layout/breadcrumbs-component"
 import Divider from "@/components/layout/divider"
 import ProductImage from "@/components/products/productImage"
 import SuggestedProducts from "@/components/products/suggested-products"
 
-export default async function ProductPage({ params }) {
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ slug: string; handle: string }>
+}) {
   const { handle } = await params
   const product = await prisma.products.findFirst({
     where: {
@@ -25,11 +29,11 @@ export default async function ProductPage({ params }) {
 
   return (
     <>
-      <Breadcrumb links={breadcrumbs} />
+      <BreadcrumbsComponent links={breadcrumbs} />
 
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col md:flex-row">
-          <div className="mx-4 border md:mx-auto md:w-1/2">
+          <div className="mx-4 md:mx-auto md:w-1/2">
             <ProductImage product={product} />
           </div>
 
@@ -51,7 +55,7 @@ export default async function ProductPage({ params }) {
               <p className="mt-8 ml-2 text-lg">{product.description}</p>
             </div>
 
-            <div className="mt-auto">
+            <div className="mt-6">
               <AddToCart
                 availableForSale={product.availability}
                 productId={product.id}
@@ -60,9 +64,8 @@ export default async function ProductPage({ params }) {
           </div>
         </div>
       </div>
-      <div>
-        <SuggestedProducts />
-      </div>
+
+      <SuggestedProducts />
     </>
   )
 }

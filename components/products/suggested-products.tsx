@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 import prisma from "@/lib/prisma"
+import { Card, CardContent } from "@/components/ui/card"
 
 const SuggestedProducts = async () => {
   const products = await prisma.products.findMany({
@@ -11,7 +12,7 @@ const SuggestedProducts = async () => {
   })
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <div className="mt-6 p-6">
       <div className="flex items-center justify-between space-x-4">
         <h2 className="text-lg font-medium">Customers also viewed</h2>
         <Link
@@ -22,17 +23,14 @@ const SuggestedProducts = async () => {
           <span aria-hidden="true"> &rarr;</span>
         </Link>
       </div>
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
         {products.slice(0, 4).map((product, index) => {
           const linkPath = `/product/${product.handle}`
 
           return (
             <Link key={index} href={linkPath}>
-              <div
-                key={index}
-                className="group relative border border-black p-2"
-              >
-                <div className="mx-2 rounded-lg">
+              <Card>
+                <CardContent>
                   <Image
                     src={product.images[0]}
                     alt={product.title}
@@ -48,12 +46,13 @@ const SuggestedProducts = async () => {
                       View Product
                     </div>
                   </div>
-                </div>
-                <div className="mt-4 flex items-center justify-between space-x-8 pb-2 text-base font-medium">
-                  <h3>{product.title}</h3>
-                  <p>${product.price}</p>
-                </div>
-              </div>
+
+                  <div className="flex items-center justify-between space-x-8 pb-2 text-sm font-medium">
+                    <h3>{product.title}</h3>
+                    <p>${product.price}</p>
+                  </div>
+                </CardContent>
+              </Card>
             </Link>
           )
         })}
