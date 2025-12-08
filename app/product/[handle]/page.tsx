@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 
-import { getProduct } from "@/lib/pos/queries/product"
+import prisma from "@/lib/prisma"
 import { AddToCart } from "@/components/cart/add-to-cart"
 import Breadcrumb from "@/components/layout/breadcrumbs"
 import Divider from "@/components/layout/divider"
@@ -9,7 +9,11 @@ import SuggestedProducts from "@/components/products/suggested-products"
 
 export default async function ProductPage({ params }) {
   const { handle } = await params
-  const product = await getProduct(handle)
+  const product = await prisma.products.findFirst({
+    where: {
+      handle: handle,
+    },
+  })
 
   if (!product) return notFound()
 
@@ -50,7 +54,7 @@ export default async function ProductPage({ params }) {
             <div className="mt-auto">
               <AddToCart
                 availableForSale={product.availability}
-                productId={product._id}
+                productId={product.id}
               />
             </div>
           </div>

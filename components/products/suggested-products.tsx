@@ -1,10 +1,14 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { getProductsByAvailability } from "@/lib/pos/queries/product"
+import prisma from "@/lib/prisma"
 
 const SuggestedProducts = async () => {
-  const products = await getProductsByAvailability("available")
+  const products = await prisma.products.findMany({
+    where: {
+      availability: true,
+    },
+  })
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
