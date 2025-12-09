@@ -21,10 +21,10 @@ export default async function AdminLayout({
 }) {
   const session = await getServerSession(authOptions)
 
-  if (!session || session?.user.role !== "admin") redirect("/")
+  if (!session || session?.user?.role !== "admin") redirect("/")
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex flex-1">
       <aside className="hidden w-64 flex-col border-r bg-background lg:flex">
         <h2 className="border-b p-4 text-lg font-semibold">Admin Panel</h2>
         <nav className="flex-1 space-y-2 p-4">

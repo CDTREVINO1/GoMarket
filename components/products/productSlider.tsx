@@ -5,6 +5,8 @@ import Image from "next/image"
 import Link from "next/link"
 import placeholderPic from "@/public/placeholder.png"
 
+import { Button } from "@/components/ui/button"
+
 const Slider = ({ products }) => {
   const slideWidth = 400
   const [offset, setOffset] = useState(0)
@@ -64,10 +66,10 @@ const Slider = ({ products }) => {
           return (
             <div
               key={index}
-              className="inline-block h-auto w-80 p-4"
+              className="inline-block min-h-fit w-80 p-4"
               style={{ flexShrink: 0 }}
             >
-              <div className="flex flex-col items-center justify-center rounded-xl border border-gray-300 bg-white p-8 text-center dark:border-gray-700 dark:bg-gray-800">
+              <div className="flex h-full flex-col items-center justify-center space-y-8 rounded-xl border bg-card p-8 text-center">
                 <Image
                   height={200}
                   width={200}
@@ -75,15 +77,17 @@ const Slider = ({ products }) => {
                   alt={product.title}
                   className="h-48 w-full rounded-t-lg object-cover"
                 />
-                <blockquote className="mx-auto mb-4 max-w-2xl text-black dark:text-gray-400">
+                <blockquote className="mx-4 text-wrap">
                   <h3>{product.title}</h3>
                 </blockquote>
-                <Link
-                  href={linkPath}
-                  className="transform rounded-lg bg-blue-600 px-5 py-2 text-white shadow-md transition duration-300 ease-in-out hover:scale-105 hover:bg-blue-700 hover:shadow-lg active:scale-100 active:bg-blue-800"
-                >
-                  View Product
-                </Link>
+                <Button asChild>
+                  <Link
+                    href={linkPath}
+                    className="transform rounded-lg shadow-md transition duration-300 ease-in-out hover:scale-105"
+                  >
+                    View Product
+                  </Link>
+                </Button>
               </div>
             </div>
           )

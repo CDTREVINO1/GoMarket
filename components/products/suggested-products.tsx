@@ -12,7 +12,7 @@ const SuggestedProducts = async () => {
   })
 
   return (
-    <div className="mt-6 p-6">
+    <div className="min-h-fit p-6">
       <div className="flex items-center justify-between space-x-4">
         <h2 className="text-lg font-medium">Customers also viewed</h2>
         <Link
@@ -29,7 +29,7 @@ const SuggestedProducts = async () => {
 
           return (
             <Link key={index} href={linkPath}>
-              <Card>
+              <Card className="h-full">
                 <CardContent>
                   <Image
                     src={product.images[0]}

@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button"
 
 export default function HeroSection() {
   return (
-    <div className="py-12 text-center">
-      <div className="container mx-auto px-4">
-        <h1 className="mb-4 text-2xl leading-none font-extrabold md:text-4xl lg:text-5xl">
+    <div className="py-12 text-center md:py-36">
+      <div className="container space-y-6 px-4">
+        <h1 className="text-4xl leading-none font-extrabold md:text-6xl lg:text-7xl">
           Discover Our Latest Collection
         </h1>
 
-        <p className="mb-8 text-sm md:text-xl">
+        <p className="md:text-xl lg:text-2xl">
           Shop now and get amazing deals on your favorite products
         </p>
 

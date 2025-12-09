@@ -28,7 +28,7 @@ export default async function ProductPage({
   ]
 
   return (
-    <>
+    <section>
       <BreadcrumbsComponent links={breadcrumbs} />
 
       <div className="mx-auto max-w-5xl">
@@ -66,6 +66,6 @@ export default async function ProductPage({
       </div>
 
       <SuggestedProducts />
-    </>
+    </section>
   )
 }

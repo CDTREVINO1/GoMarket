@@ -16,12 +16,17 @@ export default async function Page() {
   })
 
   return (
-    <main>
-      <HeroSection />
-      <h2 className="pt-4 text-center text-xl font-extrabold md:text-2xl lg:text-3xl">
-        Featured Products
-      </h2>
-      <Slider products={products} />
+    <main className="flex flex-1 flex-col justify-between">
+      <div className="flex justify-center">
+        <HeroSection />
+      </div>
+
+      <div>
+        <h2 className="pt-4 text-center text-xl font-extrabold md:text-2xl lg:text-3xl">
+          Featured Products
+        </h2>
+        <Slider products={products} />
+      </div>
     </main>
   )
 }
