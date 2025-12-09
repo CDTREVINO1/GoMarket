@@ -90,7 +90,7 @@ export default async function ProductsPage({
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredProducts.map((product, index) => (
-          <Link key={index} href={`/product/${product.handle}`}>
+          <Link key={index} href={`/products/${product.handle}`}>
             <Card>
               <CardHeader>
                 <CardTitle>{product.title}</CardTitle>
