@@ -4,8 +4,11 @@ import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import placeholderPic from "@/public/placeholder.png"
+import { CircleArrowLeft, CircleArrowRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { IconButton } from "@/components/ui/shadcn-io/icon-button"
 
 const Slider = ({ products }) => {
   const slideWidth = 400
@@ -61,7 +64,7 @@ const Slider = ({ products }) => {
         className="flex whitespace-nowrap"
       >
         {[...products, ...products].map((product, index) => {
-          const linkPath = `/product/${product.handle}`
+          const linkPath = `/products/${product.handle}`
 
           return (
             <div
@@ -69,7 +72,7 @@ const Slider = ({ products }) => {
               className="inline-block min-h-fit w-80 p-4"
               style={{ flexShrink: 0 }}
             >
-              <div className="flex h-full flex-col items-center justify-center space-y-8 rounded-xl border bg-card p-8 text-center">
+              <Card className="flex h-full flex-col items-center justify-center space-y-4 p-8 text-center">
                 <Image
                   height={200}
                   width={200}
@@ -88,23 +91,23 @@ const Slider = ({ products }) => {
                     View Product
                   </Link>
                 </Button>
-              </div>
+              </Card>
             </div>
           )
         })}
       </div>
-      <button
+      <IconButton
+        icon={CircleArrowLeft}
         onClick={jumpPrevious}
-        className="absolute top-1/2 left-2 rounded-full bg-blue-600 p-2 text-white"
-      >
-        ←
-      </button>
-      <button
+        size="lg"
+        className="absolute top-1/2 left-2 bg-primary text-foreground"
+      />
+      <IconButton
+        icon={CircleArrowRight}
         onClick={jumpNext}
-        className="absolute top-1/2 right-2 rounded-full bg-blue-600 p-2 text-white"
-      >
-        →
-      </button>
+        size="lg"
+        className="absolute top-1/2 right-2 bg-primary text-foreground"
+      />
     </div>
   )
 }
