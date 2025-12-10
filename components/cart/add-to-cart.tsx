@@ -2,8 +2,10 @@
 
 import { useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { addItem } from "@/components/cart/actions"
 import clsx from "clsx"
+
+import { Button } from "@/components/ui/button"
+import { addItem } from "@/components/cart/actions"
 
 import LoadingDots from "../loading-dots"
 
@@ -12,7 +14,7 @@ export function AddToCart({ productId, availableForSale }) {
   const [isPending, startTransition] = useTransition()
 
   return (
-    <button
+    <Button
       aria-label="Add item to cart"
       disabled={isPending}
       onClick={() => {
@@ -29,7 +31,7 @@ export function AddToCart({ productId, availableForSale }) {
         })
       }}
       className={clsx(
-        "mx-auto flex w-full max-w-lg transform-gpu items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 px-10 py-3 text-lg font-semibold text-white shadow-md transition-transform hover:scale-105 dark:bg-gray-800",
+        "mx-auto flex w-full max-w-lg transform-gpu items-center justify-center rounded-lg bg-linear-to-r from-blue-400 to-blue-600 px-10 py-3 text-lg font-semibold text-foreground shadow-md transition-transform hover:scale-105",
         {
           "cursor-not-allowed opacity-60": !availableForSale || isPending,
         }
@@ -37,6 +39,6 @@ export function AddToCart({ productId, availableForSale }) {
     >
       <span>{availableForSale ? "Add To Cart" : "Out Of Stock"}</span>
       {isPending && <LoadingDots className="ml-2" />}
-    </button>
+    </Button>
   )
 }

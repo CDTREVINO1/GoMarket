@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Fragment } from "react/jsx-runtime"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useMediaQuery } from "usehooks-ts"
 
 import {
   Breadcrumb,
@@ -27,7 +26,6 @@ import {
 const BreadcrumbsComponent = () => {
   const paths = usePathname()
   const pathNames = paths.split("/").filter((path) => path)
-  const isDesktop = useMediaQuery("(min-width: 768px)")
   const [open, setOpen] = useState(false)
 
   return (
@@ -38,8 +36,8 @@ const BreadcrumbsComponent = () => {
         </BreadcrumbItem>
         {pathNames.length > 0 && <BreadcrumbSeparator />}
 
-        {isDesktop ? (
-          pathNames.map((link, index) => {
+        <div className="hidden items-center gap-1.5 md:inline-flex">
+          {pathNames.map((link, index) => {
             const href = `/${pathNames.slice(0, index + 1).join("/")}`
             const linkName = link[0].toUpperCase() + link.slice(1, link.length)
             const isLastPath = pathNames.length === index + 1
@@ -57,8 +55,10 @@ const BreadcrumbsComponent = () => {
                 {pathNames.length !== index + 1 && <BreadcrumbSeparator />}
               </Fragment>
             )
-          })
-        ) : (
+          })}
+        </div>
+
+        <div className="inline-flex items-center gap-1.5 md:hidden">
           <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger aria-label="Toggle Menu">
               <BreadcrumbEllipsis className="h-4 w-4" />
@@ -86,18 +86,16 @@ const BreadcrumbsComponent = () => {
               </div>
             </DrawerContent>
           </Drawer>
-        )}
 
-        {!isDesktop && (
           <>
             <BreadcrumbSeparator />
             <BreadcrumbPage>
               {pathNames.slice(-1)[0].length > 38
-                ? pathNames.slice(-1)[0].substring(0, 35) + "..."
+                ? pathNames.slice(-1)[0].substring(0, 32) + "..."
                 : pathNames.slice(-1)[0]}
             </BreadcrumbPage>
           </>
-        )}
+        </div>
       </BreadcrumbList>
     </Breadcrumb>
   )

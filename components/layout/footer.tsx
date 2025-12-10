@@ -74,7 +74,12 @@ export function Footer() {
       <div className="mx-auto max-w-7xl md:flex md:items-center md:justify-between lg:px-8">
         <div className="flex justify-center space-x-4 md:order-2">
           {navigation.map((item) => (
-            <Button key={item.name} variant="default" asChild>
+            <Button
+              key={item.name}
+              variant="default"
+              asChild
+              className="text-foreground"
+            >
               <Link href={item.href}>
                 <span className="sr-only">{item.name}</span>
                 <item.icon aria-hidden="true" />

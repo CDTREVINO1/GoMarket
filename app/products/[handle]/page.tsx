@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import prisma from "@/lib/prisma"
@@ -13,6 +14,12 @@ export default async function ProductPage({
   params: Promise<{ slug: string; handle: string }>
 }) {
   const { handle } = await params
+  const products = await prisma.products.findMany({
+    where: {
+      availability: true,
+    },
+  })
+
   const product = await prisma.products.findFirst({
     where: {
       handle: handle,
@@ -57,7 +64,19 @@ export default async function ProductPage({
         </div>
       </div>
 
-      <SuggestedProducts />
+      <div className="-mb-8 flex items-center justify-between space-x-4 p-6">
+        <h2 className="font-medium">Customers also viewed</h2>
+        <Link
+          href="/products"
+          className="text-sm font-medium whitespace-nowrap"
+        >
+          View all
+          <span aria-hidden="true"> &rarr;</span>
+        </Link>
+      </div>
+      <div className="flex justify-center">
+        <SuggestedProducts products={products} />
+      </div>
     </section>
   )
 }
