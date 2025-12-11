@@ -345,12 +345,12 @@ export default function EditProductForm({ product, onClose }) {
         </section>
 
         <div className="flex flex-row justify-evenly">
-          <Button className="flex-1 bg-destructive px-4 py-2" onClick={onClose}>
+          <Button className="bg-destructive" onClick={onClose}>
             Cancel
           </Button>
 
           <Button
-            className={`flex-1 px-4 py-2 ${
+            className={`${
               !isEditingImages && !form.formState.isDirty
                 ? "cursor-not-allowed bg-gray-400"
                 : "bg-blue-500 hover:bg-blue-600"
@@ -358,7 +358,7 @@ export default function EditProductForm({ product, onClose }) {
             type="submit"
             disabled={!isEditingImages && !form.formState.isDirty}
           >
-            Save product
+            Save changes
           </Button>
         </div>
       </FieldGroup>

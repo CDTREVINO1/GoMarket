@@ -7,6 +7,7 @@ import { authOptions } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -27,8 +28,14 @@ export default async function AdminLayout({
     <div className="flex flex-1">
       <aside className="hidden w-64 flex-col border-r bg-background lg:flex">
         <h2 className="border-b p-4 text-lg font-semibold">Admin Panel</h2>
-        <nav className="flex-1 space-y-2 p-4">
-          <NavLinks />
+        <nav className="flex-1 p-4">
+          <ol className="space-y-4">
+            {navLinks.map((link, index) => (
+              <li key={index}>
+                <Link href={link.href}>{link.label}</Link>
+              </li>
+            ))}
+          </ol>
         </nav>
       </aside>
 
@@ -48,7 +55,15 @@ export default async function AdminLayout({
                   <SheetDescription />
                 </SheetHeader>
                 <nav className="space-y-2 p-4">
-                  <NavLinks />
+                  <ol className="space-y-4">
+                    {navLinks.map((link, index) => (
+                      <li key={index}>
+                        <SheetClose asChild>
+                          <Link href={link.href}>{link.label}</Link>
+                        </SheetClose>
+                      </li>
+                    ))}
+                  </ol>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -63,29 +78,17 @@ export default async function AdminLayout({
   )
 }
 
-function NavLinks() {
-  return (
-    <>
-      <Link
-        href="/admin"
-        className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
-      >
-        Dashboard
-      </Link>
-
-      <Link
-        href="/admin/users"
-        className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
-      >
-        Users
-      </Link>
-
-      <Link
-        href="/admin/products"
-        className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-muted"
-      >
-        Products
-      </Link>
-    </>
-  )
-}
+const navLinks = [
+  {
+    href: "/admin",
+    label: "Dashboard",
+  },
+  {
+    href: "/admin/users",
+    label: "Users",
+  },
+  {
+    href: "/admin/products",
+    label: "Products",
+  },
+]
