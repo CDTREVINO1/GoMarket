@@ -10,6 +10,8 @@ import { Controller, useForm } from "react-hook-form"
 
 import { ProductSchema } from "@/lib/schema"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import CategorySelect from "@/components/ui/category-select"
 import {
   Field,
   FieldError,
@@ -19,8 +21,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
-import { Card, CardContent } from "../ui/card"
-import CategorySelect from "../ui/category-select"
 import { getSignature, handleCreateProduct, saveToDatabase } from "./actions"
 
 export default function CreateProductForm({ setOpen }) {
@@ -142,22 +142,6 @@ export default function CreateProductForm({ setOpen }) {
           )}
         />
 
-        {/* <label
-          htmlFor="name"
-          className="block font-semibold text-gray-700 dark:text-gray-200"
-        >
-          Name:
-        </label>
-        <input
-          className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
-          type="text"
-          id="name"
-          {...register("name")}
-        />
-        {errors.name?.message && (
-          <p className="text-red-600">{errors.name.message}</p>
-        )} */}
-
         <Controller
           name="description"
           control={form.control}
@@ -177,21 +161,6 @@ export default function CreateProductForm({ setOpen }) {
           )}
         />
 
-        {/* <label
-          htmlFor="description"
-          className="block font-semibold text-gray-700 dark:text-gray-200"
-        >
-          Description:
-        </label>
-        <textarea
-          className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
-          id="description"
-          {...register("description")}
-        />
-        {errors.description?.message && (
-          <p className="text-red-600">{errors.description.message}</p>
-        )} */}
-
         <Controller
           name="price"
           control={form.control}
@@ -210,47 +179,7 @@ export default function CreateProductForm({ setOpen }) {
           )}
         />
 
-        {/* <label
-          htmlFor="price"
-          className="block font-semibold text-gray-700 dark:text-gray-200"
-        >
-          Price: $
-        </label>
-        <input
-          className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
-          type="number"
-          id="price"
-          step="any"
-          {...register("price", { valueAsNumber: true })}
-        />
-        {errors.price?.message && (
-          <p className="text-red-600">{errors.price.message}</p>
-        )} */}
-
         <CategorySelect control={form.control} />
-
-        {/* <label
-          htmlFor="category"
-          className="block font-semibold text-gray-700 dark:text-gray-200"
-        >
-          Category:
-        </label>
-        <select
-          className="focus:ring-opacity-50 w-full rounded-lg border px-3 py-2 focus:ring focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
-          {...register("category", {
-            required: "Please select a category",
-          })}
-        >
-          <option value="">--Select One--</option>
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-        {errors.category?.message && (
-          <p className="text-red-600">{errors.category.message}</p>
-        )} */}
 
         <Field>
           <FieldLabel htmlFor="images">Images (Optional):</FieldLabel>
@@ -272,26 +201,6 @@ export default function CreateProductForm({ setOpen }) {
             </CardContent>
           </Card>
         </Field>
-
-        {/* Add images */}
-        {/* <label htmlFor="images" className="block font-semibold text-gray-700">
-          Images (Optional):
-        </label>
-        <div
-          {...getRootProps({
-            className: "dropzone",
-          })}
-        >
-          <input {...getInputProps({ name: "file" })} />
-          <div className="flex flex-col items-center justify-center gap-4">
-            <Upload />
-            {isDragActive ? (
-              <p>Drop the files here ...</p>
-            ) : (
-              <p>Drag & drop files here, or click to select files</p>
-            )}
-          </div>
-        </div> */}
 
         {/* Preview */}
         {(files.length > 0 || rejected.length > 0) && (

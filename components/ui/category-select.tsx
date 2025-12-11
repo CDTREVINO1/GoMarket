@@ -35,7 +35,7 @@ export default function CategorySelect({ control }: CategorySelectProps) {
             </SelectTrigger>
             <SelectContent position="item-aligned">
               {PRODUCT_CATEGORIES.map((category) => (
-                <SelectItem key={category.id} value={category.id}>
+                <SelectItem key={category.id} value={category.label}>
                   {category.label}
                 </SelectItem>
               ))}

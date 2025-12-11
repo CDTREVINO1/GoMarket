@@ -11,14 +11,14 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import ArchiveProductModal from "./archive-product-modal"
-import EditProductModal from "./edit-product-modal"
+import ArchiveProductDialog from "./archive-product-dialog"
+import EditProductSheet from "./edit-product-sheet"
 
 export default function ProductsTable({ products }) {
   const [filter, setFilter] = useState("all")
 
   const dateFormatter = new Intl.DateTimeFormat(undefined, {
-    dateStyle: "medium",
+    dateStyle: "short",
     timeStyle: "short",
   })
 
@@ -67,11 +67,11 @@ export default function ProductsTable({ products }) {
               {dateFormatter.format(Date.parse(product.updatedAt))}
             </TableCell>
             <TableCell>
-              <EditProductModal product={product} />
+              <EditProductSheet product={product} />
             </TableCell>
             <TableCell>
-              <ArchiveProductModal
-                productId={product._id}
+              <ArchiveProductDialog
+                productId={product.id}
                 isAvailable={product.availability}
               />
             </TableCell>
