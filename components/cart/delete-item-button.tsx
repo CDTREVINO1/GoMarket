@@ -1,9 +1,12 @@
+"use client"
+
 import { useTransition } from "react"
 import { useRouter } from "next/navigation"
+import clsx from "clsx"
+
 import { removeItem } from "@/components/cart/actions"
 import CloseIcon from "@/components/icons/close"
 import LoadingDots from "@/components/loading-dots"
-import clsx from "clsx"
 
 export default function DeleteItemButton({ item }) {
   const router = useRouter()
@@ -26,7 +29,7 @@ export default function DeleteItemButton({ item }) {
       }}
       disabled={isPending}
       className={clsx(
-        "ease flex min-w-[36px] max-w-[36px] items-center justify-center border px-2 transition-all duration-200 hover:border-gray-800 hover:bg-gray-100 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-900",
+        "ease flex max-w-[36px] min-w-[36px] items-center justify-center border px-2 transition-all duration-200 hover:border-gray-800 hover:bg-gray-100 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-900",
         {
           "cursor-not-allowed px-0": isPending,
         }
@@ -35,7 +38,7 @@ export default function DeleteItemButton({ item }) {
       {isPending ? (
         <LoadingDots className="bg-black dark:bg-white" />
       ) : (
-        <CloseIcon className="hover:text-accent-3 mx-[1px] h-4 w-4" />
+        <CloseIcon className="hover:text-accent-3 mx-px h-4 w-4" />
       )}
     </button>
   )

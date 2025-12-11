@@ -2,7 +2,7 @@ import { cookies } from "next/headers"
 
 import { getCart } from "@/lib/pos/queries/cart"
 
-import CartModal from "./modal"
+import CartSheet from "./sheet"
 
 export default async function Cart() {
   const cookieStore = await cookies()
@@ -13,5 +13,5 @@ export default async function Cart() {
     cart = await getCart(cartId)
   }
 
-  return <CartModal cart={cart} />
+  return <CartSheet cart={cart} />
 }
