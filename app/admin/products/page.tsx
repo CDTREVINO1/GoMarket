@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma"
 import { PaginationComponent } from "@/components/layout/PaginationComponent"
 import Search from "@/components/layout/Search"
-import CreateProductModal from "@/components/products/create-product-modal"
+import CreateProductSheet from "@/components/products/create-product-sheet"
 import ProductsTable from "@/components/products/products-table"
 
 export default async function AdminProductsPage({
@@ -31,13 +31,13 @@ export default async function AdminProductsPage({
   })
 
   return (
-    <section className="flex h-full flex-col">
+    <section className="flex h-full flex-col space-y-2">
       <h2 className="text-2xl font-bold">Products</h2>
 
-      <article className="flex flex-1 flex-col">
-        <div className="flex items-center justify-between">
+      <article className="flex flex-1 flex-col space-y-2">
+        <div className="flex items-center gap-2">
           <Search />
-          <CreateProductModal />
+          <CreateProductSheet />
         </div>
 
         <div className="flex-1">

@@ -19,12 +19,21 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { IconButton } from "@/components/ui/shadcn-io/icon-button"
 import { Textarea } from "@/components/ui/textarea"
 
 import { getSignature, handleCreateProduct, saveToDatabase } from "./actions"
 
-export default function CreateProductForm({ setOpen }) {
-  const form = useForm({ resolver: zodResolver(ProductSchema) })
+export default function CreateProductForm({ onClose }) {
+  const form = useForm({
+    resolver: zodResolver(ProductSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      price: 0,
+      category: "",
+    },
+  })
   const [files, setFiles] = useState([])
   const [rejected, setRejected] = useState([])
   const router = useRouter()
@@ -115,7 +124,7 @@ export default function CreateProductForm({ setOpen }) {
 
     await handleCreateProduct(newProduct)
     router.refresh()
-    setOpen(false)
+    onClose()
     // form.reset()
   }
 
@@ -123,7 +132,7 @@ export default function CreateProductForm({ setOpen }) {
     <form
       id="form-create-product"
       onSubmit={form.handleSubmit(onSubmit)}
-      className="mt-4"
+      className="p-2"
     >
       <FieldGroup>
         <Controller
@@ -137,6 +146,7 @@ export default function CreateProductForm({ setOpen }) {
                 id="form-create-product-title"
                 aria-invalid={fieldState.invalid}
                 autoComplete="off"
+                className="text-sm"
               />
             </Field>
           )}
@@ -155,6 +165,7 @@ export default function CreateProductForm({ setOpen }) {
                 id="form-create-product-description"
                 aria-invalid={fieldState.invalid}
                 autoComplete="off"
+                className="text-sm"
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
@@ -167,13 +178,18 @@ export default function CreateProductForm({ setOpen }) {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="form-create-product-price">Price</FieldLabel>
-              <Input
-                {...field}
-                id="price"
-                type="number"
-                step="0.01"
-                aria-invalid={fieldState.invalid}
-              />
+              <div className="relative">
+                <DollarSign className="absolute top-2.5 left-2 h-5 w-5 text-gray-400" />
+                <Input
+                  {...field}
+                  type="number"
+                  step="0.01"
+                  id="price"
+                  aria-invalid={fieldState.invalid}
+                  placeholder="0.00"
+                  className="pl-8"
+                />
+              </div>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
@@ -188,7 +204,7 @@ export default function CreateProductForm({ setOpen }) {
               className: "dropzone",
             })}
           >
-            <CardContent className="flex flex-col items-center justify-center gap-4 py-10">
+            <CardContent className="flex flex-col items-center justify-center gap-4">
               <Input {...getInputProps({ name: "file" })} />
               <div className="flex flex-col items-center justify-center gap-4">
                 <Upload />
@@ -204,22 +220,21 @@ export default function CreateProductForm({ setOpen }) {
 
         {/* Preview */}
         {(files.length > 0 || rejected.length > 0) && (
-          <section className="mt-10">
-            <div className="flex gap-4">
+          <section className="mt-4">
+            <div className="flex flex-row justify-between">
               <h2 className="title text-3xl font-semibold">Preview</h2>
-              <button
-                type="button"
+              <Button
+                variant="outline"
+                disabled={files.length === 0}
                 onClick={removeAll}
-                className="mt-1 rounded-md border border-rose-400 px-3 text-[12px] font-bold tracking-wider text-stone-500 uppercase transition-colors hover:bg-rose-400 hover:text-white"
+                className="uppercase"
               >
                 Remove all files
-              </button>
+              </Button>
             </div>
 
             {/* Accepted files */}
-            <h3 className="title mt-10 border-b pb-3 text-lg font-semibold text-stone-600">
-              Accepted Files
-            </h3>
+            <h3 className="border-b font-semibold">Accepted Files</h3>
             <ul className="mt-6 grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
               {files.map((file) => (
                 <li
@@ -236,13 +251,11 @@ export default function CreateProductForm({ setOpen }) {
                     }}
                     className="h-full w-full rounded-md object-contain"
                   />
-                  <button
-                    type="button"
-                    className="absolute -top-3 -right-3 flex h-7 w-7 items-center justify-center rounded-full border border-rose-400 bg-rose-400 transition-colors hover:bg-white"
+                  <IconButton
+                    icon={X}
                     onClick={() => removeFile(file.name)}
-                  >
-                    <X />
-                  </button>
+                    className="absolute -top-4 -right-4 bg-destructive text-white hover:bg-red-600"
+                  />
                   <p className="mt-2 text-[12px] font-medium text-stone-500">
                     {file.name}
                   </p>
@@ -251,7 +264,7 @@ export default function CreateProductForm({ setOpen }) {
             </ul>
 
             {/* Rejected Files */}
-            <h3 className="title mt-24 border-b pb-3 text-lg font-semibold text-stone-600">
+            <h3 className="mt-24 border-b pb-3 font-semibold">
               Rejected Files
             </h3>
             <ul className="mt-6 flex flex-col">
@@ -270,29 +283,24 @@ export default function CreateProductForm({ setOpen }) {
                       ))}
                     </ul>
                   </div>
-                  <button
-                    type="button"
-                    className="mt-1 rounded-md border border-rose-400 px-3 py-1 text-[12px] font-bold tracking-wider text-stone-500 uppercase transition-colors hover:bg-rose-400 hover:text-white"
+                  <IconButton
+                    icon={X}
+                    className="bg-destructive text-white hover:bg-red-600"
                     onClick={() => removeRejected(file.name)}
-                  >
-                    remove
-                  </button>
+                  />
                 </li>
               ))}
             </ul>
           </section>
         )}
 
-        <div className="text-center">
-          <Button
-            className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 dark:bg-red-700"
-            onClick={() => setOpen(false)}
-          >
+        <div className="flex flex-row justify-end gap-2">
+          <Button className="bg-destructive hover:bg-red-600" onClick={onClose}>
             Cancel
           </Button>
 
           <Button
-            className={`ml-2 rounded px-4 py-2 text-white ${
+            className={`${
               !isAddingImages && !form.formState.isDirty
                 ? "cursor-not-allowed bg-gray-400"
                 : "bg-blue-500 hover:bg-blue-600"

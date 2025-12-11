@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CircleX, Upload, X } from "lucide-react"
+import { CircleX, DollarSign, Upload, X } from "lucide-react"
 import { useDropzone } from "react-dropzone"
 import { Controller, useForm } from "react-hook-form"
 
@@ -173,7 +173,11 @@ export default function EditProductForm({ product, onClose }) {
   }
 
   return (
-    <form className="p-2" onSubmit={form.handleSubmit(onSubmit)}>
+    <form
+      id="form-edit-product"
+      className="p-2"
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <FieldGroup>
         <Controller
           name="title"
@@ -220,13 +224,17 @@ export default function EditProductForm({ product, onClose }) {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="form-edit-product-price">Price</FieldLabel>
-              <Input
-                {...field}
-                id="price"
-                type="number"
-                step="0.01"
-                aria-invalid={fieldState.invalid}
-              />
+              <div className="relative">
+                <DollarSign className="absolute top-2.5 left-2 h-5 w-5 text-gray-400" />
+                <Input
+                  {...field}
+                  id="price"
+                  type="number"
+                  step="0.01"
+                  aria-invalid={fieldState.invalid}
+                  className="pl-8"
+                />
+              </div>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
@@ -265,7 +273,7 @@ export default function EditProductForm({ product, onClose }) {
               className: "dropzone",
             })}
           >
-            <CardContent className="flex flex-col items-center justify-center gap-4 py-10">
+            <CardContent className="flex flex-col items-center justify-center gap-4">
               <Input {...getInputProps({ name: "file" })} />
               <div className="flex flex-col items-center justify-center gap-4">
                 <Upload />
@@ -280,13 +288,14 @@ export default function EditProductForm({ product, onClose }) {
         </Field>
 
         {/* Preview Selected Images */}
-        <section>
+        <section className="mt-4">
           <div className="flex flex-row justify-between">
-            <h2>Preview</h2>
+            <h2 className="title text-3xl font-semibold">Preview</h2>
             <Button
+              variant="outline"
               disabled={files.length === 0}
               onClick={removeAll}
-              className="border border-rose-400 bg-destructive uppercase"
+              className="uppercase"
             >
               Remove all files
             </Button>
@@ -294,9 +303,12 @@ export default function EditProductForm({ product, onClose }) {
 
           {/* Accepted files */}
           <h3 className="border-b font-semibold">Accepted Files</h3>
-          <ul className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+          <ul className="mt-6 grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
             {files.map((file) => (
-              <li key={file.name} className="relative h-24">
+              <li
+                key={file.name}
+                className="relative h-32 rounded-md shadow-lg"
+              >
                 <Image
                   src={file.preview}
                   alt={file.name}
@@ -310,7 +322,7 @@ export default function EditProductForm({ product, onClose }) {
                 <IconButton
                   icon={X}
                   onClick={() => removeFile(file.name)}
-                  className="absolute -top-4 -right-4 bg-destructive text-foreground"
+                  className="absolute -top-4 -right-4 bg-destructive text-white hover:bg-red-600"
                 />
                 <p className="mt-2 text-[12px] font-medium text-stone-500">
                   {file.name}
@@ -320,8 +332,8 @@ export default function EditProductForm({ product, onClose }) {
           </ul>
 
           {/* Rejected Files */}
-          <h3 className="mt-24 border-b font-semibold">Rejected Files</h3>
-          <ul className="flex flex-col">
+          <h3 className="mt-24 border-b pb-3 font-semibold">Rejected Files</h3>
+          <ul className="mt-6 flex flex-col">
             {rejected.map(({ file, errors }) => (
               <li key={file.name} className="flex items-start justify-between">
                 <div>
@@ -336,7 +348,7 @@ export default function EditProductForm({ product, onClose }) {
                 </div>
                 <IconButton
                   icon={X}
-                  className="bg-destructive text-foreground"
+                  className="bg-destructive text-white hover:bg-red-600"
                   onClick={() => removeRejected(file.name)}
                 />
               </li>
@@ -344,8 +356,8 @@ export default function EditProductForm({ product, onClose }) {
           </ul>
         </section>
 
-        <div className="flex flex-row justify-evenly">
-          <Button className="bg-destructive" onClick={onClose}>
+        <div className="flex flex-row justify-end gap-2">
+          <Button className="bg-destructive hover:bg-red-600" onClick={onClose}>
             Cancel
           </Button>
 
