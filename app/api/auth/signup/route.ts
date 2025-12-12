@@ -1,12 +1,14 @@
 import { hashPassword } from "@/lib/auth"
 import prisma from "@/lib/prisma"
 
-export async function POST(request) {
+export async function POST(request: Request) {
   try {
     const data = await request.json()
-    const { username, password, email } = data
+    const username: string = data.username
+    const password: string = data.password
+    const email: string = data.password
 
-    const hashedPassword = await hashPassword(password)
+    const hashedPassword: string = await hashPassword(password)
 
     let user = await prisma.users.findMany({
       where: { OR: [{ username: username }, { email: email }] },
@@ -23,6 +25,7 @@ export async function POST(request) {
           username: username,
           email: email,
           password: hashedPassword,
+          role: "user",
         },
       })
 

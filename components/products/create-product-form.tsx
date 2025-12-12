@@ -8,6 +8,7 @@ import { DollarSign, Upload, X } from "lucide-react"
 import { useDropzone } from "react-dropzone"
 import { Controller, useForm } from "react-hook-form"
 
+import { env } from "@/lib/env"
 import { ProductSchema } from "@/lib/schema"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -91,12 +92,12 @@ export default function CreateProductForm({ onClose }) {
 
     for (let file of files) {
       formData.append("file", file)
-      formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_KEY)
+      formData.append("api_key", env.NEXT_PUBLIC_CLOUDINARY_KEY)
       formData.append("signature", signature)
       formData.append("timestamp", timestamp)
       formData.append("folder", "products")
 
-      const endpoint = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL
+      const endpoint = env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL
       const data = await fetch(endpoint, {
         method: "POST",
         body: formData,

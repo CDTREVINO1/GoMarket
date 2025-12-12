@@ -1,8 +1,10 @@
-import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth"
 import Stripe from "stripe"
 
-export async function POST(request) {
+import { authOptions } from "@/lib/auth"
+import { env } from "@/lib/env"
+
+export async function POST(request: Request) {
   const session = await getServerSession(authOptions)
 
   const userId = session?.user?.id ?? null
@@ -10,11 +12,11 @@ export async function POST(request) {
   try {
     let cart = await request.json()
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+    const stripe = new Stripe(env.STRIPE_SECRET_KEY)
     const stripeSession = await stripe.checkout.sessions.create({
       mode: "payment",
-      success_url: `${process.env.SERVER_URL}/?success=true`,
-      cancel_url: `${process.env.SERVER_URL}/?canceled=true`,
+      success_url: `${env.SERVER_URL}/?success=true`,
+      cancel_url: `${env.SERVER_URL}/?canceled=true`,
       automatic_tax: { enabled: true },
       client_reference_id: cart._id,
       line_items: cart.items.map((item) => {

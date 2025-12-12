@@ -1,15 +1,17 @@
 import { headers } from "next/headers"
-import dbConnect from "@/lib/dbConnect"
 import Cart from "@/models/cart"
 import GuestOrder from "@/models/guest-order"
 import Order from "@/models/order"
 import User from "@/models/user"
 import Stripe from "stripe"
 
-export async function POST(request) {
+import dbConnect from "@/lib/dbConnect"
+import { env } from "@/lib/env"
+
+export async function POST(request: Request) {
   const body = await request.text()
   const signature = headers().get("Stripe-Signature")
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+  const stripe = new Stripe(env.STRIPE_SECRET_KEY)
   await dbConnect()
 
   let event
@@ -18,7 +20,7 @@ export async function POST(request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET
+      env.STRIPE_WEBHOOK_SECRET
     )
   } catch (error) {
     return new Response(`Webhook Error: ${error.message}`, { status: 400 })

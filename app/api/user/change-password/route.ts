@@ -8,7 +8,7 @@ import {
 } from "@/lib/auth"
 import prisma from "@/lib/prisma"
 
-export async function PATCH(request) {
+export async function PATCH(request: Request) {
   try {
     const session = await getServerSession(authOptions)
     const data = await request.json()
@@ -18,10 +18,10 @@ export async function PATCH(request) {
         status: 401,
       })
 
-    const userId = session.user.id
+    const userId = session?.user?.id
     const { oldPassword, newPassword } = data
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
       where: { id: userId },
     })
 
@@ -61,7 +61,7 @@ export async function PATCH(request) {
 
     const hashedPassword = await hashPassword(newPassword)
 
-    await prisma.user.update({
+    await prisma.users.update({
       where: { id: userId },
       data: { password: hashedPassword },
     })

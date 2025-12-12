@@ -85,12 +85,12 @@ model products {
 
 model users {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    v         Int      @map("__v")
-    createdAt DateTime @db.Date
+    v         Int      @default(0) @map("__v")
+    createdAt DateTime @default(now())
     email     String   @unique(map: "email_1")
     orders    String[]
     password  String
     role      String
-    updatedAt DateTime @db.Date
+    updatedAt DateTime @updatedAt
     username  String   @unique(map: "username_1")
 }
