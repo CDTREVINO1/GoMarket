@@ -36,29 +36,32 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ token, session }) {
-      if (token) {
-        session.user.id = token.id
-        session.user.name = token.username
-        session.user.email = token.email
-        session.user.role = token.role
+      if (token && session.user) {
+        session.user.id = token.id as string
+        session.user.name = token.username as string
+        session.user.email = token.email as string
+        session.user.role = token.role as string
       }
 
       return session
     },
     async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id
+      }
+
       const dbUser = await prisma.users.findUnique({
-        where: { email: token.email },
+        where: { email: token.email as string },
       })
 
       if (!dbUser) {
-        if (user) {
-          token.id = user?.id
-        }
         return token
       }
 
       return {
+        ...token,
         id: dbUser.id,
+        username: dbUser.username,
         email: dbUser.email,
         role: dbUser.role,
       }
@@ -66,17 +69,20 @@ export const authOptions: NextAuthOptions = {
   },
 }
 
-export async function verifyPassword(password, hashedPassword) {
+export async function verifyPassword(password: string, hashedPassword: string) {
   const isValid = await compare(password, hashedPassword)
   return isValid
 }
 
-export async function hashPassword(password) {
+export async function hashPassword(password: string) {
   const hashedPassword = await hash(password, 12)
   return hashedPassword
 }
 
-export async function comparePasswords(currentPassword, newPassword) {
+export async function comparePasswords(
+  currentPassword: string,
+  newPassword: string
+) {
   try {
     const isMatch = await bcrypt.compare(newPassword, currentPassword)
     return isMatch

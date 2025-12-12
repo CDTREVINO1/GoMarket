@@ -5,8 +5,8 @@ import Order from "@/models/order"
 import User from "@/models/user"
 import Stripe from "stripe"
 
+import { serverEnv } from "@/env/server"
 import dbConnect from "@/lib/dbConnect"
-import { env } from "@/lib/env"
 
 export async function POST(request: Request) {
   const body = await request.text()
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      env.STRIPE_WEBHOOK_SECRET
+      serverEnv.STRIPE_WEBHOOK_SECRET
     )
   } catch (error) {
     return new Response(`Webhook Error: ${error.message}`, { status: 400 })
