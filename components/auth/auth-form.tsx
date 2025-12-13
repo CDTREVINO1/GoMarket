@@ -43,9 +43,13 @@ export default function AuthForm() {
     setIsLogin((prevState) => !prevState)
   }
 
-  const formSubmitHandler = async (data) => {
-    const { username, password } = data
-
+  const formSubmitHandler = async ({
+    username,
+    password,
+  }: {
+    username: string
+    password: string
+  }) => {
     try {
       const result = await signIn("credentials", {
         redirect: false,
@@ -54,14 +58,25 @@ export default function AuthForm() {
         callbackUrl: "/",
       })
 
-      if (!result.error) {
-        router.replace("/")
-        router.refresh()
-      } else {
-        setStatus(result.error)
+      if (!result) {
+        setStatus("An unexpected error occurred")
+        return
       }
+
+      if (result.error) {
+        setStatus(result.error)
+        return
+      }
+
+      router.push("/")
+      router.refresh()
     } catch (error) {
-      setStatus(error.message)
+      if (error instanceof Error) {
+        setStatus(error.message)
+      } else {
+        setStatus("An unexpected error occurred")
+      }
+      console.error("Sign in error:", error)
     }
   }
 

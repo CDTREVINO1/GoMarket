@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { Prisma } from "@/generated/prisma/client"
 import placeholderPic from "@/public/placeholder.png"
 
 import prisma from "@/lib/prisma"
@@ -21,13 +22,22 @@ export default async function ProductsPage({
 
   const searchQuery = params.query || ""
 
-  const whereClause = {
+  const whereClause: Prisma.productsWhereInput = {
     availability: true,
-    ...(selectedCategories.length > 0 && {
-      category: { in: selectedCategories },
-    }),
     ...(searchQuery && {
-      OR: [{ title: { contains: searchQuery, mode: "insensitive" } }],
+      OR: [
+        {
+          title: {
+            contains: searchQuery,
+            mode: "insensitive",
+          },
+        },
+      ],
+    }),
+    ...(selectedCategories?.length && {
+      category: {
+        in: selectedCategories,
+      },
     }),
   }
 
@@ -49,7 +59,7 @@ export default async function ProductsPage({
   ).sort()
 
   return (
-    <section className="p-4">
+    <section className="flex-1 p-4">
       <div className="mb-4">
         <h1 className="text-2xl font-bold">Our Products</h1>
         <p>Browse our collection of amazing products</p>

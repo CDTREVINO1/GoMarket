@@ -7,7 +7,7 @@ import { authOptions } from "@/lib/auth"
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions)
 
-  const userId = session?.user?.id ?? null
+  const userId = session?.user.id ?? null
 
   try {
     let cart = await request.json()

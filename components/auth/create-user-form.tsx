@@ -11,7 +11,15 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
-const createUser = async (username, password, email) => {
+interface CreateUserFormProps {
+  setStatus: (message: string) => void
+}
+
+const createUser = async (
+  username: string,
+  password: string,
+  email: string
+) => {
   const response = await fetch("/api/auth/signup", {
     method: "POST",
     body: JSON.stringify({ username, password, email }),
@@ -29,7 +37,7 @@ const createUser = async (username, password, email) => {
   return data
 }
 
-export default function CreateUserForm({ setStatus }) {
+export default function CreateUserForm({ setStatus }: CreateUserFormProps) {
   const form = useForm({
     resolver: zodResolver(CreateUserSchema),
     defaultValues: {
@@ -40,15 +48,36 @@ export default function CreateUserForm({ setStatus }) {
     },
   })
 
-  const formSubmitHandler = async (data) => {
-    const { username, email, password } = data
-
+  const formSubmitHandler = async ({
+    username,
+    email,
+    password,
+  }: {
+    username: string
+    email: string
+    password: string
+  }) => {
     try {
       const result = await createUser(username, password, email)
 
+      if (!result) {
+        setStatus("An unexpected error occurred")
+        return
+      }
+
+      if (result.error) {
+        setStatus(result.error)
+        return
+      }
+
       setStatus(result.message)
     } catch (error) {
-      setStatus(error.message)
+      if (error instanceof Error) {
+        setStatus(error.message)
+      } else {
+        setStatus("An unexpected error occurred")
+      }
+      console.log("Error creating user:", error)
     }
   }
 
@@ -121,8 +150,10 @@ export default function CreateUserForm({ setStatus }) {
           name="passwordConfirm"
           control={form.control}
           rules={{
-            validate: (value) =>
-              value === password.current || "The passwords do not match",
+            validate: (value) => {
+              const password = form.getValues("password")
+              return value === password || "The passwords do not match"
+            },
           }}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>

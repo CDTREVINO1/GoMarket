@@ -22,7 +22,7 @@ export default async function AdminLayout({
 }) {
   const session = await getServerSession(authOptions)
 
-  if (!session || session?.user?.role !== "admin") redirect("/")
+  if (!session || session.user.role !== "admin") redirect("/")
 
   return (
     <div className="flex flex-1">

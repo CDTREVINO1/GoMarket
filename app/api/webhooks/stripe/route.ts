@@ -11,7 +11,7 @@ import dbConnect from "@/lib/dbConnect"
 export async function POST(request: Request) {
   const body = await request.text()
   const signature = headers().get("Stripe-Signature")
-  const stripe = new Stripe(env.STRIPE_SECRET_KEY)
+  const stripe = new Stripe(serverEnv.STRIPE_SECRET_KEY)
   await dbConnect()
 
   let event
