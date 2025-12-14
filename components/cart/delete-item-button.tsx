@@ -17,7 +17,7 @@ export default function DeleteItemButton({ item }) {
       aria-label="Remove cart item"
       onClick={() => {
         startTransition(async () => {
-          const error = await removeItem(item._id)
+          const error = await removeItem(item.id)
 
           if (error) {
             alert(error)

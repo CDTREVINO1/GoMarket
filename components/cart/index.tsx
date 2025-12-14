@@ -6,11 +6,12 @@ import CartSheet from "./sheet"
 
 export default async function Cart() {
   const cookieStore = await cookies()
-  const cartId = cookieStore.get("cartId")
+  const cartData = cookieStore.get("cartId")
+
   let cart
 
-  if (cartId) {
-    cart = await getCart(cartId)
+  if (cartData) {
+    cart = await getCart(cartData.value)
   }
 
   return <CartSheet cart={cart} />

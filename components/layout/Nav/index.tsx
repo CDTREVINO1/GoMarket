@@ -49,7 +49,7 @@ export const HeaderNav = () => {
               <Link href="/profile">Profile</Link>
             </Button>
 
-            {session.user.role === "admin" && (
+            {session.user.role === "ADMIN" && (
               <Button className="text-foreground" variant="default" asChild>
                 <Link href="/admin">Admin</Link>
               </Button>
@@ -96,7 +96,7 @@ export const HeaderNav = () => {
                     </Button>
                   </SheetClose>
 
-                  {session.user.role === "admin" && (
+                  {session.user.role === "ADMIN" && (
                     <SheetClose asChild>
                       <Button
                         className="text-foreground"

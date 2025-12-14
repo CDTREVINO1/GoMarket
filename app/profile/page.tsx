@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth/next"
 
 import { authOptions } from "@/lib/auth"
-import { fetchOrders } from "@/lib/pos/queries/orders"
+import prisma from "@/lib/prisma"
 import OrderList from "@/components/orders/order-list"
 import ProfileForm from "@/components/profile/profile-form"
 
@@ -11,7 +11,11 @@ export default async function ProfilePage() {
 
   if (!session) redirect("/auth")
 
-  const orders = await fetchOrders(session.user.id)
+  const orders = await prisma.order.findMany({
+    where: {
+      userId: session.user.id,
+    },
+  })
 
   return (
     <section className="flex flex-1 flex-col items-center py-6">

@@ -1,6 +1,7 @@
 "use server"
 
 import { cookies } from "next/headers"
+
 import {
   addToCart,
   createCart,
@@ -9,13 +10,15 @@ import {
 } from "@/lib/pos/mutations/cart"
 import { doesCartExist, getCart } from "@/lib/pos/queries/cart"
 
-export const setCookie = async (cartId) => {
+export const setCookie = async (cartId: string) => {
   const oneWeek = 7 * 24 * 60 * 60 * 1000
-  cookies().set("cartId", cartId, { expires: Date.now() + oneWeek })
+  const cookieStore = await cookies()
+  cookieStore.set("cartId", cartId, { expires: Date.now() + oneWeek })
 }
 
-export const addItem = async (productId) => {
-  let cartId = cookies().get("cartId")?.value
+export const addItem = async (productId: string) => {
+  let cookieStore = await cookies()
+  let cartId = cookieStore.get("cartId")?.value
   let cart
 
   if (cartId) {
@@ -24,14 +27,14 @@ export const addItem = async (productId) => {
       cart = await getCart(cartId)
     } else {
       cart = await createCart()
-      cartId = cart._id
-      setCookie(cartId)
+      cartId = cart.id
+      await setCookie(cartId)
     }
   }
 
   if (!cartId || !productId) {
     cart = await createCart()
-    cartId = cart._id
+    cartId = cart.id
     setCookie(cartId)
   }
 
@@ -45,8 +48,9 @@ export const addItem = async (productId) => {
   }
 }
 
-export const removeItem = async (itemId) => {
-  const cartId = cookies().get("cartId")?.value
+export const removeItem = async (itemId: string) => {
+  const cookieStore = await cookies()
+  const cartId = cookieStore.get("cartId")?.value
 
   if (!cartId) {
     return new Error("Missing cartId")
@@ -58,8 +62,15 @@ export const removeItem = async (itemId) => {
   }
 }
 
-export const updateItemQuantity = async ({ itemId, quantity }) => {
-  const cartId = cookies().get("cartId")?.value
+export const updateItemQuantity = async ({
+  itemId,
+  quantity,
+}: {
+  itemId: string
+  quantity: number
+}) => {
+  const cookieStore = await cookies()
+  const cartId = cookieStore.get("cartId")?.value
 
   if (!cartId) {
     return new Error("Missing cartId")

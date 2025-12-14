@@ -4,8 +4,11 @@ import prisma from "@/lib/prisma"
 
 export const createCart = cache(async () => {
   try {
-    const cartData = await prisma.carts.create({})
-    // Cart.createIndexes({ expireAt: 1 }, { expireAfterSeconds: 0 })
+    const cartData = await prisma.cart.create({
+      data: {
+        expireAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      },
+    })
     const cart = JSON.stringify(cartData)
     return JSON.parse(cart)
   } catch (error) {
@@ -23,81 +26,36 @@ export const addToCart = cache(
     }
   ) => {
     try {
-      if (productToAdd.quantity < 1) {
-        throw new Error("Quantity must be at least 1")
-      }
-
-      // 1. Ensure product exists
-      const product = await prisma.products.findUnique({
-        where: { id: productToAdd.productId },
-        select: { id: true, availability: true },
-      })
-
-      if (!product) {
-        throw new Error("Product not found")
-      }
-
-      if (!product.availability) {
-        throw new Error("Product is not available")
-      }
-
-      const newExpireAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-
-      // 2. Try to ADD product if it does NOT already exist
-      const insertResult = await prisma.carts.updateMany({
+      // Check if the item already exists in the cart
+      const existingCartItem = await prisma.cartItem.findFirst({
         where: {
-          id: cartId,
-          items: {
-            none: {
-              product: product.id,
-            },
-          },
-        },
-        data: {
-          expireAt: newExpireAt,
-          items: {
-            push: {
-              product: product.id,
-              quantity: productToAdd.quantity,
-            },
-          },
+          cartId: cartId,
+          productId: productToAdd.productId,
         },
       })
 
-      // 3. If it already existed → INCREMENT quantity
-      if (insertResult.count === 0) {
-        const updateResult = await prisma.carts.updateMany({
+      if (existingCartItem) {
+        // Item exists, increment the quantity
+        const updatedCartItem = await prisma.cartItem.update({
           where: {
-            id: cartId,
-            items: {
-              some: {
-                product: product.id,
-              },
-            },
+            id: existingCartItem.id,
           },
           data: {
-            expireAt: newExpireAt,
-            items: {
-              updateMany: {
-                where: {
-                  product: product.id,
-                },
-                data: {
-                  quantity: {
-                    increment: productToAdd.quantity,
-                  },
-                },
-              },
-            },
+            quantity: existingCartItem.quantity + productToAdd.quantity,
           },
         })
-
-        if (updateResult.count === 0) {
-          throw new Error("Cart not found or product mismatch")
-        }
+        return updatedCartItem
+      } else {
+        // Item doesn't exist, create a new cart item
+        const newCartItem = await prisma.cartItem.create({
+          data: {
+            cartId: cartId,
+            productId: productToAdd.productId,
+            quantity: productToAdd.quantity,
+          },
+        })
+        return newCartItem
       }
-
-      return { success: true }
     } catch (error) {
       console.error("Error adding to cart:", {
         cartId,
@@ -125,7 +83,7 @@ export const updateCart = cache(
         throw new Error("Quantity must be at least 1")
       }
 
-      const updated = await prisma.carts.updateMany({
+      const updated = await prisma.cart.updateMany({
         where: {
           id: cartId,
           items: {
@@ -135,7 +93,7 @@ export const updateCart = cache(
           },
         },
         data: {
-          expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          expireAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
           items: {
             updateMany: {
               where: {
@@ -163,10 +121,10 @@ export const updateCart = cache(
 
 export const removeFromCart = cache(async (cartId: string, itemId: string) => {
   try {
-    const updated = await prisma.carts.update({
+    const updated = await prisma.cart.update({
       where: { id: cartId },
       data: {
-        expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        expireAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         items: {
           deleteMany: {
             id: itemId,

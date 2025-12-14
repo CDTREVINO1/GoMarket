@@ -6,7 +6,7 @@ export const getCart = cache(async (cartId: string) => {
   try {
     if (!cartId) return null
 
-    const cart = await prisma.carts.findUnique({
+    const cart = await prisma.cart.findUnique({
       where: { id: cartId },
       include: { items: { include: { product: true } } },
     })
@@ -19,7 +19,7 @@ export const getCart = cache(async (cartId: string) => {
     )
 
     const totalPrice = cart.items.reduce(
-      (sum, item) => sum + item.quantity * (item.productData?.price ?? 0),
+      (sum, item) => sum + item.quantity * (item.product.price ?? 0),
       0
     )
 
@@ -37,9 +37,12 @@ export const getCart = cache(async (cartId: string) => {
   }
 })
 
-export const doesCartExist = cache(async (cartId) => {
+export const doesCartExist = cache(async (cartId: string) => {
   try {
-    const cart = await Cart.findOne({ _id: cartId })
+    const cart = await prisma.cart.findUnique({
+      where: { id: cartId },
+      include: { items: { include: { product: true } } },
+    })
     return !!cart
   } catch (error) {
     console.error("Error checking cart existence:", error)

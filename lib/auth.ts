@@ -12,7 +12,7 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       async authorize(credentials) {
-        const user = await prisma.users.findUnique({
+        const user = await prisma.user.findUnique({
           where: { username: credentials.user },
         })
 
@@ -50,7 +50,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id
       }
 
-      const dbUser = await prisma.users.findUnique({
+      const dbUser = await prisma.user.findUnique({
         where: { email: token.email as string },
       })
 

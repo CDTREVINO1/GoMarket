@@ -22,7 +22,7 @@ export default async function ProductsPage({
 
   const searchQuery = params.query || ""
 
-  const whereClause: Prisma.productsWhereInput = {
+  const whereClause: Prisma.ProductWhereInput = {
     availability: true,
     ...(searchQuery && {
       OR: [
@@ -41,11 +41,11 @@ export default async function ProductsPage({
     }),
   }
 
-  const filteredProducts = await prisma.products.findMany({
+  const filteredProducts = await prisma.product.findMany({
     where: whereClause,
   })
 
-  const allProducts = await prisma.products.findMany({
+  const allProducts = await prisma.product.findMany({
     where: {
       availability: true,
     },

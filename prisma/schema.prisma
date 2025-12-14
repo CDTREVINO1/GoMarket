@@ -8,89 +8,87 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-type CartsItems {
-    id       String @map("_id") @db.ObjectId
-    product  String @db.ObjectId
-    quantity Int
-}
-
-type GuestordersOrderItems {
-    id       String @map("_id") @db.ObjectId
-    product  String @db.ObjectId
-    quantity Int
-}
-
-type OrdersOrderItems {
-    id       String @map("_id") @db.ObjectId
-    product  String @db.ObjectId
-    quantity Int
-}
-
-model carts {
-    id        String       @id @default(auto()) @map("_id") @db.ObjectId
-    v         Int          @map("__v")
-    createdAt DateTime     @db.Date
-    expireAt  DateTime     @db.Date
-    items     CartsItems[]
-    updatedAt DateTime     @db.Date
-
-    @@index([expireAt], map: "expireAt_1")
-}
-
-model guestorders {
-    id               String                  @id @default(auto()) @map("_id") @db.ObjectId
-    v                Int                     @map("__v")
-    createdAt        DateTime                @db.Date
-    currency         String
-    orderItems       GuestordersOrderItems[]
-    orderStatus      String
-    orderTotal       Int
-    paymentStatus    String
-    /// Could not determine type: the field only had null or empty values in the sample set.
-    shippingAddress  Json?
-    stripeCheckoutId String
-    updatedAt        DateTime                @db.Date
-}
-
-model orders {
-    id               String             @id @default(auto()) @map("_id") @db.ObjectId
-    v                Int                @map("__v")
-    createdAt        DateTime           @db.Date
-    currency         String
-    orderItems       OrdersOrderItems[]
-    orderStatus      String
-    orderTotal       Int
-    paymentStatus    String
-    /// Could not determine type: the field only had null or empty values in the sample set.
-    shippingAddress  Json?
-    stripeCheckoutId String
-    updatedAt        DateTime           @db.Date
-    user             String             @db.ObjectId
-}
-
-model products {
-    id            String   @id @default(auto()) @map("_id") @db.ObjectId
-    v             Int      @map("__v")
-    availability  Boolean
-    category      String
-    createdAt     DateTime @db.Date
-    description   String
-    handle        String
-    images        String[]
-    price         Float
-    stripePriceId String
-    title         String
-    updatedAt     DateTime @db.Date
-}
-
-model users {
+model User {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    v         Int      @default(0) @map("__v")
-    createdAt DateTime @default(now())
-    email     String   @unique(map: "email_1")
-    orders    String[]
+    username  String   @unique
+    email     String   @unique
     password  String
-    role      String
+    role      Role     @default(USER)
+    createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    username  String   @unique(map: "username_1")
+    Orders    Order[]
+    Carts     Cart[]
+}
+
+model Order {
+    id               String       @id @default(auto()) @map("_id") @db.ObjectId
+    userId           String       @unique @db.ObjectId
+    stripeCheckoutId String
+    paymentStatus    String
+    orderTotal       Int
+    currency         String
+    orderStatus      String
+    orderItems       OrderItems[]
+    shippingAddress  String
+    createdAt        DateTime     @default(now())
+    updatedAt        DateTime     @updatedAt
+    user             User         @relation(fields: [userId], references: [id])
+}
+
+model GuestOrders {
+    id               String       @id @default(auto()) @map("_id") @db.ObjectId
+    stripeCheckoutId String
+    paymentStatus    String
+    orderTotal       Int
+    currency         String
+    orderStatus      String
+    orderItems       OrderItems[]
+    shippingAddress  String
+    createdAt        DateTime     @default(now())
+    updatedAt        DateTime     @updatedAt
+}
+
+type OrderItems {
+    id       String @map("_id") @db.ObjectId
+    product  String @db.ObjectId
+    quantity Int
+}
+
+model Cart {
+    id        String     @id @default(auto()) @map("_id") @db.ObjectId
+    userId    String?    @unique @db.ObjectId
+    items     CartItem[]
+    expireAt  DateTime   @db.Date
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    user      User?      @relation(fields: [userId], references: [id])
+}
+
+model CartItem {
+    id        String  @id @default(auto()) @map("_id") @db.ObjectId
+    productId String  @db.ObjectId
+    cartId    String  @db.ObjectId
+    quantity  Int
+    cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+    product   Product @relation(fields: [productId], references: [id])
+}
+
+model Product {
+    id            String     @id @default(auto()) @map("_id") @db.ObjectId
+    title         String
+    description   String
+    price         Float
+    stripePriceId String?    @default("")
+    availability  Boolean    @default(true)
+    category      String
+    images        String[]   @default([])
+    handle        String
+    createdAt     DateTime   @default(now()) @db.Date
+    updatedAt     DateTime   @updatedAt
+    cartItems     CartItem[]
+}
+
+enum Role {
+    USER
+    ADMIN
 }

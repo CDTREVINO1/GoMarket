@@ -7,14 +7,14 @@ import ProductsTable from "@/components/products/products-table"
 export default async function AdminProductsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  searchParams: Promise<{ [key: string]: string }>
 }) {
   const { page, query } = await searchParams
 
   const currentPage = Number(page) || 1
   const pageSize = 9
 
-  const totalProducts = await prisma.products.count({
+  const totalProducts = await prisma.product.count({
     where: {
       title: {
         contains: query,
@@ -24,7 +24,7 @@ export default async function AdminProductsPage({
   })
   const totalPages = Math.ceil(totalProducts / pageSize)
 
-  const products = await prisma.products.findMany({
+  const products = await prisma.product.findMany({
     where: { title: { contains: query || "", mode: "insensitive" } },
     skip: (currentPage - 1) * pageSize,
     take: pageSize,

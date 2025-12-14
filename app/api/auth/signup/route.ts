@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
     const hashedPassword: string = await hashPassword(password)
 
-    let user = await prisma.users.findMany({
+    let user = await prisma.user.findMany({
       where: { OR: [{ username: username }, { email: email }] },
     })
 
@@ -20,12 +20,12 @@ export async function POST(request: Request) {
         { status: 409 }
       )
     } else {
-      const newUser = await prisma.users.create({
+      const newUser = await prisma.user.create({
         data: {
           username: username,
           email: email,
           password: hashedPassword,
-          role: "user",
+          role: "USER",
         },
       })
 

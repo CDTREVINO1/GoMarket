@@ -9,7 +9,13 @@ import { addItem } from "@/components/cart/actions"
 
 import LoadingDots from "../loading-dots"
 
-export function AddToCart({ productId, availableForSale }) {
+export function AddToCart({
+  productId,
+  availableForSale,
+}: {
+  productId: string
+  availableForSale: boolean
+}) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
 

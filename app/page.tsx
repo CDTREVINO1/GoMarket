@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  const products = await prisma.products.findMany({
+  const products = await prisma.product.findMany({
     where: {
       availability: true,
     },
@@ -21,12 +21,14 @@ export default async function Page() {
         <HeroSection />
       </div>
 
-      <div>
-        <h2 className="pt-4 text-center text-xl font-extrabold md:text-2xl lg:text-3xl">
-          Featured Products
-        </h2>
-        <Slider products={products} />
-      </div>
+      {products.length > 0 && (
+        <div>
+          <h2 className="pt-4 text-center text-xl font-extrabold md:text-2xl lg:text-3xl">
+            Featured Products
+          </h2>
+          <Slider products={products} />
+        </div>
+      )}
     </main>
   )
 }

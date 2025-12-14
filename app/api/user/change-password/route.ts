@@ -21,7 +21,7 @@ export async function PATCH(request: Request) {
     const userId = session?.user?.id
     const { oldPassword, newPassword } = data
 
-    const user = await prisma.users.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: userId },
     })
 
@@ -61,7 +61,7 @@ export async function PATCH(request: Request) {
 
     const hashedPassword = await hashPassword(newPassword)
 
-    await prisma.users.update({
+    await prisma.user.update({
       where: { id: userId },
       data: { password: hashedPassword },
     })

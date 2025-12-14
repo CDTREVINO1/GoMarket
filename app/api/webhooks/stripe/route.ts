@@ -6,13 +6,12 @@ import User from "@/models/user"
 import Stripe from "stripe"
 
 import { serverEnv } from "@/env/server"
-import dbConnect from "@/lib/dbConnect"
 
 export async function POST(request: Request) {
   const body = await request.text()
-  const signature = headers().get("Stripe-Signature")
+  const headersList = await headers()
+  const signature = headersList.get("Stripe-Signature")
   const stripe = new Stripe(serverEnv.STRIPE_SECRET_KEY)
-  await dbConnect()
 
   let event
 
@@ -32,6 +31,7 @@ export async function POST(request: Request) {
     !stripeSession?.metadata?.userId &&
     event.type === "checkout.session.completed"
   ) {
+    // TODO: Switch to prisma
     const cart = await Cart.findOneAndUpdate(
       { _id: stripeSession.client_reference_id },
       { $set: { items: [] } },
@@ -58,13 +58,16 @@ export async function POST(request: Request) {
     stripeSession?.metadata?.userId &&
     event.type === "checkout.session.completed"
   ) {
+    // TODO: Switch to prisma
     const cart = await Cart.findOneAndUpdate(
       { _id: stripeSession.client_reference_id },
       { $set: { items: [] } },
       { returnDocument: "before" }
     )
+    // TODO: Switch to prisma
     const user = await User.findById(stripeSession?.metadata?.userId)
 
+    // TODO: Switch to prisma
     const newOrder = await Order.create({
       user: user._id,
       stripeCheckoutId: stripeSession.id,

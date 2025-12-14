@@ -14,13 +14,13 @@ export default async function ProductPage({
   params: Promise<{ slug: string; handle: string }>
 }) {
   const { handle } = await params
-  const products = await prisma.products.findMany({
+  const products = await prisma.product.findMany({
     where: {
       availability: true,
     },
   })
 
-  const product = await prisma.products.findFirst({
+  const product = await prisma.product.findFirst({
     where: {
       handle: handle,
     },
