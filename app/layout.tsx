@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import { Metadata } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
 
+import { Toaster } from "@/components/ui/sonner"
 import { Footer } from "@/components/layout/footer"
 import { Header } from "@/components/layout/header"
 import Providers from "@/app/providers"
@@ -20,7 +21,7 @@ const jetBrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Home",
-  description: "Welcome to the Online Store",
+  description: "Welcome to GoMarket",
 }
 
 export default function RootLayout({
@@ -36,6 +37,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           <Suspense>{children}</Suspense>
+          <Toaster />
           <Footer />
         </Providers>
       </body>

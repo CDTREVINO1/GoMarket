@@ -33,7 +33,7 @@ export default function Order({ order }) {
             key={index}
             className="flex flex-col items-start border-b p-4 sm:flex-row"
           >
-            <div className="mx-auto flex-shrink-0 overflow-hidden sm:mx-0 sm:h-32 sm:w-32">
+            <div className="mx-auto shrink-0 overflow-hidden sm:mx-0 sm:h-32 sm:w-32">
               <img
                 src={item.product.images[0].url}
                 alt={item.product.name}

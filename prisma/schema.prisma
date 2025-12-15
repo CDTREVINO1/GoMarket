@@ -25,7 +25,7 @@ model Order {
     userId           String       @unique @db.ObjectId
     stripeCheckoutId String
     paymentStatus    String
-    orderTotal       Int
+    orderTotal       Float
     currency         String
     orderStatus      String
     orderItems       OrderItems[]
@@ -39,7 +39,7 @@ model GuestOrders {
     id               String       @id @default(auto()) @map("_id") @db.ObjectId
     stripeCheckoutId String
     paymentStatus    String
-    orderTotal       Int
+    orderTotal       Float
     currency         String
     orderStatus      String
     orderItems       OrderItems[]
@@ -51,7 +51,7 @@ model GuestOrders {
 type OrderItems {
     id       String @map("_id") @db.ObjectId
     product  String @db.ObjectId
-    quantity Int
+    quantity Float
 }
 
 model Cart {
@@ -68,7 +68,7 @@ model CartItem {
     id        String  @id @default(auto()) @map("_id") @db.ObjectId
     productId String  @db.ObjectId
     cartId    String  @db.ObjectId
-    quantity  Int
+    quantity  Float
     cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
     product   Product @relation(fields: [productId], references: [id])
 }

@@ -2,7 +2,13 @@ import clsx from "clsx"
 
 import ShoppingBagIcon from "./shopping-bag"
 
-export default function CartIcon({ className, quantity }) {
+export default function CartIcon({
+  className,
+  quantity,
+}: {
+  className: string
+  quantity: number
+}) {
   return (
     <div className="relative">
       <ShoppingBagIcon

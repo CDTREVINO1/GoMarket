@@ -2,14 +2,17 @@ import clsx from "clsx"
 
 import ShoppingBagIcon from "@/components/icons/shopping-bag"
 
-export default function openCart({ className, quantity }) {
+export default function openCart({
+  className,
+  quantity,
+}: {
+  quantity: number
+  className?: string
+}) {
   return (
-    <div>
+    <div className="relative">
       <ShoppingBagIcon
-        className={clsx(
-          "h-4 transition-all ease-in-out hover:scale-110",
-          className
-        )}
+        className={clsx("h-4 transition-all ease-in-out", className)}
       />
 
       {quantity ? (

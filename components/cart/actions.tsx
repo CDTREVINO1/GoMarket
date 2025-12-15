@@ -30,9 +30,7 @@ export const addItem = async (productId: string) => {
       cartId = cart.id
       await setCookie(cartId)
     }
-  }
-
-  if (!cartId || !productId) {
+  } else {
     cart = await createCart()
     cartId = cart.id
     setCookie(cartId)

@@ -1,8 +1,7 @@
 import Link from "next/link"
 
+import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/ThemeToggle"
-
-import { Button } from "../ui/button"
 
 const navigation = [
   {

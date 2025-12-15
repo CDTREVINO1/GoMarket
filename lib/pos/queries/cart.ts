@@ -1,8 +1,6 @@
-import { cache } from "react"
-
 import prisma from "@/lib/prisma"
 
-export const getCart = cache(async (cartId: string) => {
+export const getCart = async (cartId: string) => {
   try {
     if (!cartId) return null
 
@@ -35,9 +33,9 @@ export const getCart = cache(async (cartId: string) => {
     })
     throw new Error("Failed to fetch cart")
   }
-})
+}
 
-export const doesCartExist = cache(async (cartId: string) => {
+export const doesCartExist = async (cartId: string) => {
   try {
     const cart = await prisma.cart.findUnique({
       where: { id: cartId },
@@ -48,4 +46,4 @@ export const doesCartExist = cache(async (cartId: string) => {
     console.error("Error checking cart existence:", error)
     return false
   }
-})
+}

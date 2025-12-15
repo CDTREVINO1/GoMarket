@@ -3,6 +3,7 @@
 import { useTransition } from "react"
 import { useRouter } from "next/navigation"
 import clsx from "clsx"
+import { toast } from "sonner"
 
 import { removeItem, updateItemQuantity } from "@/components/cart/actions"
 import MinusIcon from "@/components/icons/minus"
@@ -23,9 +24,9 @@ export default function EditItemQuantityButton({ item, type }) {
         startTransition(async () => {
           const error =
             type === "minus" && item.quantity - 1 === 0
-              ? await removeItem(item._id)
+              ? await removeItem(item.id)
               : await updateItemQuantity({
-                  itemId: item._id,
+                  itemId: item.id,
                   quantity:
                     type === "plus" ? item.quantity + 1 : item.quantity - 1,
                 })

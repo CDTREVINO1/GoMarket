@@ -5,6 +5,11 @@ const Price = ({
   className,
   currencyCode = "USD",
   currencyCodeClassName,
+}: {
+  amount: string
+  className?: string
+  currencyCode: string
+  currencyCodeClassName: string
 }) => (
   <p suppressHydrationWarning={true} className={className}>
     {`${new Intl.NumberFormat(undefined, {

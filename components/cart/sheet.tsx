@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -16,29 +16,12 @@ import {
 import ShoppingBagIcon from "@/components/icons/shopping-bag"
 import Price from "@/components/price"
 
-import CloseCart from "./close-cart"
 import DeleteItemButton from "./delete-item-button"
 import EditItemQuantityButton from "./edit-item-quantity-button"
 import OpenCart from "./open-cart"
 
 export default function CartSheet({ cart }) {
   const [open, setOpen] = useState(false)
-  const quantityRef = useRef(cart?.totalQuantity)
-  const openCart = () => setOpen(true)
-  const closeCart = () => setOpen(false)
-
-  useEffect(() => {
-    // Open cart modal when when quantity changes.
-    if (cart?.totalQuantity !== quantityRef.current) {
-      // But only if it's not already open (quantity also changes when editing items in cart).
-      if (!open) {
-        setOpen(true)
-      }
-
-      // Always update the quantity reference
-      quantityRef.current = cart?.totalQuantity
-    }
-  }, [open, cart?.totalQuantity, quantityRef])
 
   async function processCheckout() {
     try {
@@ -69,11 +52,10 @@ export default function CartSheet({ cart }) {
       <SheetTrigger asChild>
         <Button
           aria-label="Open cart"
-          onClick={openCart}
           data-testid="open-cart"
           size="icon"
           variant="default"
-          className="text-foreground"
+          className="text-foreground hover:scale-110"
         >
           <OpenCart quantity={cart?.totalQuantity} />
         </Button>
@@ -93,33 +75,32 @@ export default function CartSheet({ cart }) {
         ) : (
           <div className="flex h-full flex-col justify-between overflow-hidden p-1">
             <ul className="grow overflow-auto py-4">
-              {cart.items.map((item, i) => {
-                const productUrl = `/product/${item.product.handle}`
+              {cart.items.map((item, index: number) => {
+                const productUrl = `/products/${item.product.handle}`
 
                 return (
                   <li
-                    key={i}
+                    key={index}
                     className="flex w-full flex-col border-b border-neutral-300 dark:border-neutral-700"
                     data-testid="cart-item"
                   >
                     <Link
                       className="flex flex-row space-x-4 py-4"
                       href={productUrl}
-                      onClick={closeCart}
                     >
                       <div className="relative h-16 w-16 cursor-pointer overflow-hidden bg-white">
                         <Image
                           className="h-full w-full object-cover"
                           width={64}
                           height={64}
-                          alt={item.product.name}
-                          src={item.product.images[0].url}
+                          alt={item.product.title}
+                          src={item.product.images[0]}
                         />
                       </div>
 
                       <div className="flex flex-1 flex-col text-base">
                         <span className="font-semibold">
-                          {item.product.name}
+                          {item.product.title}
                         </span>
                       </div>
                       <Price
