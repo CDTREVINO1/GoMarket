@@ -1,6 +1,7 @@
+import { CartResponse } from "@/types/types"
 import prisma from "@/lib/prisma"
 
-export const getCart = async (cartId: string) => {
+export const getCart = async (cartId: string): Promise<CartResponse | null> => {
   try {
     if (!cartId) return null
 
@@ -11,10 +12,7 @@ export const getCart = async (cartId: string) => {
 
     if (!cart) return null
 
-    const totalQuantity = cart.items.reduce(
-      (sum, item) => sum + item.quantity,
-      0
-    )
+    const totalItems = cart.items.reduce((sum, item) => sum + item.quantity, 0)
 
     const totalPrice = cart.items.reduce(
       (sum, item) => sum + item.quantity * (item.product.price ?? 0),
@@ -22,8 +20,8 @@ export const getCart = async (cartId: string) => {
     )
 
     return {
-      ...cart,
-      totalQuantity,
+      cart,
+      totalItems,
       totalPrice,
     }
   } catch (error) {

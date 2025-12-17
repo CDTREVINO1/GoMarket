@@ -22,11 +22,25 @@ export interface Product {
   title: string
   description: string
   price: number
-  stripePriceId: string
+  stripePriceId: string | null
   availability: boolean
   category: string
   images: string[]
   handle: string
   createdAt: Date
   updatedAt: Date
+}
+
+export interface CartWithItems extends Cart {
+  items: CartItemWithProduct[]
+}
+
+export interface CartItemWithProduct extends CartItem {
+  product: Product
+}
+
+export interface CartResponse {
+  cart: CartWithItems
+  totalItems: number
+  totalPrice: number
 }

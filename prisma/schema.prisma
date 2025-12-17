@@ -78,7 +78,7 @@ model Product {
     title         String
     description   String
     price         Float
-    stripePriceId String?    @default("")
+    stripePriceId String     @default("")
     availability  Boolean    @default(true)
     category      String
     images        String[]   @default([])

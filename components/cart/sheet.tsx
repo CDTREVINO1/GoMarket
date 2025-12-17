@@ -21,7 +21,15 @@ import DeleteItemButton from "./delete-item-button"
 import EditItemQuantityButton from "./edit-item-quantity-button"
 import OpenCart from "./open-cart"
 
-export default function CartSheet({ cart }: { cart?: Cart }) {
+export default function CartSheet({
+  cart,
+  totalItems,
+  totalPrice,
+}: {
+  cart: Cart | null
+  totalItems?: number
+  totalPrice?: number
+}) {
   const [open, setOpen] = useState(false)
 
   async function processCheckout() {
@@ -58,7 +66,7 @@ export default function CartSheet({ cart }: { cart?: Cart }) {
           variant="default"
           className="text-foreground hover:scale-110"
         >
-          <OpenCart quantity={cart?.totalQuantity} />
+          <OpenCart quantity={totalItems} />
         </Button>
       </SheetTrigger>
       <SheetContent>
@@ -137,7 +145,7 @@ export default function CartSheet({ cart }: { cart?: Cart }) {
               </div>
               <div className="mb-2 flex items-center justify-between font-bold">
                 <p>Total</p>
-                <Price className="text-right" amount={cart?.totalPrice} />
+                <Price className="text-right" amount={totalPrice} />
               </div>
             </div>
             <button
