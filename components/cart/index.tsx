@@ -8,11 +8,14 @@ export default async function Cart() {
   const cookieStore = await cookies()
   const cartData = cookieStore.get("cartId")
 
-  let cart
+  const cartResponse = cartData ? await getCart(cartData.value) : null
+  const cart = cartResponse?.cart ?? null
 
-  if (cartData) {
-    cart = await getCart(cartData.value)
-  }
-
-  return <CartSheet cart={cart} />
+  return (
+    <CartSheet
+      cart={cart}
+      totalItems={cartResponse?.totalItems}
+      totalPrice={cartResponse?.totalPrice}
+    />
+  )
 }
