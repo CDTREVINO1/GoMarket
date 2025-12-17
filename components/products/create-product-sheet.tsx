@@ -27,7 +27,7 @@ export default function CreateProductSheet() {
           <SheetTitle>Create a new product</SheetTitle>
           <SheetDescription />
         </SheetHeader>
-        <CreateProductForm onClose={() => setOpen(false)} />
+        <CreateProductForm onCloseAction={() => setOpen(false)} />
       </SheetContent>
     </Sheet>
   )

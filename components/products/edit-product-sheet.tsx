@@ -13,7 +13,23 @@ import {
 
 import EditProductForm from "./edit-product-form"
 
-export default function EditProductSheet({ product }) {
+export default function EditProductSheet({
+  product,
+}: {
+  product: {
+    title: string
+    description: string
+    price: number
+    category: string
+    id: string
+    images: string[]
+    handle: string
+    createdAt: Date
+    updatedAt: Date
+    stripePriceId: string | null
+    availability: boolean
+  }
+}) {
   const [open, setOpen] = useState(false)
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -26,7 +42,10 @@ export default function EditProductSheet({ product }) {
           <SheetDescription />
         </SheetHeader>
 
-        <EditProductForm product={product} onClose={() => setOpen(false)} />
+        <EditProductForm
+          product={product}
+          onCloseAction={() => setOpen(false)}
+        />
       </SheetContent>
     </Sheet>
   )

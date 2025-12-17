@@ -14,7 +14,23 @@ import {
 import ArchiveProductDialog from "./archive-product-dialog"
 import EditProductSheet from "./edit-product-sheet"
 
-export default function ProductsTable({ products }) {
+export default function ProductsTable({
+  products,
+}: {
+  products: {
+    title: string
+    description: string
+    price: number
+    category: string
+    id: string
+    images: string[]
+    handle: string
+    createdAt: Date
+    updatedAt: Date
+    stripePriceId: string | null
+    availability: boolean
+  }[]
+}) {
   const [filter, setFilter] = useState("all")
 
   const dateFormatter = new Intl.DateTimeFormat(undefined, {
@@ -60,12 +76,8 @@ export default function ProductsTable({ products }) {
           <TableRow key={product.id}>
             <TableCell>{product.title}</TableCell>
             <TableCell>${product.price}</TableCell>
-            <TableCell>
-              {dateFormatter.format(Date.parse(product.createdAt))}
-            </TableCell>
-            <TableCell>
-              {dateFormatter.format(Date.parse(product.updatedAt))}
-            </TableCell>
+            <TableCell>{dateFormatter.format(product.createdAt)}</TableCell>
+            <TableCell>{dateFormatter.format(product.updatedAt)}</TableCell>
             <TableCell>
               <EditProductSheet product={product} />
             </TableCell>

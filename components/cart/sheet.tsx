@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
+import { Cart } from "@/types/types"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -20,7 +21,7 @@ import DeleteItemButton from "./delete-item-button"
 import EditItemQuantityButton from "./edit-item-quantity-button"
 import OpenCart from "./open-cart"
 
-export default function CartSheet({ cart }) {
+export default function CartSheet({ cart }: { cart?: Cart }) {
   const [open, setOpen] = useState(false)
 
   async function processCheckout() {
@@ -100,7 +101,7 @@ export default function CartSheet({ cart }) {
 
                       <div className="flex flex-1 flex-col text-base">
                         <span className="font-semibold">
-                          {item.product.title}
+                          {item.product?.title}
                         </span>
                       </div>
                       <Price

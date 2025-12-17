@@ -18,7 +18,13 @@ import { IconButton } from "@/components/ui/shadcn-io/icon-button"
 
 import { handleArchiveProduct } from "./actions"
 
-export default function ArchiveProductDialog({ productId, isAvailable }) {
+export default function ArchiveProductDialog({
+  productId,
+  isAvailable,
+}: {
+  productId: string
+  isAvailable: boolean
+}) {
   const router = useRouter()
   const conditionText = isAvailable ? "Archive" : "Unarchive"
 

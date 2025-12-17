@@ -25,7 +25,11 @@ import { Textarea } from "@/components/ui/textarea"
 
 import { getSignature, handleCreateProduct, saveToDatabase } from "./actions"
 
-export default function CreateProductForm({ onClose }) {
+export default function CreateProductForm({
+  onCloseAction,
+}: {
+  onCloseAction: () => void
+}) {
   const form = useForm({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
@@ -125,7 +129,7 @@ export default function CreateProductForm({ onClose }) {
 
     await handleCreateProduct(newProduct)
     router.refresh()
-    onClose()
+    onCloseAction()
   }
 
   return (
@@ -295,7 +299,10 @@ export default function CreateProductForm({ onClose }) {
         )}
 
         <div className="flex flex-row justify-end gap-2">
-          <Button className="bg-destructive hover:bg-red-600" onClick={onClose}>
+          <Button
+            className="bg-destructive hover:bg-red-600"
+            onClick={onCloseAction}
+          >
             Cancel
           </Button>
 

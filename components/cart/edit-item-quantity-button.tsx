@@ -4,13 +4,20 @@ import { useTransition } from "react"
 import { useRouter } from "next/navigation"
 import clsx from "clsx"
 
+import { CartItem } from "@/types/types"
 import { removeItem, updateItemQuantity } from "@/components/cart/actions"
 import MinusIcon from "@/components/icons/minus"
 import PlusIcon from "@/components/icons/plus"
 
 import LoadingDots from "../loading-dots"
 
-export default function EditItemQuantityButton({ item, type }) {
+export default function EditItemQuantityButton({
+  item,
+  type,
+}: {
+  item: CartItem
+  type: string
+}) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
 

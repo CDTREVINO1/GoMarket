@@ -6,7 +6,7 @@ export default function openCart({
   className,
   quantity,
 }: {
-  quantity: number
+  quantity?: number
   className?: string
 }) {
   return (

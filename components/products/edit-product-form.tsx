@@ -30,7 +30,27 @@ import {
   saveToDatabase,
 } from "./actions"
 
-export default function EditProductForm({ product, onClose }) {
+type ProductData = {
+  title: string
+  description: string
+  price: number
+  category: string
+  id: string
+  images: string[]
+  handle: string
+  createdAt: Date
+  updatedAt: Date
+  stripePriceId: string | null
+  availability: boolean
+}
+
+export default function EditProductForm({
+  product,
+  onCloseAction,
+}: {
+  product: ProductData
+  onCloseAction: () => void
+}) {
   const form = useForm({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
@@ -157,12 +177,12 @@ export default function EditProductForm({ product, onClose }) {
         public_id: data?.public_id,
       })
 
-      await deleteImageFromDatabase(product._id, image._id)
+      await deleteImageFromDatabase(product.id, image.id)
     }
   }
 
-  const onSubmit = async (data) => {
-    const updatedProduct = { ...data, _id: product._id }
+  const onSubmit = async (data: ProductData) => {
+    const updatedProduct = { ...data, id: product.id }
     if (files.length > 0) {
       const images = await uploadImages()
       updatedProduct.images = images
@@ -170,7 +190,7 @@ export default function EditProductForm({ product, onClose }) {
     if (deletedImages.length > 0) await deleteImages()
     await handleUpdateProduct(updatedProduct)
     router.refresh()
-    onClose()
+    onCloseAction()
   }
 
   return (
@@ -358,7 +378,10 @@ export default function EditProductForm({ product, onClose }) {
         </section>
 
         <div className="flex flex-row justify-end gap-2">
-          <Button className="bg-destructive hover:bg-red-600" onClick={onClose}>
+          <Button
+            className="bg-destructive hover:bg-red-600"
+            onClick={onCloseAction}
+          >
             Cancel
           </Button>
 

@@ -6,8 +6,8 @@ export default function CartIcon({
   className,
   quantity,
 }: {
-  className: string
-  quantity: number
+  className?: string
+  quantity?: number
 }) {
   return (
     <div className="relative">

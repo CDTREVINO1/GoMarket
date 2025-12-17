@@ -10,7 +10,23 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { IconButton } from "@/components/ui/shadcn-io/icon-button"
 
-const Slider = ({ products }) => {
+const Slider = ({
+  products,
+}: {
+  products: {
+    title: string
+    description: string
+    price: number
+    category: string
+    id: string
+    images: string[]
+    handle: string
+    createdAt: Date
+    updatedAt: Date
+    stripePriceId: string | null
+    availability: boolean
+  }[]
+}) => {
   const slideWidth = 400
   const [offset, setOffset] = useState(0)
   const [autoSlide, setAutoSlide] = useState(true)

@@ -4,11 +4,12 @@ import { useTransition } from "react"
 import { useRouter } from "next/navigation"
 import clsx from "clsx"
 
+import { CartItem } from "@/types/types"
 import { removeItem } from "@/components/cart/actions"
 import CloseIcon from "@/components/icons/close"
 import LoadingDots from "@/components/loading-dots"
 
-export default function DeleteItemButton({ item }) {
+export default function DeleteItemButton({ item }: { item: CartItem }) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
 

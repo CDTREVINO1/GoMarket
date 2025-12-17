@@ -13,7 +13,23 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 
-const SuggestedProducts = ({ products }) => {
+const SuggestedProducts = ({
+  products,
+}: {
+  products: {
+    title: string
+    description: string
+    price: number
+    category: string
+    id: string
+    images: string[]
+    handle: string
+    createdAt: Date
+    updatedAt: Date
+    stripePriceId: string | null
+    availability: boolean
+  }[]
+}) => {
   return (
     <Carousel
       className="min-h-fit w-full max-w-3/4 p-4 md:max-w-10/12"

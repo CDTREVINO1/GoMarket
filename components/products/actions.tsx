@@ -1,5 +1,7 @@
 "use server"
 
+import { v2 as cloudinary } from "cloudinary"
+
 import { cloudinaryConfig } from "@/lib/cloudinary"
 import {
   archiveProduct,
@@ -7,9 +9,16 @@ import {
   deleteImage,
   updateProduct,
 } from "@/lib/pos/mutations/product"
-import { v2 as cloudinary } from "cloudinary"
 
-export const handleCreateProduct = async (productData) => {
+type ProductData = {
+  name: string
+  description: string
+  price: number
+  category: string
+  images: string[]
+}
+
+export const handleCreateProduct = async (productData: ProductData) => {
   try {
     await createProduct(productData)
   } catch (error) {
@@ -17,7 +26,7 @@ export const handleCreateProduct = async (productData) => {
   }
 }
 
-export const handleUpdateProduct = async (productId) => {
+export const handleUpdateProduct = async (productId: string) => {
   try {
     await updateProduct(productId)
   } catch (error) {
@@ -25,7 +34,10 @@ export const handleUpdateProduct = async (productId) => {
   }
 }
 
-export const handleArchiveProduct = async (productId, isAvailable) => {
+export const handleArchiveProduct = async (
+  productId: string,
+  isAvailable: boolean
+) => {
   try {
     await archiveProduct(productId, isAvailable)
   } catch (error) {
@@ -33,7 +45,10 @@ export const handleArchiveProduct = async (productId, isAvailable) => {
   }
 }
 
-export const deleteImageFromDatabase = async (productId, imageId) => {
+export const deleteImageFromDatabase = async (
+  productId: string,
+  imageId: string
+) => {
   try {
     await deleteImage(productId, imageId)
   } catch (error) {
@@ -41,7 +56,7 @@ export const deleteImageFromDatabase = async (productId, imageId) => {
   }
 }
 
-export async function getSignature(public_id) {
+export async function getSignature(public_id: string) {
   const timestamp = Math.round(new Date().getTime() / 1000)
 
   if (public_id) {
@@ -61,7 +76,15 @@ export async function getSignature(public_id) {
   return { timestamp, signature }
 }
 
-export async function saveToDatabase({ public_id, version, signature }) {
+export async function saveToDatabase({
+  public_id,
+  version,
+  signature,
+}: {
+  public_id: string
+  version: string
+  signature: string
+}) {
   // verify the data
   const expectedSignature = cloudinary.utils.api_sign_request(
     { public_id, version },
