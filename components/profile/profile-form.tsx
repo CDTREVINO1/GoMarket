@@ -33,10 +33,16 @@ function ProfileForm() {
 
   const [status, setStatus] = useState("")
 
-  const changePasswordHandler = async (passwordData) => {
+  const changePasswordHandler = async ({
+    oldPassword,
+    newPassword,
+  }: {
+    oldPassword: string
+    newPassword: string
+  }) => {
     const response = await fetch("/api/user/change-password", {
       method: "PATCH",
-      body: JSON.stringify(passwordData),
+      body: JSON.stringify({ oldPassword, newPassword }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -46,9 +52,13 @@ function ProfileForm() {
     return data
   }
 
-  const formSubmitHandler = async (data) => {
-    const { currentPassword, newPassword } = data
-
+  const formSubmitHandler = async ({
+    currentPassword,
+    newPassword,
+  }: {
+    currentPassword: string
+    newPassword: string
+  }) => {
     try {
       const result = await changePasswordHandler({
         oldPassword: currentPassword,
@@ -57,19 +67,16 @@ function ProfileForm() {
       setStatus(result.message)
       form.reset()
     } catch (error) {
-      setStatus(error.message)
+      if (error instanceof Error) {
+        setStatus(error.message)
+      } else {
+        setStatus("An unexpected error occurred")
+      }
+      console.error("Change password error:", error)
     }
   }
 
-  const passwordsMatchError = form.formState.errors[""]?.message
-
-  const clearPasswordInputs = () => {
-    form.reset({
-      currentPassword: "",
-      newPassword: "",
-      passwordConfirm: "",
-    })
-  }
+  const passwordsMatchError = form.formState.errors.passwordConfirm?.message
 
   return (
     <Card className="w-full scale-[85%] sm:max-w-md md:scale-100">
@@ -79,11 +86,6 @@ function ProfileForm() {
           {status && (
             <p className="text-center text-xs text-red-500">{status}</p>
           )}
-          {form.formState.errors[""]?.message && (
-            <p className="text-center text-xs text-red-600">
-              {form.formState.errors[""].message}
-            </p>
-          )}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -92,10 +94,6 @@ function ProfileForm() {
             <Controller
               name="currentPassword"
               control={form.control}
-              rules={{
-                validate: (value) =>
-                  value === password.current || "The passwords do not match",
-              }}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="form-account-current-password">
@@ -109,7 +107,8 @@ function ProfileForm() {
                     autoComplete="off"
                     type="password"
                     onClick={() => {
-                      passwordsMatchError && clearPasswordInputs()
+                      passwordsMatchError && form.reset()
+                      setStatus("")
                     }}
                   />
                   {fieldState.invalid && (
@@ -144,8 +143,10 @@ function ProfileForm() {
               name="passwordConfirm"
               control={form.control}
               rules={{
-                validate: (value) =>
-                  value === newPassword.current || "The passwords do not match",
+                validate: (value) => {
+                  const newPassword = form.getValues("newPassword")
+                  return value === newPassword || "The passwords do not match"
+                },
               }}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
