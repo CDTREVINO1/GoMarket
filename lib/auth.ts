@@ -11,7 +11,24 @@ export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
+
+      credentials: {
+        user: {
+          label: "user",
+          type: "user",
+          placeholder: "username123",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+        },
+      },
+
       async authorize(credentials) {
+        if (!credentials?.user || !credentials?.password) {
+          throw new Error("Missing username or password")
+        }
+
         const user = await prisma.user.findUnique({
           where: { username: credentials.user },
         })
@@ -30,7 +47,12 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid username or password")
         }
 
-        return { username: user.username, email: user.email }
+        return {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+        }
       },
     }),
   ],
@@ -87,7 +109,12 @@ export async function comparePasswords(
     const isMatch = await bcrypt.compare(newPassword, currentPassword)
     return isMatch
   } catch (error) {
-    console.log("Error comparing passwords:", error.message)
+    if (error instanceof Error) {
+      console.error("Error comparing passwords:", error.message)
+    } else {
+      console.error("Error comparing passwords:", error)
+    }
+
     throw new Error("Password comparison failed.")
   }
 }
