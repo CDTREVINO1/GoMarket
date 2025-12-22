@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth"
 import Stripe from "stripe"
 
 import { serverEnv } from "@/env/server"
+import { Cart } from "@/types/types"
 import { authOptions } from "@/lib/auth"
 
 export async function POST(request: Request) {
@@ -10,7 +11,7 @@ export async function POST(request: Request) {
   const userId = session?.user.id ?? null
 
   try {
-    let cart = await request.json()
+    let cart: Cart = await request.json()
 
     const stripe = new Stripe(serverEnv.STRIPE_SECRET_KEY)
     const stripeSession = await stripe.checkout.sessions.create({
@@ -18,13 +19,16 @@ export async function POST(request: Request) {
       success_url: `${serverEnv.SERVER_URL}/?success=true`,
       cancel_url: `${serverEnv.SERVER_URL}/?canceled=true`,
       automatic_tax: { enabled: true },
-      client_reference_id: cart._id,
+      client_reference_id: cart.id,
+      shipping_address_collection: {
+        allowed_countries: ["US", "CA", "GB", "AU"],
+      },
       line_items: cart.items.map((item) => {
         return {
           price_data: {
             currency: "usd",
             product_data: {
-              name: item.product.name,
+              name: item.product.title,
             },
             unit_amount: item.product.price * 100,
           },
@@ -38,7 +42,10 @@ export async function POST(request: Request) {
 
     return new Response(JSON.stringify({ url: stripeSession.url }))
   } catch (error) {
-    console.log(error)
-    return new Response(JSON.stringify(error.issues), { status: 422 })
+    if (error instanceof Error) {
+      return new Response(JSON.stringify(error.message), { status: 400 })
+    } else {
+      return new Response(JSON.stringify(error), { status: 400 })
+    }
   }
 }

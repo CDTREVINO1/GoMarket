@@ -1,11 +1,8 @@
 import { headers } from "next/headers"
-import Cart from "@/models/cart"
-import GuestOrder from "@/models/guest-order"
-import Order from "@/models/order"
-import User from "@/models/user"
 import Stripe from "stripe"
 
 import { serverEnv } from "@/env/server"
+import prisma from "@/lib/prisma"
 
 export async function POST(request: Request) {
   const body = await request.text()
@@ -13,79 +10,83 @@ export async function POST(request: Request) {
   const signature = headersList.get("Stripe-Signature")
   const stripe = new Stripe(serverEnv.STRIPE_SECRET_KEY)
 
-  let event
+  let event: Stripe.Event
 
   try {
     event = stripe.webhooks.constructEvent(
       body,
-      signature,
+      signature as string,
       serverEnv.STRIPE_WEBHOOK_SECRET
     )
   } catch (error) {
-    return new Response(`Webhook Error: ${error.message}`, { status: 400 })
+    if (error instanceof Error) {
+      return new Response(`Webhook Error: ${error.message}`, { status: 400 })
+    } else {
+      return new Response(`Webhook Error: ${error}`, { status: 400 })
+    }
   }
 
-  const stripeSession = event.data.object
+  if (event.type === "checkout.session.completed") {
+    const stripeSession = event.data.object as Stripe.Checkout.Session
 
-  if (
-    !stripeSession?.metadata?.userId &&
-    event.type === "checkout.session.completed"
-  ) {
-    // TODO: Switch to prisma
-    const cart = await Cart.findOneAndUpdate(
-      { _id: stripeSession.client_reference_id },
-      { $set: { items: [] } },
-      { returnDocument: "before" }
-    )
+    const metadata = stripeSession.metadata
 
-    const newGuestOrder = await GuestOrder.create({
-      stripeCheckoutId: stripeSession.id,
-      paymentStatus: stripeSession.payment_status,
-      orderTotal: stripeSession.amount_total,
-      currency: stripeSession.currency,
-      orderStatus: stripeSession.status,
-      orderItems: cart.items.map((item) => {
-        return {
-          product: item.product,
-          quantity: item.quantity,
-        }
-      }),
-      shippingAddress: stripeSession.shipping_details,
-    })
-  }
-
-  if (
-    stripeSession?.metadata?.userId &&
-    event.type === "checkout.session.completed"
-  ) {
-    // TODO: Switch to prisma
-    const cart = await Cart.findOneAndUpdate(
-      { _id: stripeSession.client_reference_id },
-      { $set: { items: [] } },
-      { returnDocument: "before" }
-    )
-    // TODO: Switch to prisma
-    const user = await User.findById(stripeSession?.metadata?.userId)
-
-    // TODO: Switch to prisma
-    const newOrder = await Order.create({
-      user: user._id,
-      stripeCheckoutId: stripeSession.id,
-      paymentStatus: stripeSession.payment_status,
-      orderTotal: stripeSession.amount_total,
-      currency: stripeSession.currency,
-      orderStatus: stripeSession.status,
-      orderItems: cart.items.map((item) => {
-        return {
-          product: item.product,
-          quantity: item.quantity,
-        }
-      }),
-      shippingAddress: stripeSession.shipping_details,
+    const cartId = metadata?.client_reference_id
+    const userId = metadata?.userId
+    const cart = await prisma.cart.findUnique({
+      where: {
+        id: cartId,
+      },
+      include: {
+        items: true,
+      },
     })
 
-    await user.orders.push(newOrder)
-    await user.save()
+    if (!cart || cart.items.length === 0) {
+      throw new Error("Cart not found or empty")
+    }
+
+    const shippingAddress =
+      stripeSession.custom_text.shipping_address?.message ?? null
+
+    if (!userId) {
+      await prisma.guestOrder.create({
+        data: {
+          stripeCheckoutId: stripeSession.id,
+          paymentStatus: stripeSession.payment_status,
+          orderTotal: stripeSession.amount_total as number,
+          currency: stripeSession.currency as string,
+          orderStatus: stripeSession.status as string,
+          orderItems: {
+            create: cart.items.map((item) => ({
+              productId: item.productId,
+              quantity: item.quantity,
+            })),
+          },
+          shippingAddress: shippingAddress as string,
+        },
+      })
+    }
+
+    if (userId) {
+      await prisma.order.create({
+        data: {
+          userId: userId,
+          stripeCheckoutId: stripeSession.id,
+          paymentStatus: stripeSession.payment_status,
+          orderTotal: stripeSession.amount_total as number,
+          currency: stripeSession.currency as string,
+          orderStatus: stripeSession.status as string,
+          orderItems: {
+            create: cart.items.map((item) => ({
+              productId: item.productId,
+              quantity: item.quantity,
+            })),
+          },
+          shippingAddress: shippingAddress as string,
+        },
+      })
+    }
   }
 
   return new Response(null, { status: 200 })

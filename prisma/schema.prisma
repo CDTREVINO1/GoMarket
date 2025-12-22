@@ -21,37 +21,42 @@ model User {
 }
 
 model Order {
-    id               String       @id @default(auto()) @map("_id") @db.ObjectId
-    userId           String       @unique @db.ObjectId
+    id               String      @id @default(auto()) @map("_id") @db.ObjectId
+    userId           String      @unique @db.ObjectId
     stripeCheckoutId String
     paymentStatus    String
     orderTotal       Float
     currency         String
     orderStatus      String
-    orderItems       OrderItems[]
+    orderItems       OrderItem[]
     shippingAddress  String
-    createdAt        DateTime     @default(now())
-    updatedAt        DateTime     @updatedAt
-    user             User         @relation(fields: [userId], references: [id])
+    createdAt        DateTime    @default(now())
+    updatedAt        DateTime    @updatedAt
+    user             User        @relation(fields: [userId], references: [id])
 }
 
-model GuestOrders {
-    id               String       @id @default(auto()) @map("_id") @db.ObjectId
+model GuestOrder {
+    id               String      @id @default(auto()) @map("_id") @db.ObjectId
     stripeCheckoutId String
     paymentStatus    String
     orderTotal       Float
     currency         String
     orderStatus      String
-    orderItems       OrderItems[]
+    orderItems       OrderItem[]
     shippingAddress  String
-    createdAt        DateTime     @default(now())
-    updatedAt        DateTime     @updatedAt
+    createdAt        DateTime    @default(now())
+    updatedAt        DateTime    @updatedAt
 }
 
-type OrderItems {
-    id       String @map("_id") @db.ObjectId
-    product  String @db.ObjectId
-    quantity Float
+model OrderItem {
+    id           String      @id @default(auto()) @map("_id") @db.ObjectId
+    productId    String      @db.ObjectId
+    quantity     Float
+    product      Product     @relation(fields: [productId], references: [id])
+    order        Order?      @relation(fields: [orderId], references: [id])
+    orderId      String?     @db.ObjectId
+    guestOrder   GuestOrder? @relation(fields: [guestOrderId], references: [id])
+    guestOrderId String?     @db.ObjectId
 }
 
 model Cart {
@@ -74,18 +79,19 @@ model CartItem {
 }
 
 model Product {
-    id            String     @id @default(auto()) @map("_id") @db.ObjectId
+    id            String      @id @default(auto()) @map("_id") @db.ObjectId
     title         String
     description   String
     price         Float
-    stripePriceId String     @default("")
-    availability  Boolean    @default(true)
+    stripePriceId String      @default("")
+    availability  Boolean     @default(true)
     category      String
-    images        String[]   @default([])
+    images        String[]    @default([])
     handle        String
-    createdAt     DateTime   @default(now()) @db.Date
-    updatedAt     DateTime   @updatedAt
+    createdAt     DateTime    @default(now()) @db.Date
+    updatedAt     DateTime    @updatedAt
     cartItems     CartItem[]
+    orderItems    OrderItem[]
 }
 
 enum Role {
