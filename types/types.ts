@@ -1,46 +1,51 @@
 export interface Cart {
-  id: string
-  userId: string | null
-  items: CartItem[]
-  expireAt: Date
-  createdAt: Date
-  updatedAt: Date
-  totalQuantity?: number
-  totalPrice?: number
+    id: string
+    userId: string | null
+    items: CartItem[]
+    expireAt: Date
+    createdAt: Date
+    updatedAt: Date
+    totalQuantity?: number
+    totalPrice?: number
 }
 
 export interface CartItem {
-  id: string
-  productId: string
-  cartId: string
-  quantity: number
-  product: Product
+    id: string
+    productId: string
+    cartId: string
+    quantity: number
+    product: Product
+}
+
+type Image = {
+    public_id: string
+    url: string
 }
 
 export interface Product {
-  id: string
-  title: string
-  description: string
-  price: number
-  stripePriceId: string | null
-  availability: boolean
-  category: string
-  images: string[]
-  handle: string
-  createdAt: Date
-  updatedAt: Date
+    id: string
+    title: string
+    description: string
+    price: number
+    stripePriceId: string | null
+    availability: boolean
+    category: string
+    images: Image[]
+    handle: string
+    createdAt: Date
+    updatedAt: Date
 }
 
 export interface CartWithItems extends Cart {
-  items: CartItemWithProduct[]
+    items: CartItemWithProduct[]
 }
 
 export interface CartItemWithProduct extends CartItem {
-  product: Product
+    product: Product
 }
 
 export interface CartResponse {
-  cart: CartWithItems
-  totalItems: number
-  totalPrice: number
+    cart: CartWithItems
+    totalItems: number
+    totalPrice: number
 }

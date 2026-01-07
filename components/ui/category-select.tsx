@@ -1,4 +1,4 @@
-import { Controller } from "react-hook-form"
+import { Control, Controller } from "react-hook-form"
 
 import { PRODUCT_CATEGORIES } from "@/lib/categories"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
@@ -10,10 +10,15 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-// TODO: Change type from any.
+interface ProductFormData {
+  title: string
+  description: string
+  price: number
+  category: string
+}
+
 interface CategorySelectProps {
-  control: any
-  error?: any
+  control: Control<ProductFormData>
 }
 
 export default function CategorySelect({ control }: CategorySelectProps) {

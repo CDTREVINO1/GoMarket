@@ -16,7 +16,10 @@ const main = async () => {
         price: product.price,
         availability: product.availability,
         category: product.category,
-        images: product.images,
+        images: product.images.map((url: string) => ({
+          public_id: "",
+          url: url,
+        })),
         handle: product.handle,
       },
     })

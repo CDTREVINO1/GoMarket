@@ -86,12 +86,17 @@ model Product {
     stripePriceId String      @default("")
     availability  Boolean     @default(true)
     category      String
-    images        String[]    @default([])
+    images        Image[]
     handle        String
     createdAt     DateTime    @default(now()) @db.Date
     updatedAt     DateTime    @updatedAt
     cartItems     CartItem[]
     orderItems    OrderItem[]
+}
+
+type Image {
+    public_id String
+    url       String
 }
 
 enum Role {
