@@ -9,30 +9,14 @@ import { CircleArrowLeft, CircleArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { IconButton } from "@/components/ui/shadcn-io/icon-button"
+import { Prisma } from "@/generated/prisma/browser"
 
-type Image = {
-    public_id: string
-    url: string
-}
-
-type ProductData = {
-    id: string
-    title: string
-    description: string
-    price: number
-    category: string
-    images: Image[]
-    handle: string
-    createdAt: Date
-    updatedAt: Date
-    stripePriceId: string
-    availability: boolean
-}
+type Product = Prisma.ProductModel
 
 const Slider = ({
     products,
 }: {
-    products: ProductData[]
+    products: Product[]
 }) => {
     const slideWidth = 400
     const [offset, setOffset] = useState(0)

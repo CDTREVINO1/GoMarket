@@ -3,30 +3,14 @@
 import { useState } from "react"
 import Image from "next/image"
 import placeholderPic from "@/public/placeholder.png"
+import { Prisma } from "@/generated/prisma/browser"
 
-type Image = {
-    public_id: string
-    url: string
-}
-
-type ProductData = {
-    id: string
-    title: string
-    description: string
-    price: number
-    category: string
-    images: Image[]
-    handle: string
-    createdAt: Date
-    updatedAt: Date
-    stripePriceId: string
-    availability: boolean
-}
+type Product = Prisma.ProductModel
 
 function ProductImage({
     product,
 }: {
-    product?: ProductData | null
+    product?: Product | null
 }) {
     const [selectedImage, setSelectedImage] = useState<string | undefined>(product?.images[0].url)
 

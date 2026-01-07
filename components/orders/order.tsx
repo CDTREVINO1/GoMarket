@@ -8,7 +8,6 @@ type OrderWithItems = Prisma.OrderGetPayload<{
                 product: true
             }
         },
-        user: true
     }
 }>
 

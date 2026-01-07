@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { IconButton } from "@/components/ui/shadcn-io/icon-button"
 import { Textarea } from "@/components/ui/textarea"
+import { Prisma } from "@/generated/prisma/browser"
 
 import {
     deleteImageFromDatabase,
@@ -29,6 +30,8 @@ import {
     handleUpdateProduct,
     saveToDatabase,
 } from "./actions"
+
+type Product = Prisma.ProductModel
 
 type Image = {
     public_id: string
@@ -46,20 +49,6 @@ type ProductFormInputs = {
     category: string
 }
 
-type ProductData = {
-    id: string
-    title: string
-    description: string
-    price: number
-    category: string
-    images: Image[]
-    handle: string
-    createdAt: Date
-    updatedAt: Date
-    stripePriceId: string
-    availability: boolean
-}
-
 type UpdateProductInput = {
     id: string
     title?: string
@@ -75,7 +64,7 @@ export default function EditProductForm({
     product,
     onCloseAction,
 }: {
-    product: ProductData
+    product: Product
     onCloseAction: () => void
 }) {
     const form = useForm({
@@ -419,8 +408,8 @@ export default function EditProductForm({
 
                     <Button
                         className={`${!isEditingImages && !form.formState.isDirty
-                                ? "cursor-not-allowed bg-gray-400"
-                                : "bg-blue-500 hover:bg-blue-600"
+                            ? "cursor-not-allowed bg-gray-400"
+                            : "bg-blue-500 hover:bg-blue-600"
                             }`}
                         type="submit"
                         disabled={!isEditingImages && !form.formState.isDirty}

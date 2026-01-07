@@ -10,32 +10,16 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
+import { Prisma } from "@/generated/prisma/browser"
 
 import EditProductForm from "./edit-product-form"
 
-type Image = {
-    public_id: string
-    url: string
-}
-
-type ProductData = {
-    id: string
-    title: string
-    description: string
-    price: number
-    category: string
-    images: Image[]
-    handle: string
-    createdAt: Date
-    updatedAt: Date
-    stripePriceId: string
-    availability: boolean
-}
+type Product = Prisma.ProductModel
 
 export default function EditProductSheet({
     product,
 }: {
-    product: ProductData
+    product: Product
 }) {
     const [open, setOpen] = useState(false)
     return (
