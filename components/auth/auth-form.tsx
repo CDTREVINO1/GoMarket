@@ -1,22 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
-import placeholderPic from "@/public/placeholder.png"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
 import { Controller, useForm } from "react-hook-form"
 
 import { UserSchema } from "@/lib/schema"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Field,
   FieldError,
@@ -84,15 +76,6 @@ export default function AuthForm() {
     <Card className="w-full scale-[85%] sm:max-w-md md:scale-100">
       <CardHeader>
         <CardTitle>{isLogin ? "Login" : "Create an account"}</CardTitle>
-        <CardDescription>
-          <Image
-            className="mx-auto h-12 w-auto"
-            src={placeholderPic}
-            alt="Logo"
-            width={100}
-            height={100}
-          />
-        </CardDescription>
         {status && <p className="text-center text-red-500">{status}</p>}
       </CardHeader>
 

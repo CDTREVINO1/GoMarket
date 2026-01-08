@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { Trash2 } from "lucide-react"
+import { PackageOpen, Trash2 } from "lucide-react"
 
 import {
   AlertDialog,
@@ -31,7 +31,11 @@ export default function ArchiveProductDialog({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <IconButton icon={Trash2} color={[239, 68, 68]} />
+        {isAvailable ? (
+          <IconButton icon={Trash2} color={[239, 68, 68]} />
+        ) : (
+          <IconButton icon={PackageOpen} />
+        )}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
