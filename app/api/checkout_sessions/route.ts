@@ -30,7 +30,7 @@ export async function POST(request: Request) {
             product_data: {
               name: item.product.title,
             },
-            unit_amount: item.product.price * 100,
+            unit_amount: Math.round(item.product.price * 100),
           },
           quantity: item.quantity,
         }
@@ -43,8 +43,10 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify({ url: stripeSession.url }))
   } catch (error) {
     if (error instanceof Error) {
-      return new Response(JSON.stringify(error.message), { status: 400 })
+      console.log(error)
+      return new Response(JSON.stringify(error), { status: 400 })
     } else {
+      console.log(error)
       return new Response(JSON.stringify(error), { status: 400 })
     }
   }

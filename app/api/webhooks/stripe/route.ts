@@ -20,8 +20,10 @@ export async function POST(request: Request) {
     )
   } catch (error) {
     if (error instanceof Error) {
+      console.log(error)
       return new Response(`Webhook Error: ${error.message}`, { status: 400 })
     } else {
+      console.log(error)
       return new Response(`Webhook Error: ${error}`, { status: 400 })
     }
   }
@@ -31,8 +33,10 @@ export async function POST(request: Request) {
 
     const metadata = stripeSession.metadata
 
-    const cartId = metadata?.client_reference_id
+    const cartId = stripeSession?.client_reference_id
     const userId = metadata?.userId
+
+    if (!cartId) return null
     const cart = await prisma.cart.findUnique({
       where: {
         id: cartId,
@@ -45,9 +49,6 @@ export async function POST(request: Request) {
     if (!cart || cart.items.length === 0) {
       throw new Error("Cart not found or empty")
     }
-
-    const shippingAddress =
-      stripeSession.custom_text.shipping_address?.message ?? null
 
     if (!userId) {
       await prisma.guestOrder.create({
@@ -63,7 +64,12 @@ export async function POST(request: Request) {
               quantity: item.quantity,
             })),
           },
-          shippingAddress: shippingAddress as string,
+          shippingAddress: stripeSession?.collected_information
+            ?.shipping_details?.address
+            ? JSON.stringify(
+                stripeSession.collected_information.shipping_details.address
+              )
+            : "",
         },
       })
     }
@@ -83,10 +89,21 @@ export async function POST(request: Request) {
               quantity: item.quantity,
             })),
           },
-          shippingAddress: shippingAddress as string,
+          shippingAddress: stripeSession?.collected_information
+            ?.shipping_details?.address
+            ? JSON.stringify(
+                stripeSession.collected_information.shipping_details.address
+              )
+            : "",
         },
       })
     }
+
+    const deletedItems = await prisma.cartItem.deleteMany({
+      where: {
+        cartId: cartId,
+      },
+    })
   }
 
   return new Response(null, { status: 200 })
