@@ -5,30 +5,30 @@ import HeroSection from "@/components/layout/herosection"
 import Slider from "@/components/products/productSlider"
 
 export const metadata: Metadata = {
-    title: "GoMarket",
+  title: "GoMarket",
 }
 
 export default async function Page() {
-    const products = await prisma.product.findMany({
-        where: {
-            availability: true,
-        },
-    })
+  const products = await prisma.product.findMany({
+    where: {
+      availability: true,
+    },
+  })
 
-    return (
-        <main className="flex flex-1 flex-col justify-between">
-            <div className="flex justify-center">
-                <HeroSection />
-            </div>
+  return (
+    <div className="flex flex-col justify-between">
+      <div className="flex justify-center">
+        <HeroSection />
+      </div>
 
-            {products.length > 0 && (
-                <div>
-                    <h2 className="pt-4 text-center text-xl font-extrabold md:text-2xl lg:text-3xl">
-                        Featured Products
-                    </h2>
-                    <Slider products={products} />
-                </div>
-            )}
-        </main>
-    )
+      {products.length > 0 && (
+        <div>
+          <h2 className="pt-4 text-center text-xl font-extrabold md:text-2xl lg:text-3xl">
+            Featured Products
+          </h2>
+          <Slider products={products} />
+        </div>
+      )}
+    </div>
+  )
 }

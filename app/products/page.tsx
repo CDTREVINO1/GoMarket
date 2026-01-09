@@ -107,7 +107,7 @@ export default async function ProductsPage({
               </CardHeader>
               <CardContent>
                 <Image
-                  className="rounded-t-lg p-8"
+                  className="h-60 rounded-t-lg object-cover"
                   src={product.images[0]?.url ?? placeholderPic}
                   alt="product image"
                   height={300}

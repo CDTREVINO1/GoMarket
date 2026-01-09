@@ -9,6 +9,8 @@ import Providers from "@/app/providers"
 
 import "./globals.css"
 
+import LoadingSkeleton from "@/components/layout/LoadingSkeleton"
+
 const interSans = Inter({
   variable: "--font-inter-sans",
   subsets: ["latin"],
@@ -36,7 +38,9 @@ export default function RootLayout({
       >
         <Providers>
           <Header />
-          <Suspense>{children}</Suspense>
+          <main className="flex-1">
+            <Suspense fallback={<LoadingSkeleton />}>{children}</Suspense>
+          </main>
           <Toaster />
           <Footer />
         </Providers>
