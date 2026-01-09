@@ -33,6 +33,7 @@ export default function AuthForm() {
 
   function switchAuthModeHandler() {
     setIsLogin((prevState) => !prevState)
+    form.reset()
   }
 
   const formSubmitHandler = async ({

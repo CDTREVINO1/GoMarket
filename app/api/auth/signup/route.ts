@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     const data = await request.json()
     const username: string = data.username
     const password: string = data.password
-    const email: string = data.password
+    const email: string = data.email
 
     const hashedPassword: string = await hashPassword(password)
 
