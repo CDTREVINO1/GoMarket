@@ -17,9 +17,9 @@
 
 The technologies employed in the development of GoMarket are as follows:
 
-- JavaScript
+- TypeScript
 - React/Next.js
-- MongoDB + Mongoose
+- MongoDB + Prisma ORM
 - TailwindCSS + Shadcn/UI
 - NextAuth (Credentials Provider + bcrypt)
 - Stripe Checkout
