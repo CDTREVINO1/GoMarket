@@ -41,7 +41,7 @@ export default function RootLayout({
           <main className="flex-1">
             <Suspense fallback={<LoadingSkeleton />}>{children}</Suspense>
           </main>
-          <Toaster />
+          <Toaster position="top-right" />
           <Footer />
         </Providers>
       </body>
