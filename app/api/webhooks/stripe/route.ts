@@ -5,7 +5,7 @@ import Stripe from "stripe"
 import { serverEnv } from "@/env/server"
 import prisma from "@/lib/prisma"
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await request.text()
   const headersList = await headers()
   const signature = headersList.get("Stripe-Signature")
@@ -43,7 +43,9 @@ export async function POST(request: NextRequest) {
     const cartId = stripeSession?.client_reference_id
     const userId = metadata?.userId
 
-    if (!cartId) return null
+    if (!cartId) {
+      return NextResponse.json({ error: "Missing cartId" }, { status: 400 })
+    }
     const cart = await prisma.cart.findUnique({
       where: {
         id: cartId,
