@@ -1,10 +1,11 @@
 import { headers } from "next/headers"
+import { NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
 
 import { serverEnv } from "@/env/server"
 import prisma from "@/lib/prisma"
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const body = await request.text()
   const headersList = await headers()
   const signature = headersList.get("Stripe-Signature")
@@ -21,10 +22,16 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof Error) {
       console.log(error)
-      return new Response(`Webhook Error: ${error.message}`, { status: 400 })
+      return NextResponse.json(
+        { error: `Webhook error: ${error.message}` },
+        { status: 400 }
+      )
     } else {
       console.log(error)
-      return new Response(`Webhook Error: ${error}`, { status: 400 })
+      return NextResponse.json(
+        { error: `Webhook error: ${error}` },
+        { status: 400 }
+      )
     }
   }
 
@@ -105,6 +112,5 @@ export async function POST(request: Request) {
       },
     })
   }
-
-  return new Response(null, { status: 200 })
+  return NextResponse.json({ received: true }, { status: 200 })
 }
