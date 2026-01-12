@@ -3,6 +3,7 @@
 import { useState } from "react"
 import type { Prisma } from "@/generated/prisma/browser"
 
+import { dateFormatter } from "@/lib/formatters"
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -20,11 +21,6 @@ type Product = Prisma.ProductModel
 
 export default function ProductsTable({ products }: { products: Product[] }) {
   const [filter, setFilter] = useState("all")
-
-  const dateFormatter = new Intl.DateTimeFormat(undefined, {
-    dateStyle: "short",
-    timeStyle: "short",
-  })
 
   const filteredProducts = () => {
     if (filter === "available") {
